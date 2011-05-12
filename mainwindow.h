@@ -6,6 +6,8 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
+#include "map.h"
+
 namespace Ui {
     class MainWindow;
 }
@@ -24,7 +26,9 @@ private:
 
     QGraphicsScene *_scene;
     QGraphicsView *_view;
-    QGraphicsPixmapItem *_grassTile;
+
+    Map *_currentMap;
+
 };
 
 #endif // MAINWINDOW_H

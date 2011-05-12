@@ -6,7 +6,13 @@
 class Tile : public QGraphicsPixmapItem
 {
 public:
-    Tile();
+
+    Tile(int tileNumber);
+    ~Tile(void);
+
+    QString TexName(int n);
+
+
 };
 
 #endif // TILE_H

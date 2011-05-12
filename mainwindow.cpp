@@ -14,19 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     _view = ui->graphicsView;
     _view->setScene(_scene);
 
-    QPixmap grass("media/textures/grass.jpg");
-    grass = grass.scaled(32,32,Qt::IgnoreAspectRatio);
-    for(int i = 0; i < 16; ++i){
-        for(int j = 0; j < 16 ; ++j){
-
-            _grassTile = _scene->addPixmap(grass);
-            _grassTile->setPos(32*i,32*j);
-
-        }
-     }
+    _currentMap = new Map(_scene);
+    _currentMap->LoadBackground();
 
     _view->show();
-
 }
 
 MainWindow::~MainWindow()
