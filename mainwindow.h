@@ -2,9 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
+#include "map.h"
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
+
+#include <QTimer>
+#include <QTime>
 
 #include "map.h"
 
@@ -24,10 +27,9 @@ private:
     Ui::MainWindow *ui;
 
 
-    QGraphicsScene *_scene;
     QGraphicsView *_view;
-
-    Map *_currentMap;
+    QTimer timer;
+    Map* _sceneMap;
 
 };
 

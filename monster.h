@@ -1,0 +1,24 @@
+#ifndef MONSTER_H
+#define MONSTER_H
+
+#include "entity.h"
+
+
+class Monster : public Entity {
+
+public:
+    Monster(int posx, int posy, int size);
+    int getResistance(void) const;
+    int getHP(void) const;
+
+protected:
+    int _size;
+    int _hp;
+    int _resistance;
+    int _speed;
+};
+
+
+
+#endif // MONSTER_H
+

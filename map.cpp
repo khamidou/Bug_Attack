@@ -4,19 +4,12 @@
 
 
 
-Map::Map(QGraphicsScene* scene)
+Map::Map(QObject *parent):QGraphicsScene(parent)
 {
-
-    // Container
-    _scene = scene;
-
- /*   // Loads map file
+    /*   // Loads map file
     QFile mapFile("media/maps/map.txt");
     if(!mapFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
-
-
-
     // Reads map data and creates corresponding map tiles
     int y = 0;
     while(!mapFile.atEnd()){
@@ -26,7 +19,6 @@ Map::Map(QGraphicsScene* scene)
              _mapTiles[x][y] = new Tile(tileNumber[x].toInt());
         y++;
     }
-
     // Close file
     mapFile.close();*/
 
@@ -40,24 +32,37 @@ Map::Map(QGraphicsScene* scene)
             for(j = 0; j < 16; j++)
             {
                 fichier >> num;
-                std::cout << num << std::endl;
-                _mapTiles[i][j] = new Tile(num);
+                _mapTiles[j][i] = new Tile(num, j, i);
+                this->addItem(_mapTiles[j][i]);
             }
         }
     }
+    fichier.close();
+
+    _entities.push_front(new Cafard(this,32*2,0,1));
+    this->addItem(_entities.first());
+
 }
 
-void Map::LoadBackground(void) {
 
-    for(int x = 0 ; x < 16 ; ++x){
-        for(int y = 0 ; y < 16 ; ++y){
-            _mapTiles[x][y]->setPos(y*32,x*32);
-            _scene->addItem(_mapTiles[x][y]);
-        }
+// Gestion du clic de la souris
+void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+
+    qreal mx = event->scenePos().x();
+    qreal my = event->scenePos().y();
+
+    if(event->button() == Qt::LeftButton &&
+       this->getTileAt(mx/32,my/32).turretAllowed())
+    {
+        std::cout << "clic at : " << mx << "," <<  my << std::endl;
+        _entities.push_front(new WaterGun(((int)(mx/32))*32,
+                                          ((int)(my/32))*32,
+                                          1,
+                                          (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT))
+                             );
+        this->addItem(_entities.first());
+
     }
 }
 
-Map::~Map(){
-
-
-}
+Tile& Map::getTileAt(int x, int y) const { return *_mapTiles[x][y]; }
