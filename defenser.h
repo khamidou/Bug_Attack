@@ -7,7 +7,6 @@ class Defenser : public Entity
 {
 public:
     Defenser(int posx,int posy,int level,TYPE::ENTITY target);
-
     virtual int getCost(void) const = 0;
 
 protected:

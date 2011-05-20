@@ -1,10 +1,9 @@
 #include "entity.h"
 
-Entity::Entity(int posX, int posY): _x(posX),_y(posY) {
+Entity::Entity(float posX, float posY) {
+    this->setPos(posX,posY);
 }
 
-int Entity::getX(void) const { return _x; }
-int Entity::getY(void) const { return _y; }
 
 void Entity::increaseAnimationStep(void) {
 

@@ -17,6 +17,7 @@ public:
     int getY() const;    
     int getTileNumber(void) const;
     bool turretAllowed(void) const;
+    void setHasTurret(bool);
     QVector2D getDirection(void) const;
 
 
@@ -26,6 +27,7 @@ private:
     QPixmap *_pixmap;
     int _x, _y;
     int _tileNumber;
+    bool _hasTurret;
     QVector2D _dir;
 };
 

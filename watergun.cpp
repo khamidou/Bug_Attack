@@ -1,12 +1,13 @@
 #include <iostream>
+#include <typeinfo>
 #include <math.h>
+#include "projectile.h"
 #include "watergun.h"
 
-WaterGun::WaterGun(int posx,int posy,int level,TYPE::ENTITY target)
-    : Defenser(posx,posy,level,target)
+WaterGun::WaterGun(int posx,int posy,int level,TYPE::ENTITY target,Map* map)
+    : Defenser(posx,posy,level,target),_map(map)
 {
-    updateStats();
-    this->setPos(_x,_y);
+    this->updateStats();
 }
 
 int WaterGun::getCost(void) const{
@@ -27,7 +28,7 @@ void WaterGun::updateStats(void) {
 }
 
 QRectF WaterGun::boundingRect() const {
-    return QRectF(-100,-100,200,200);
+    return QRectF(-32,-32,_range,_range);
 }
 
 void WaterGun::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*) {
@@ -47,6 +48,37 @@ void WaterGun::advance(int phase) {
     if(!phase)
         return;
 
+    this->setOpacity(1.0f);
 
+    // Détection des ennemis aux alentours
+    QList<QGraphicsItem*> entities = _map->items();
+
+    QList<QGraphicsItem*>::iterator i;
+
+    // Recherche des ennemis de la map
+    for(i = entities.begin() ; i != entities.end() ; ++i) {
+        if(dynamic_cast<Monster*>(*i) != 0) {
+
+            float targetX = (*i)->x();
+            float targetY = (*i)->y();
+
+            if(sqrt(pow(fabs(this->x() - targetX),2)
+                    +pow(fabs(this->y() - targetY),2)
+                )  <= _range)
+            {
+                this->setOpacity(0.5f); // TEST = TIR ACTIVÉ
+                this->shootAt(targetX,targetY);
+                return; // On vise la première cible rencontrée
+            } // end distanceTest
+        } // end isMonster
+    } //eof
+
+} // eom
+
+void WaterGun::shootAt(float targetX,float targetY) {
+
+    // Créé un nouveau projectile au niveau de la tourelle
+    Projectile* shot = new Projectile(this->x(),this->y(),targetX,targetY,5,_power);
+    _map->addItem(shot);
 
 }

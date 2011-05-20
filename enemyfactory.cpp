@@ -89,7 +89,7 @@ EnemyFactory::EnemyFactory(Map* map):_currentMap(map)
     connect(&_popTimer,SIGNAL(timeout()),this,SLOT(produceWave(void)));
 }
 
-void EnemyFactory::produceEnemy(WaveElement* enemy){
+void EnemyFactory::productEnemy(WaveElement* enemy){
 
     Monster* newEnemy;
     QPoint start = _currentMap->getStart();
@@ -151,7 +151,7 @@ void EnemyFactory::produceWave(void){
     WaveElement* nextEnemy = _mapWaves.first()->popNextWaveElement();
     if(nextEnemy != NULL) { // sécurité (TODO facultatif ?)
         _popTimer.setInterval(50*nextEnemy->getFrequence());
-        this->produceEnemy(nextEnemy);
+        this->productEnemy(nextEnemy);
     }
 }
 

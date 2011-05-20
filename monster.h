@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include "entity.h"
+#include "projectile.h"
 
 
 class Monster : public Entity {
@@ -15,7 +16,7 @@ protected:
     float _size;
     int _hp;
     int _resistance;
-    int _speed;
+    float _speed;
 };
 
 

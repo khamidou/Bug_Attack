@@ -50,7 +50,7 @@ class EnemyFactory : public QObject
     Map* _currentMap;
     QTimer _popTimer;
 
-    void produceEnemy(WaveElement* enemy);
+    void productEnemy(WaveElement* enemy);
 
 public:
 

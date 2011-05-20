@@ -30,16 +30,15 @@ Tile::Tile(int tileNumber, int x, int y):_tileNumber(tileNumber)
     this->setPos(x*32,y*32);
 
 
-    /* QString filePath("./media/textures/");
-    filePath+= TexName(tileNumber); // TEST
-    filePath+= QString(".jpg");
-    cout << filePath.toStdString() << endl;*/
+    // Chargement image correspondante
     _pixmap = new QPixmap("media/textures/plain/" + TexName(tileNumber) + ".png");
     if (_pixmap->isNull())
     cout << "pixmap null" << endl;
 
+    // Données du tile
     _x = x;
     _y = y;
+    _hasTurret = false;
     *_pixmap = _pixmap->scaled(32,32,Qt::IgnoreAspectRatio);
     this->setPixmap(*_pixmap);
 
@@ -52,7 +51,7 @@ QVector2D Tile::getDirection(void) const { return _dir; }
 
 bool Tile::turretAllowed(void) const {
 
-    if(_tileNumber == 0)
+    if(_tileNumber == 0 && !_hasTurret)
         return true;
     return false;
 }
@@ -95,5 +94,7 @@ QString Tile::TexName(int n){
 
     return "grass";
 }
+
+void Tile::setHasTurret(bool){ _hasTurret = true; }
 
 Tile::~Tile(){}

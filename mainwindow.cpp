@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
 
-    /// Test : try to draw some tiles into the QGraphicView
-
+    // Création de la scène (map)
     _sceneMap = new Map(parent);
     _view = ui->graphicsView;
     _view->setScene(_sceneMap);

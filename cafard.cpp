@@ -20,9 +20,6 @@ Cafard::Cafard(Map* map, int posx,int posy, float size):Monster(posx,posy,size),
 
     // Image et taille
     this->setPixmap(*_animPixmap.first());
-
-    // Position
-    this->setPos(_x,_y);
 }
 
 void Cafard::advance(int phase) {
@@ -37,13 +34,13 @@ void Cafard::advance(int phase) {
     this->increaseAnimationStep();
 
     // Déplace l'ennemi selon sa vitesse et la direction induite par le terrain
-    Tile& currentTile = _map->getTileAt((_x+16)/32,(_y+16)/32);
+    Tile& currentTile = _map->getTileAt((this->x()+16)/32,(this->y()+16)/32);
     QVector2D dirVect = currentTile.getDirection();
 
-    _x += _speed*dirVect.x();
-    _y += _speed*dirVect.y();
+    float new_x = this->x() + _speed*dirVect.x();
+    float new_y = this->y() + _speed*dirVect.y();
 
-    this->setPos(_x,_y);
+    this->setPos(new_x,new_y);
 
     // Oriente l'image dans le bon sens
     // (nb : transformation par rapport au centre de l'image)
@@ -66,7 +63,13 @@ void Cafard::advance(int phase) {
         this->setRotation(90);
     else if(dirVect.y() == -1)
         this->setRotation(-90);
+}
 
+// Un cafard se sous divise en deux cafard si sa taille est
+// supérieure ou égale à deux
+Cafard::~Cafard(void) {
 
+    if(_size<2)
+        return;
 
 }

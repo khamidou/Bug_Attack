@@ -14,10 +14,8 @@ class Entity : public QGraphicsPixmapItem // , public QObject
 
 public:
 
-    Entity(int posX, int posY);
+    Entity(float posX, float posY);
     void increaseAnimationStep(void);
-    int getX() const;
-    int getY() const;
 
 
 
@@ -26,8 +24,6 @@ protected:
     virtual void advance(int phase) = 0;
 
     QList<QPixmap*> _animPixmap;
-    int _x;
-    int _y;
     int _animState; // Frame courante de l'animation
     TYPE::ENTITY _type;
 

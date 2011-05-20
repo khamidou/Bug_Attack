@@ -27,7 +27,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    static const int FPS = 50;
+    static const int FPS = 30;
 
     QGraphicsView *_view;
     QTimer timer;

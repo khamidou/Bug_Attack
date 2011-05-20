@@ -6,7 +6,6 @@
 
 Map::Map(QObject *parent):QGraphicsScene(parent)
 {
-
     // Chargement du contenu de la map
     std::ifstream fichier("media/maps/map.txt");
     int i, j;
@@ -49,10 +48,12 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
        this->getTileAt(mx/32,my/32).turretAllowed())
     {
         std::cout << "clic at : " << mx << "," <<  my << std::endl;
+        this->getTileAt(mx/32,my/32).setHasTurret(true);
         _entities.push_front(new WaterGun(((int)(mx/32))*32,
                                           ((int)(my/32))*32,
                                           1,
-                                          (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT))
+                                          (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT),
+                                          this)
                              );
         this->addItem(_entities.first());
 
