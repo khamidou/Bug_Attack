@@ -47,6 +47,7 @@ Tile::Tile(int tileNumber, int x, int y):_tileNumber(tileNumber)
 
 int Tile::getX() const { return _x; }
 int Tile::getY() const { return _y; }
+int Tile::getTileNumber(void) const { return _tileNumber; }
 QVector2D Tile::getDirection(void) const { return _dir; }
 
 bool Tile::turretAllowed(void) const {

@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace TYPE;
 
-Cafard::Cafard(Map* map, int posx,int posy, int size):Monster(posx,posy,size),_map(map)
+Cafard::Cafard(Map* map, int posx,int posy, float size):Monster(posx,posy,size),_map(map)
 {
     // Données du cafard
     _type = T_RAMPANT;
@@ -48,6 +48,25 @@ void Cafard::advance(int phase) {
     // Oriente l'image dans le bon sens
     // (nb : transformation par rapport au centre de l'image)
     this->setTransformOriginPoint(this->boundingRect().center().x(),this->boundingRect().center().y());
-    this->setRotation(dirVect.y()*90);
+
+    // Rotation
+    if(dirVect.x() == 1 && dirVect.y() == 1)
+        this->setRotation(45);
+    else if(dirVect.x() == 1 && dirVect.y() == -1)
+        this->setRotation(-45);
+    else if(dirVect.x() == -1 && dirVect.y() == 1)
+        this->setRotation(135);
+    else if(dirVect.x() == -1 && dirVect.y() == -1)
+        this->setRotation(-135);
+    else if(dirVect.x() == 1)
+        this->setRotation(0);
+    else if(dirVect.x() == -1)
+        this->setRotation(180);
+    else if(dirVect.y() == 1)
+        this->setRotation(90);
+    else if(dirVect.y() == -1)
+        this->setRotation(-90);
+
+
 
 }

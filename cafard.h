@@ -10,7 +10,7 @@ class Map;
 class Cafard : public Monster
 {
 public:
-    Cafard(Map* map,int posx,int posy, int size);
+    Cafard(Map* map,int posx,int posy, float size);
 
 protected:
     void advance(int phase);

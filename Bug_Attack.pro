@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     monster.cpp \
     cafard.cpp \
     defenser.cpp \
-    watergun.cpp
+    watergun.cpp \
+    enemyfactory.cpp
 
 HEADERS  += mainwindow.h \
     tile.h \
@@ -28,6 +29,7 @@ HEADERS  += mainwindow.h \
     cafard.h \
     types.h \
     defenser.h \
-    watergun.h
+    watergun.h \
+    enemyfactory.h
 
 FORMS    += mainwindow.ui

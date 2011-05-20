@@ -14,7 +14,8 @@ public:
     Tile(int tileNumber, int x, int y);
     ~Tile(void);
     int getX() const;
-    int getY() const;
+    int getY() const;    
+    int getTileNumber(void) const;
     bool turretAllowed(void) const;
     QVector2D getDirection(void) const;
 

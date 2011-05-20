@@ -7,12 +7,12 @@
 class Monster : public Entity {
 
 public:
-    Monster(int posx, int posy, int size);
+    Monster(int posx, int posy, float size);
     int getResistance(void) const;
     int getHP(void) const;
 
 protected:
-    int _size;
+    float _size;
     int _hp;
     int _resistance;
     int _speed;

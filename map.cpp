@@ -6,22 +6,8 @@
 
 Map::Map(QObject *parent):QGraphicsScene(parent)
 {
-    /*   // Loads map file
-    QFile mapFile("media/maps/map.txt");
-    if(!mapFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-    // Reads map data and creates corresponding map tiles
-    int y = 0;
-    while(!mapFile.atEnd()){
-        QByteArray line = mapFile.readLine();
-        QList<QByteArray> tileNumber = line.split(' ');
-        for(int x = 0; x < tileNumber.size(); ++x)
-             _mapTiles[x][y] = new Tile(tileNumber[x].toInt());
-        y++;
-    }
-    // Close file
-    mapFile.close();*/
 
+    // Chargement du contenu de la map
     std::ifstream fichier("media/maps/map.txt");
     int i, j;
     int num;
@@ -33,15 +19,23 @@ Map::Map(QObject *parent):QGraphicsScene(parent)
             {
                 fichier >> num;
                 _mapTiles[j][i] = new Tile(num, j, i);
+                // Position de départ ?
+                if(_mapTiles[j][i]->getTileNumber() == 18 )
+                    _startPos = QPoint(32*j,32*i);
+                // Ajoute le tile à la map courante
                 this->addItem(_mapTiles[j][i]);
             }
         }
     }
     fichier.close();
 
+    /* TEST
     _entities.push_front(new Cafard(this,32*2,0,1));
     this->addItem(_entities.first());
+    */
 
+    // Générateur de vagues
+    _waveGenerator = new EnemyFactory(this);
 }
 
 
@@ -65,4 +59,6 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
+QPoint Map::getStart(void) const { return _startPos; }
 Tile& Map::getTileAt(int x, int y) const { return *_mapTiles[x][y]; }
+EnemyFactory* Map::getWaveGenerator(void) const { return _waveGenerator; }

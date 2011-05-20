@@ -23,8 +23,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Lancement du timer (boucle principale du jeu)
     QObject::connect(&timer, SIGNAL(timeout()), _sceneMap, SLOT(advance()));
-    timer.start(1000 / 20); // 10 FPS
+    timer.start(1000 / FPS);
 
+    /**
+    * Interface graphique
+    */
+    // Lancement de la prochaine vague
+    // . Lance la production d'ennemi
+    QObject::connect(ui->launchWaveButton, SIGNAL(pressed()),_sceneMap->getWaveGenerator(),SLOT(launchWaves()));
+    // . Change le texte d'ambiance associé à la vague courante
+    QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(changeWaveDescLabel(QString)),ui->waveDescLabel,SLOT(setText(QString)));
+    _sceneMap->getWaveGenerator()->getNextWaveDesc();
+    // . Rend le bouton inactif le temps que la vague se produise
+    QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(setLaunchWaveButtonEnabled(bool)),ui->launchWaveButton,SLOT(setEnabled(bool)));
 
 }
 

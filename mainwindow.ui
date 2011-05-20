@@ -52,7 +52,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="waveDescLabel">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -72,14 +72,17 @@
         </size>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>Clique sur le bouton pour commencer.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="launchWaveButton">
        <property name="text">
-        <string>PushButton</string>
+        <string>Lancer la vague !</string>
        </property>
       </widget>
      </item>
@@ -198,6 +201,14 @@
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sceneRect">
+     <rectf>
+      <x>0.000000000000000</x>
+      <y>0.000000000000000</y>
+      <width>510.000000000000000</width>
+      <height>510.000000000000000</height>
+     </rectf>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
