@@ -1,7 +1,7 @@
 #include "entity.h"
 
 Entity::Entity(float posX, float posY) {
-    this->setPos(posX,posY);
+   this->setPos(posX,posY);
 }
 
 

@@ -16,7 +16,7 @@ Projectile::Projectile(float posX, float posY, float targetX, float targetY, flo
 }
 
 QRectF Projectile::boundingRect() const {
-    return QRectF(-5,-5,5,5);
+    return QRectF(0,0,5,5);
 }
 
 void Projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*) {
@@ -31,6 +31,27 @@ void Projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidg
 void Projectile::advance(int phase) {
     if(!phase)
         return;
+
+    // Collision avec ennemi
+    // . Recherche des ennemis de la map
+    QList<QGraphicsItem*> entities = this->scene()->items();
+    QList<QGraphicsItem*>::iterator i;
+
+    for(i = entities.begin() ; i != entities.end() ; ++i) {
+        if(dynamic_cast<Enemy*>(*i) != 0) {
+
+            if(this->collidesWithItem(*i,Qt::IntersectsItemBoundingRect)){
+                // Inflige des dommages au monstre
+                dynamic_cast<Enemy*>(*i)->hurt(_damages);
+                // On retire le projectile de la scène
+                this->scene()->removeItem(this);
+                return;
+            }
+        }
+    }
+
+
+
     // Déplacement du projectile selon le vecteur de déplacement et la vitesse
     float newx = this->x() + _speed*_movementVect.x();
     float newy = this->y() + _speed*_movementVect.y();

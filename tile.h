@@ -2,7 +2,6 @@
 #define TILE_H
 
 #include <QGraphicsPixmapItem>
-#include <QVector2D>
 #include "types.h"
 
 // Masque binaire pour déterminer l'orientation d'un tile
@@ -18,7 +17,7 @@ public:
     int getTileNumber(void) const;
     bool turretAllowed(void) const;
     void setHasTurret(bool);
-    QVector2D getDirection(void) const;
+    QPointF getDirection(void) const;
 
 
     QString TexName(int n);
@@ -28,7 +27,7 @@ private:
     int _x, _y;
     int _tileNumber;
     bool _hasTurret;
-    QVector2D _dir;
+    QPointF _dir;
 };
 
 #endif // TILE_H

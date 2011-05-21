@@ -91,7 +91,7 @@ EnemyFactory::EnemyFactory(Map* map):_currentMap(map)
 
 void EnemyFactory::productEnemy(WaveElement* enemy){
 
-    Monster* newEnemy;
+    Enemy* newEnemy;
     QPoint start = _currentMap->getStart();
 
     // Crée l'ennemi correspondant à la description du WaveElement
@@ -150,7 +150,7 @@ void EnemyFactory::produceWave(void){
     // Produit le contenu de cette vague
     WaveElement* nextEnemy = _mapWaves.first()->popNextWaveElement();
     if(nextEnemy != NULL) { // sécurité (TODO facultatif ?)
-        _popTimer.setInterval(50*nextEnemy->getFrequence());
+        _popTimer.setInterval(100*nextEnemy->getFrequence());
         this->productEnemy(nextEnemy);
     }
 }

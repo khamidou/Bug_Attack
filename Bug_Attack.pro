@@ -15,10 +15,8 @@ SOURCES += main.cpp\
     tile.cpp \
     map.cpp \
     entity.cpp \
-    monster.cpp \
-    cafard.cpp \
+    enemy.cpp \
     defenser.cpp \
-    watergun.cpp \
     enemyfactory.cpp \
     projectile.cpp
 
@@ -26,11 +24,9 @@ HEADERS  += mainwindow.h \
     tile.h \
     map.h \
     entity.h \
-    monster.h \
-    cafard.h \
+    enemy.h \
     types.h \
     defenser.h \
-    watergun.h \
     enemyfactory.h \
     projectile.h
 

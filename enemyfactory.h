@@ -7,7 +7,7 @@
 
 #include "map.h"
 #include "types.h"
-#include "cafard.h"
+#include "enemy.h"
 
 class Map;
 

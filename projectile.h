@@ -1,7 +1,6 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include <QVector2D>
 #include <QPainter>
 #include "entity.h"
 
@@ -13,7 +12,7 @@ class Projectile : public Entity
    int _damages;
    float _targetX;
    float _targetY;
-   QVector2D _movementVect;
+   QPointF _movementVect;
 
    virtual void advance(int phase);
 
