@@ -19,19 +19,17 @@ bool Enemy::isDestroyed(void) const { return _destroyed; }
 
 float Enemy::getSize(void) const { return _size; }
 void Enemy::hurt(int damages){
+
     // Inflige 'damages' dégats à l'ennemi
     _hp-=damages;
     // Si ses HP sont tombés à zéro, on le détruit
     if(_hp <= 0) {
         // Indique que la mort est provoquée par le joueur
         emit killedByPlayer(this->getResistance()); // TODO choisir le gain
-        this->scene()->removeItem(this);
 
         // Retire de l'indexation de la map
         _destroyed = true;
         emit enemyDestroyed();
-
-
     }
 
     std::cout << "ahah il me reste : " << _hp << " HP" << std::endl;
@@ -106,13 +104,4 @@ void Cafard::advance(int phase) {
         this->setRotation(90);
     else if(dirVect.y() == -1)
         this->setRotation(-90);
-}
-
-// Un cafard se sous divise en deux cafard si sa taille est
-// supérieure ou égale à deux
-Cafard::~Cafard(void) {
-
-    if(_size<2)
-        return;
-
 }

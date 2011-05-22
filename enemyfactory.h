@@ -40,6 +40,7 @@ public:
     WaveElement* popNextWaveElement(void);
     bool isFinished(void) const;
     QString getDesc(void) const;
+    QMutex mutex;
 };
 
 class EnemyFactory : public QObject

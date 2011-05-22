@@ -70,15 +70,16 @@ void Map::addEnemy(Enemy *enemy) {
 void Map::removeEnemy(void) {
 
     // Garbage collector de notre liste
-    std::cout << "c'est l'heure du nettoyage" << std::endl;
 
     QList<Enemy*>::iterator i;
     for(i = _enemies.begin() ; i != _enemies.end() ; ++i) {
-        if((*i)->isDestroyed())
+
+        if((*i)->isDestroyed()){
+            this->removeItem((*i));
             _enemies.erase(i);
             std::cout << "OMG un mort" << std::endl;
+        }
     }
-
 }
 
 QList<Enemy*> Map::getEnemyList(void) const { return _enemies; };

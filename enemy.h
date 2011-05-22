@@ -49,7 +49,6 @@ class Cafard : public Enemy
 
 public:
     Cafard(Map* map,int posx,int posy, float size);
-    ~Cafard(void);
 
 protected:
     void advance(int phase);

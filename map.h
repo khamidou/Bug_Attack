@@ -1,8 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
 
-
-
 #include <QFile>
 #include <QList>
 #include <QGraphicsScene>
