@@ -3,7 +3,7 @@
 #include "map.h"
 #include "projectile.h"
 
-Projectile::Projectile(float posX, float posY, float targetX, float targetY, float speed, int damages)
+Projectile::Projectile(float posX, float posY, float targetX, float targetY, float speed, int damages, Map* map)
     : Entity(posX,posY),_speed(speed),_damages(damages),_targetX(targetX),_targetY(targetY)
 {
     // Calcul du vecteur de déplacement du point (posX,posY) vers (targetX,targetY)
@@ -13,6 +13,7 @@ Projectile::Projectile(float posX, float posY, float targetX, float targetY, flo
 
     _movementVect.setX(vx/sqrt(vx*vx + vy*vy));
     _movementVect.setY(vy/sqrt(vx*vx + vy*vy));
+    _map = map;
 }
 
 QRectF Projectile::boundingRect() const {
@@ -29,25 +30,22 @@ void Projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidg
 }
 
 void Projectile::advance(int phase) {
+
     if(!phase)
         return;
 
     // Collision avec ennemi
     // . Recherche des ennemis de la map
-    QList<QGraphicsItem*> entities = this->scene()->items();
-    QList<QGraphicsItem*>::iterator i;
+    QList<Enemy*> entities = _map->getEnemyList();
 
-    for(i = entities.begin() ; i != entities.end() ; ++i) {
-        if(dynamic_cast<Enemy*>(*i) != 0) {
-
-            if(this->collidesWithItem(*i,Qt::IntersectsItemBoundingRect)){
-                // Inflige des dommages au monstre
-                dynamic_cast<Enemy*>(*i)->hurt(_damages);
+    for(int i = 0 ; i < entities.length() ; ++i) {
+            if(this->collidesWithItem(entities[i],Qt::IntersectsItemBoundingRect)){
                 // On retire le projectile de la scène
                 this->scene()->removeItem(this);
+                // Inflige des dommages au monstre
+                entities[i]->hurt(_damages);
                 return;
             }
-        }
     }
 
 
@@ -60,7 +58,7 @@ void Projectile::advance(int phase) {
 
     // Si le projectile est en dehors de l'écran, on le supprime
     if(newx < 0 || newx > 512 || newy < 0 || newy > 512){
-        this->scene()->removeItem(this); // TODO VERIFIER Semble faire un appel à delete() de l'objet
+        _map->removeItem(this); // TODO VERIFIER Semble faire un appel à delete() de l'objet
         return;
     }
     this->setPos(newx,newy);

@@ -18,24 +18,27 @@ class Enemy : public Entity {
 
 public:
     Enemy(Map* map,int posx, int posy, float size);
+    virtual ~Enemy(void);
     int getResistance(void) const;
     int getHP(void) const;
-    bool isDestroyed(void) const;
     float getSize(void) const;
-    void hurt(int damages);
+    virtual void hurt(int damages);
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
+    QRectF boundingRect(void) const;
 
 protected:
     Map* _map;
     float _size;
     int _hp;
+    int _hpMax;
     int _resistance;
     float _speed;
-    bool _destroyed;
 
 
 signals:
     void killedByPlayer(int moneyEarned);
-    void enemyDestroyed(void);
+    void enemyDestroyed(Enemy* ptr);
 };
 
 
@@ -49,6 +52,8 @@ class Cafard : public Enemy
 
 public:
     Cafard(Map* map,int posx,int posy, float size);
+    ~Cafard(void);
+    void hurt(int damages);
 
 protected:
     void advance(int phase);

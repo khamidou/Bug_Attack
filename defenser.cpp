@@ -131,7 +131,7 @@ void WaterGun::setIsShooting(bool state) {
 void WaterGun::shootTarget(void) {
 
     // Créé un nouveau projectile au niveau du centre de la tourelle
-    Projectile* shot = new Projectile(this->x()+14,this->y()+14,_targetX,_targetY,5,_power);
+    Projectile* shot = new Projectile(this->x()+14,this->y()+14,_targetX,_targetY,5,_power, _map);
     _map->addItem(shot);
 
 }

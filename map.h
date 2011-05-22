@@ -42,10 +42,7 @@ public:
     QList<Enemy*> getEnemyList(void) const;
 
 public slots:
-    void removeEnemy(void);
-
-signals:
-    void enemyDestroyed(int amountEarned);
+    void removeEnemy(Enemy* ptr);
 
 };
 

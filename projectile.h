@@ -3,8 +3,10 @@
 
 #include <QPainter>
 #include "entity.h"
+#include "map.h"
 
 
+class Map;
 class Projectile : public Entity
 {
 
@@ -13,6 +15,7 @@ class Projectile : public Entity
    float _targetX;
    float _targetY;
    QPointF _movementVect;
+   Map* _map;
 
    virtual void advance(int phase);
 
@@ -20,7 +23,7 @@ public:
    QRectF boundingRect() const;
    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
 
-   Projectile(float posX,float posY,float targetX,float targetY,float speed,int damages);
+   Projectile(float posX,float posY,float targetX,float targetY,float speed,int damages, Map *map);
 
 
 };

@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Gestions des compteurs
     ui->creditCounter->display(_player->getMoney()); // C'est du vol
     QObject::connect(_player,SIGNAL(moneyValueChanged(int)),ui->creditCounter,SLOT(display(int)));
-    QObject::connect(_sceneMap,SIGNAL(enemyDestroyed(int)),_player,SLOT(earnMoney(int)));
+   // QObject::connect(_sceneMap,SIGNAL(enemyDestroyed(int)),_player,SLOT(earnMoney(int)));
 
     /**
     * Divers

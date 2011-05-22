@@ -61,23 +61,26 @@ void Map::addEnemy(Enemy *enemy) {
     // En cas de destruction par le joueur, rapport de l'argent
     QObject::connect(enemy,SIGNAL(killedByPlayer(int)),_player,SLOT(earnMoney(int)));
     // En cas de suppression de la mémoire, on doit aussi le désindexer depuis 'enemies'
-    QObject::connect(enemy,SIGNAL(enemyDestroyed()),this,SLOT(removeEnemy()));
+    QObject::connect(enemy,SIGNAL(enemyDestroyed(Enemy*)),this,SLOT(removeEnemy(Enemy*)));
 
     // Ajout à la scène
     this->addItem(enemy);
 }
 
-void Map::removeEnemy(void) {
+void Map::removeEnemy(Enemy* ptr) {
 
     // Garbage collector de notre liste
 
-    QList<Enemy*>::iterator i;
-    for(i = _enemies.begin() ; i != _enemies.end() ; ++i) {
+    int i;
+    for(i = 0; i < _enemies.length() ; ++i) {
 
-        if((*i)->isDestroyed()){
-            this->removeItem((*i));
-            _enemies.erase(i);
+        std::cout << _enemies[i] << " " << ptr << std::endl;
+        if(_enemies[i] == ptr){
             std::cout << "OMG un mort" << std::endl;
+            _enemies.removeAt(i);
+           // QObject::disconnect(ptr);
+            this->removeItem(ptr);
+            break;
         }
     }
 }

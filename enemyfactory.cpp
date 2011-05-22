@@ -43,7 +43,6 @@ Wave::Wave(QString data) {
     for(i = waveDesc.begin() ; i != waveDesc.end() ; ++i)
         _waveElements.push_back(new WaveElement(*i));
 
-
 }
 
 WaveElement* Wave::popNextWaveElement(void){
