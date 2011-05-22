@@ -11,7 +11,7 @@ class Map;
 * DEFENSER
 **/
 
-class Defenser : public Entity,public QObject
+class Defenser : public Entity
 {
 public:
     Defenser(int posx,int posy,int level,TYPE::ENTITY target);
@@ -46,7 +46,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
     void setTarget(float targetX,float targetY);
     void setIsShooting(bool state);
-    QRectF boundingRect() const;
+    QRectF boundingRect(void) const;
+    static int getBasicCost(void) { return 8; }
 
 
 protected:

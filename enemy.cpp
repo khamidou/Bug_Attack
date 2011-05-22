@@ -5,21 +5,34 @@
 * ENEMY
 **/
 
-Enemy::Enemy(int posx,int posy, float size):Entity(posx,posy),_size(size){
+Enemy::Enemy(Map* map,int posx,int posy, float size):Entity(posx,posy),_map(map),_size(size),_destroyed(false){
     // Positionne l'ennemi bien au centre du chemin
     this->setPos(this->x() - (_size-1)*16,this->y() - (_size-1)*16);
+    // Repertorie cet ennemi depuis la map
+    _map->addEnemy(this);
 }
 
 
 int Enemy::getHP(void) const { return _hp; }
 int Enemy::getResistance(void) const { return _resistance; }
+bool Enemy::isDestroyed(void) const { return _destroyed; }
+
 float Enemy::getSize(void) const { return _size; }
 void Enemy::hurt(int damages){
     // Inflige 'damages' dégats à l'ennemi
     _hp-=damages;
     // Si ses HP sont tombés à zéro, on le détruit
-    if(_hp <= 0)
+    if(_hp <= 0) {
+        // Indique que la mort est provoquée par le joueur
+        emit killedByPlayer(this->getResistance()); // TODO choisir le gain
         this->scene()->removeItem(this);
+
+        // Retire de l'indexation de la map
+        _destroyed = true;
+        emit enemyDestroyed();
+
+
+    }
 
     std::cout << "ahah il me reste : " << _hp << " HP" << std::endl;
 
@@ -31,7 +44,7 @@ void Enemy::hurt(int damages){
 **/
 
 
-Cafard::Cafard(Map* map, int posx,int posy, float size):Enemy(posx,posy,size),_map(map)
+Cafard::Cafard(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données du cafard
     _type = TYPE::T_RAMPANT;

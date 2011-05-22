@@ -10,6 +10,7 @@
 #include <QTime>
 
 #include "map.h"
+#include "player.h"
 
 
 namespace Ui {
@@ -20,11 +21,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-private:
     Ui::MainWindow *ui;
 
     static const int FPS = 30;
@@ -32,6 +28,14 @@ private:
     QGraphicsView *_view;
     QTimer timer;
     Map* _sceneMap;
+    Player* _player;
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+public slots:
+    void showMapContextMenu(const QPoint& pos);
 
 };
 

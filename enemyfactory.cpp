@@ -105,8 +105,6 @@ void EnemyFactory::productEnemy(WaveElement* enemy){
         newEnemy = new Cafard(_currentMap,start.x(),start.y(),enemy->getSize());
     }
 
-    // Ajoute le nouvel ennemi à la map courante
-    _currentMap->addItem(newEnemy);
 }
 
 void EnemyFactory::getNextWaveDesc(void){

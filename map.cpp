@@ -1,10 +1,11 @@
+#include <QMenu>
 #include <iostream>
 #include <fstream>
 #include "map.h"
 
 
 
-Map::Map(QObject *parent):QGraphicsScene(parent)
+Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
 {
     // Chargement du contenu de la map
     std::ifstream fichier("media/maps/map.txt");
@@ -44,20 +45,65 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qreal mx = event->scenePos().x();
     qreal my = event->scenePos().y();
 
-    if(event->button() == Qt::LeftButton &&
-       this->getTileAt(mx/32,my/32).turretAllowed())
-    {
-        std::cout << "clic at : " << mx << "," <<  my << std::endl;
+
+    // CLIC GAUCHE : POSE DE TOURELLE
+    if(event->button() == Qt::LeftButton)
+        this->addTurretAt(mx,my);
+
+}
+
+
+void Map::addEnemy(Enemy *enemy) {
+
+    // Sauvegarde des ennemis sur la map
+    _enemies.push_back(enemy);
+
+    // En cas de destruction par le joueur, rapport de l'argent
+    QObject::connect(enemy,SIGNAL(killedByPlayer(int)),_player,SLOT(earnMoney(int)));
+    // En cas de suppression de la mémoire, on doit aussi le désindexer depuis 'enemies'
+    QObject::connect(enemy,SIGNAL(enemyDestroyed()),this,SLOT(removeEnemy()));
+
+    // Ajout à la scène
+    this->addItem(enemy);
+}
+
+void Map::removeEnemy(void) {
+
+    // Garbage collector de notre liste
+    std::cout << "c'est l'heure du nettoyage" << std::endl;
+
+    QList<Enemy*>::iterator i;
+    for(i = _enemies.begin() ; i != _enemies.end() ; ++i) {
+        if((*i)->isDestroyed())
+            _enemies.erase(i);
+            std::cout << "OMG un mort" << std::endl;
+    }
+
+}
+
+QList<Enemy*> Map::getEnemyList(void) const { return _enemies; };
+
+
+bool Map::addTurretAt(float mx,float my) {
+
+    // Vérifie s'il est possible de poser une tourelle à cet emplacement
+    // ... et si le joueur a assez d'argent (le cas échant, il est débité aussitôt
+    if( this->getTileAt(mx/32,my/32).turretAllowed() &&
+        _player->payMoney(WaterGun::getBasicCost())) {
+
         this->getTileAt(mx/32,my/32).setHasTurret(true);
-        _entities.push_front(new WaterGun(((int)(mx/32))*32,
+        WaterGun* test = new WaterGun(((int)(mx/32))*32,
                                           ((int)(my/32))*32,
                                           1,
                                           (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT),
-                                          this)
-                             );
-        this->addItem(_entities.first());
+                                          this);
+        this->addItem(test);
+
+        return true; // Succès
 
     }
+
+    return false; // Echec
 }
 
 QPoint Map::getStart(void) const { return _startPos; }

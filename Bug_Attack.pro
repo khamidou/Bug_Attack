@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     enemy.cpp \
     defenser.cpp \
     enemyfactory.cpp \
-    projectile.cpp
+    projectile.cpp \
+    player.cpp
 
 HEADERS  += mainwindow.h \
     tile.h \
@@ -28,6 +29,7 @@ HEADERS  += mainwindow.h \
     types.h \
     defenser.h \
     enemyfactory.h \
-    projectile.h
+    projectile.h \
+    player.h
 
 FORMS    += mainwindow.ui

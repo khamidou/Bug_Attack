@@ -7,10 +7,10 @@
 
 #include "types.h"
 
-class Entity : public QGraphicsPixmapItem // , public QObject
+class Entity : public QGraphicsPixmapItem, public QObject
 {
 
-   // Q_OBJECT // Utilisé pour les signaux/slots
+   // Q_OBJECT utilisé pour les signaux/slots
 
 public:
 

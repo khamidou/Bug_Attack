@@ -89,14 +89,14 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="creditLabel">
          <property name="text">
-          <string>TextLabel</string>
+          <string>Bilou$e</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLCDNumber" name="lcdNumber"/>
+        <widget class="QLCDNumber" name="creditCounter"/>
        </item>
       </layout>
      </item>

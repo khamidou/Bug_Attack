@@ -46,7 +46,7 @@ void WaterGun::updateStats(void) {
 
 }
 
-QRectF WaterGun::boundingRect() const {
+QRectF WaterGun::boundingRect(void) const {
     return QRectF(-32,-32,_range,_range);
 }
 
@@ -74,13 +74,12 @@ void WaterGun::advance(int phase) {
         return;
 
     // Détection des ennemis aux alentours
-    QList<QGraphicsItem*> entities = _map->items();
+    QList<Enemy*> enemies = _map->getEnemyList();
 
-    QList<QGraphicsItem*>::iterator i;
+    QList<Enemy*>::iterator i;
 
     // Recherche des ennemis de la map
-    for(i = entities.begin() ; i != entities.end() ; ++i) {
-        if(dynamic_cast<Enemy*>(*i) != 0) {
+    for(i = enemies.begin() ; i != enemies.end() ; ++i) {
 
             float targetX = (*i)->x();
             float targetY = (*i)->y();
@@ -94,12 +93,12 @@ void WaterGun::advance(int phase) {
                     this->setIsShooting(true); // Modification via la méthode pour les effets visuels
                 }
                 // Actualise la position de la cible
-                this->setTarget(targetX+dynamic_cast<Enemy*>(*i)->getSize()*16,targetY+dynamic_cast<Enemy*>(*i)->getSize()*16);
+                this->setTarget(targetX+(*i)->getSize()*16,targetY+(*i)->getSize()*16);
 
                 return; // On vise la première cible rencontrée
 
             } // end distanceTest
-        } // end isMonster
+
     } //eof
 
     // Si aucun monstre n'a été rencontré

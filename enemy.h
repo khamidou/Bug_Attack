@@ -14,18 +14,28 @@ class Map;
 
 class Enemy : public Entity {
 
+    Q_OBJECT
+
 public:
-    Enemy(int posx, int posy, float size);
+    Enemy(Map* map,int posx, int posy, float size);
     int getResistance(void) const;
     int getHP(void) const;
+    bool isDestroyed(void) const;
     float getSize(void) const;
     void hurt(int damages);
 
 protected:
+    Map* _map;
     float _size;
     int _hp;
     int _resistance;
     float _speed;
+    bool _destroyed;
+
+
+signals:
+    void killedByPlayer(int moneyEarned);
+    void enemyDestroyed(void);
 };
 
 
@@ -35,6 +45,8 @@ protected:
 
 class Cafard : public Enemy
 {
+
+
 public:
     Cafard(Map* map,int posx,int posy, float size);
     ~Cafard(void);
@@ -42,7 +54,6 @@ public:
 protected:
     void advance(int phase);
 
-    Map* _map;
 };
 
 
