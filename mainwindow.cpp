@@ -46,9 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(setLaunchWaveButtonEnabled(bool)),ui->launchWaveButton,SLOT(setEnabled(bool)));
 
     // Gestions des compteurs
+    // Argent
     ui->creditCounter->display(_player->getMoney()); // C'est du vol
     QObject::connect(_player,SIGNAL(moneyValueChanged(int)),ui->creditCounter,SLOT(display(int)));
-   // QObject::connect(_sceneMap,SIGNAL(enemyDestroyed(int)),_player,SLOT(earnMoney(int)));
+    // Vies
+    ui->livesCounter->display(_player->getLives());
+    QObject::connect(_player,SIGNAL(livesValueChanged(int)),ui->livesCounter,SLOT(display(int)));
 
     /**
     * Divers

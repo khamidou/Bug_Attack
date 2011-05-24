@@ -1,6 +1,6 @@
-2x fourmis;fourmi:0.5:5:1
+2x fourmis;fourmi:1:10:5
 15x cafards;cafard:2:15:5
-15x GIANT GIANT cafards;cafard:8:1:5
+15x GIANT GIANT cafards;cafard:2:1:5
 15x guepes;guepe:1:15:5
 15x moustiques;moustique:1:15:5
 15x fourmis, 1x GIANT guepes;fourmi:1:15:5;guepe:1.7:1:5

@@ -58,8 +58,11 @@ void Map::addEnemy(Enemy *enemy) {
     // Sauvegarde des ennemis sur la map
     _enemies.push_back(enemy);
 
+
     // En cas de destruction par le joueur, rapport de l'argent
     QObject::connect(enemy,SIGNAL(killedByPlayer(int)),_player,SLOT(earnMoney(int)));
+    // Si l'ennemi atteint le goal, il est détruit et fait perdre une vie au joueur
+    QObject::connect(enemy,SIGNAL(killedAtGoal(int)),_player,SLOT(loseLives(int)));
     // En cas de suppression de la mémoire, on doit aussi le désindexer depuis 'enemies'
     QObject::connect(enemy,SIGNAL(enemyDestroyed(Enemy*)),this,SLOT(removeEnemy(Enemy*)));
 

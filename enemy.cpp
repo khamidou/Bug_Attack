@@ -60,6 +60,74 @@ QRectF Enemy::boundingRect(void) const {
     return QRectF(0,0,_size*32,_size*32);
 }
 
+void Enemy::advance(int phase) {
+
+    // Si 'phase' vaut 0, rien ne se passe
+    if(!phase)
+        return;
+    // ...sinon, on met à jour l'item
+
+    // Met à jour l'image de l'animation
+    this->setPixmap(*_animPixmap[_animState]);
+    this->increaseAnimationStep();
+
+
+
+    // Déplace l'ennemi selon sa vitesse et la direction induite par le terrain
+    Tile& currentTile = _map->getTileAt((this->x() + _size*16)/32,(this->y() + _size*16)/32);
+
+
+
+    // L'ennemi est arrivé au "goal", on doit le détruire
+    if(currentTile.getTileNumber() == TYPE::GOAL) {
+        this->reachGoal();
+        return;
+    }
+
+
+
+    // Déplacement normal
+    QPointF dirVect = currentTile.getDirection();
+
+    float new_x = this->x() + _speed*dirVect.x();
+    float new_y = this->y() + _speed*dirVect.y();
+
+    this->setPos(new_x,new_y);
+
+    // Oriente l'image dans le bon sens
+    // (nb : transformation par rapport au centre de l'image)
+    this->setTransformOriginPoint(this->boundingRect().center().x(),this->boundingRect().center().y());
+
+    // Rotation
+    if(dirVect.x() == 1 && dirVect.y() == 1)
+        this->setRotation(45);
+    else if(dirVect.x() == 1 && dirVect.y() == -1)
+        this->setRotation(-45);
+    else if(dirVect.x() == -1 && dirVect.y() == 1)
+        this->setRotation(135);
+    else if(dirVect.x() == -1 && dirVect.y() == -1)
+        this->setRotation(-135);
+    else if(dirVect.x() == 1)
+        this->setRotation(0);
+    else if(dirVect.x() == -1)
+        this->setRotation(180);
+    else if(dirVect.y() == 1)
+        this->setRotation(90);
+    else if(dirVect.y() == -1)
+        this->setRotation(-90);
+
+}
+
+
+void Enemy::reachGoal(void) {
+
+    // Indique que la mort est provoquée par l'atteinte du goal
+    emit killedAtGoal(1); // Par défaut 1 vie perdue
+    // Retire de l'indexation de la map
+    emit enemyDestroyed(this);
+
+}
+
 
 /**
 * CAFARD
@@ -101,48 +169,7 @@ void Cafard::hurt(int damages) {
 }
 
 void Cafard::advance(int phase) {
-
-    // Si 'phase' vaut 0, rien ne se passe
-    if(!phase)
-        return;
-    // ...sinon, on met à jour l'item
-
-    // Met à jour l'image de l'animation
-    this->setPixmap(*_animPixmap[_animState]);
-    this->increaseAnimationStep();
-
-
-
-    // Déplace l'ennemi selon sa vitesse et la direction induite par le terrain
-    Tile& currentTile = _map->getTileAt((this->x() + _size*16)/32,(this->y() + _size*16)/32);
-    QPointF dirVect = currentTile.getDirection();
-
-    float new_x = this->x() + _speed*dirVect.x();
-    float new_y = this->y() + _speed*dirVect.y();
-
-    this->setPos(new_x,new_y);
-
-    // Oriente l'image dans le bon sens
-    // (nb : transformation par rapport au centre de l'image)
-    this->setTransformOriginPoint(this->boundingRect().center().x(),this->boundingRect().center().y());
-
-    // Rotation
-    if(dirVect.x() == 1 && dirVect.y() == 1)
-        this->setRotation(45);
-    else if(dirVect.x() == 1 && dirVect.y() == -1)
-        this->setRotation(-45);
-    else if(dirVect.x() == -1 && dirVect.y() == 1)
-        this->setRotation(135);
-    else if(dirVect.x() == -1 && dirVect.y() == -1)
-        this->setRotation(-135);
-    else if(dirVect.x() == 1)
-        this->setRotation(0);
-    else if(dirVect.x() == -1)
-        this->setRotation(180);
-    else if(dirVect.y() == 1)
-        this->setRotation(90);
-    else if(dirVect.y() == -1)
-        this->setRotation(-90);
+    Enemy::advance(phase);
 }
 
 

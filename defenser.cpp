@@ -84,8 +84,8 @@ void WaterGun::advance(int phase) {
             float targetX = (*i)->x();
             float targetY = (*i)->y();
 
-            if(sqrt(pow(fabs(this->x() - targetX),2)
-                    +pow(fabs(this->y() - targetY),2)
+            if(sqrt(pow(fabs(this->x() - targetX - ((*i)->getSize()-1)*16),2)
+                    +pow(fabs(this->y() - targetY - ((*i)->getSize()-1)*16),2)
                 )  <= _range)
             {
                 // Si le défenseur ne tirait pas encore

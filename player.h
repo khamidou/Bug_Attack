@@ -17,14 +17,17 @@ public:
 
     Player(int money = DEFAULT_MONEY,int lives = DEFAULT_LIVES);
     bool payMoney(int amount);
-    int getMoney(void);
+    int getMoney(void) const;
+    int getLives(void) const;
 
 public slots:
 
     void earnMoney(int amount);
+    void loseLives(int livesLost);
 
 signals:
     void moneyValueChanged(int);
+    void livesValueChanged(int);
 };
 
 #endif // PLAYER_H

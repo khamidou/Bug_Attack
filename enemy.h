@@ -35,9 +35,13 @@ protected:
     int _resistance;
     float _speed;
 
+    virtual void advance(int phase);
+    void reachGoal(void);
+
 
 signals:
     void killedByPlayer(int moneyEarned);
+    void killedAtGoal(int livesLost);
     void enemyDestroyed(Enemy* ptr);
 };
 

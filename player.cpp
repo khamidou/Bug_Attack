@@ -10,7 +10,8 @@ Player::Player(int money,int lives){
 
 }
 
-int Player::getMoney(void) { return _money; }
+int Player::getMoney(void) const { return _money; }
+int Player::getLives(void) const { return _lives; }
 
 void Player::earnMoney(int amount) {
 
@@ -20,6 +21,17 @@ void Player::earnMoney(int amount) {
         _money+=amount;
         emit moneyValueChanged(_money);
     }
+}
+
+void Player::loseLives(int livesLost) {
+
+    // Fait perdre des vies au joueur
+    // ... et le compteur est notifié
+    _lives-=livesLost;
+    if(_lives < 0)
+        _lives = 0;
+
+    emit livesValueChanged(_lives);
 }
 
 bool Player::payMoney(int amount) {
