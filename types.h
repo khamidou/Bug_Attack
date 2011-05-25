@@ -11,6 +11,7 @@ typedef enum { T_RAMPANT = 1, T_VOLANT = 2 } ENTITY;
 typedef enum { CAFARD } ENEMY;
 typedef enum { NONE, PISTOLET_A_EAU } TURRET;
 
-}
+
+};
 
 #endif // TYPES_H

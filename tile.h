@@ -16,8 +16,7 @@ public:
     int getY() const;    
     int getTileNumber(void) const;
     bool turretAllowed(void) const;
-    void setHasTurret(bool);
-    QPointF getDirection(void) const;
+     QPointF getDirection(void) const;
 
 
     QString TexName(int n);
@@ -26,7 +25,6 @@ private:
     QPixmap *_pixmap;
     int _x, _y;
     int _tileNumber;
-    bool _hasTurret;
     QPointF _dir;
 };
 

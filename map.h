@@ -15,6 +15,7 @@
 
 class EnemyFactory;
 class Enemy;
+class Defenser;
 
 class Map : public QGraphicsScene
 {
@@ -24,6 +25,7 @@ class Map : public QGraphicsScene
     EnemyFactory* _waveGenerator;
     Tile* _mapTiles[16][16];
     QList<Enemy*> _enemies; // OPTIMISATION DES RECHERCHES D'ENNEMI
+    QList<Defenser*> _turrets;
     QGraphicsScene* _scene;
     QPoint _startPos;
     Player* _player;
@@ -36,12 +38,21 @@ public:
     void addEnemy(Enemy* enemy);
     bool addTurretAt(TYPE::TURRET turretType,float mx,float my);
     QPoint getStart(void) const;
-    Tile& getTileAt(int x, int y) const;
+    Tile& getTileAt(int grid_x, int grid_y) const;
+    Defenser* getTurretAt(int grid_x,int grid_y);
     EnemyFactory* getWaveGenerator(void) const;
     QList<Enemy*> getEnemyList(void) const;
 
+
 public slots:
     void removeEnemy(Enemy* ptr);
+    void removeTurret(void);
+    void upgradeTurret(void);
+
+signals :
+    void turretInfosRequest(QString);
+    void setTurretsSelected(bool);
+    void turretSold(int);
 };
 
 #endif // MAP_H

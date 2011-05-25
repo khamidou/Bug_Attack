@@ -17,20 +17,34 @@ class Defenser : public Entity
 
 public:
     Defenser(int posx,int posy,int level,TYPE::ENTITY target,Map* map);
-    virtual int getCost(void) const = 0;
+    int getLevel(void) const;
+    virtual int getCost(int level = -1) const = 0;
+    virtual QString getInfos(void) const = 0;
+    void increaseLevel(void);
+    virtual bool isLevelMax(void) const = 0;
+    bool isSelected(void) const;
+    void setIsShooting(bool state);
 
 protected:
+    virtual void updateStats(void) = 0;
+
     QTimer _shootTimer;
     int _level;
     TYPE::ENTITY _target;
     int _rate;
-    int _range;
+    float _range;
     int _power;
     float _targetX;
     float _targetY;
-    bool _isShooting;
     Map* _map;
+    bool _isShooting;
+    bool _isSelected;
 
+public slots:
+    void setIsSelected(bool selected);
+
+signals:
+    void turretRemoved(Defenser*);
 
 };
 
@@ -45,11 +59,12 @@ class WaterGun : public Defenser
 
 public:
     WaterGun(int posx,int posy,int level,TYPE::ENTITY target,Map* map);
-    int getCost(void) const;
+    int getCost(int level = -1) const;
+    QString getInfos(void) const;
     bool isShooting(void) const;
+    bool isLevelMax(void) const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
     void setTarget(float targetX,float targetY);
-    void setIsShooting(bool state);
     QRectF boundingRect(void) const;
     static int getBasicCost(void) { return 8; }
 

@@ -27,13 +27,17 @@ public:
 
 public slots:
 
-    void earnMoney(int amount);
+    void earnMoney(int money);
     void loseLives(int livesLost);
+    void turretSold(int money);
     void setTurretChoice1();
+
 
 signals:
     void moneyValueChanged(int);
     void livesValueChanged(int);
+    void setTurret1ButtonDisabled(bool);
+    void turretSelected();
 };
 
 #endif // PLAYER_H

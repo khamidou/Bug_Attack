@@ -40,10 +40,21 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qreal mx = event->scenePos().x();
     qreal my = event->scenePos().y();
 
+    // Par défaut déselectionne toute tourelle
+    emit setTurretsSelected(false);
 
-    // CLIC GAUCHE : POSE DE TOURELLE
-    if(event->button() == Qt::LeftButton)
-        this->addTurretAt(_player->getTurretChoice(),mx,my);
+    // CLIC GAUCHE
+    if(event->button() == Qt::LeftButton) {
+        // SELECTION D'UNE TOURELLE (affichage infos)
+        if(Defenser* turret = this->getTurretAt((int)(mx/32)*32,(int)(my/32)*32)) {
+            emit turretInfosRequest(turret->getInfos());
+            turret->setIsSelected(true);
+        }
+        // POSE DE TOURELLE
+        else{
+            this->addTurretAt(_player->getTurretChoice(),mx,my);
+        }
+    }
 
 }
 
@@ -72,9 +83,8 @@ void Map::removeEnemy(Enemy* ptr) {
     int i;
     for(i = 0; i < _enemies.length() ; ++i) {
 
-        std::cout << _enemies[i] << " " << ptr << std::endl;
         if(_enemies[i] == ptr){
-            std::cout << "OMG un mort" << std::endl;
+            std::cout << "OMG je suis mort" << std::endl;
             _enemies.removeAt(i);
            // QObject::disconnect(ptr);
             this->removeItem(ptr);
@@ -119,15 +129,14 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
 
         // Ajout de la tourelle et mise à jour des informations de la map
         if(enoughMoney) {
-            // Le tile contient désormais une tourelle
-            this->getTileAt(mx/32,my/32).setHasTurret(true);
             // Ajout sur la map
             this->addItem(newTurret);
+            // Sauvegarde dans la liste des tourelles
+            _turrets.push_back(newTurret);
 
             // Gestion des clics sur la tourelle
-            // QObject::connect(newTurret,SIGNAL(turretClicked(QString)),this,SLOT(turretInfosRequest(QString)));
-
-            // On remet à zéro le choix du joueur
+            QObject::connect(this,SIGNAL(setTurretsSelected(bool)),newTurret,SLOT(setIsSelected(bool)));
+              // On remet à zéro le choix du joueur
             _player->setTurretChoice(TYPE::NONE);
 
             return true; // Succès
@@ -138,7 +147,68 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
     return false; // Echec
 }
 
+// Renvoie la tourelle positionnée à la position (x,y)
+Defenser* Map::getTurretAt(int grid_x,int grid_y) {
+
+    int i;
+    for(i = 0; i < _turrets.length() ; ++i) {
+
+         if(_turrets[i]->x() == grid_x && _turrets[i]->y() == grid_y)
+            return _turrets[i];
+    }
+    // Si aucune tourelle trouvée
+    return NULL;
+
+}
+
+void Map::removeTurret(void) {
+
+    // Garbage collector de notre liste
+
+    int i;
+    for(i = 0; i < _turrets.length() ; ++i) {
+
+         if(_turrets[i]->isSelected()){
+             // Arrête tout tir en cours
+             _turrets[i]->setIsShooting(false);
+             // Donne de l'argent au joueur pour la vente
+             emit turretSold(_turrets[i]->getCost()/2);
+             // Retire l'objet de la map et de la liste
+             this->removeItem(_turrets[i]);
+             _turrets.removeAt(i);
+
+            break;
+        }
+    }
+}
+
+void Map::upgradeTurret(void) {
+
+    // Recherche la tourelle actuellement selectionnée et tente de l'améliorer
+
+    int i;
+    for(i = 0; i < _turrets.length() ; ++i) {
+
+        if(_turrets[i]->isSelected())
+        {
+            // La tourelle peut être améliorée
+            if(_turrets[i]->isLevelMax())
+                break;
+
+            // ... et si le joueur a assez d'argent
+            if(_player->payMoney(_turrets[i]->getCost(_turrets[i]->getLevel()+1))) {
+                // Level-up de la tourelle
+                _turrets[i]->increaseLevel();
+                // Mise à jour de la description
+                emit turretInfosRequest(_turrets[i]->getInfos());
+            }
+            break;
+        }
+    }
+}
+
+
 
 QPoint Map::getStart(void) const { return _startPos; }
-Tile& Map::getTileAt(int x, int y) const { return *_mapTiles[x][y]; }
+Tile& Map::getTileAt(int grid_x, int grid_y) const { return *_mapTiles[grid_x][grid_y]; }
 EnemyFactory* Map::getWaveGenerator(void) const { return _waveGenerator; }

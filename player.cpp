@@ -18,12 +18,12 @@ int Player::getMoney(void) const { return _money; }
 int Player::getLives(void) const { return _lives; }
 TYPE::TURRET Player::getTurretChoice(void) const { return _turretChoice; }
 
-void Player::earnMoney(int amount) {
+void Player::earnMoney(int money) {
 
     // Si on gagne (réellement) de l'argent, celui ci est ajouté au pactole
     // ... et le compteur est notifié
-    if(amount >= 0) {
-        _money+=amount;
+    if(money >= 0) {
+        _money+=money;
         emit moneyValueChanged(_money);
     }
 }
@@ -39,9 +39,44 @@ void Player::loseLives(int livesLost) {
     emit livesValueChanged(_lives);
 }
 
+void Player::turretSold(int money) {
+
+    if(money>0)
+       _money+=money;
+
+    emit moneyValueChanged(_money);
+
+}
+
 void Player::setTurretChoice(TYPE::TURRET choice) {
+
+    // Active le bouton associé à l'ancien choix
+    if(choice != _turretChoice) {
+
+        switch(_turretChoice) {
+
+        case TYPE::PISTOLET_A_EAU :
+            emit setTurret1ButtonDisabled(false);
+            break;
+        default:
+            break;
+        }
+    }
+
+    // Met à jour le choix courant
     _turretChoice = choice;
-    std::cout << "Le joueur a choisi " << choice << std::endl;
+
+    // Désactive le bouton associé au nouveau choix
+    if(_turretChoice != TYPE::NONE) {
+        switch(_turretChoice) {
+        case TYPE::PISTOLET_A_EAU:
+            emit setTurret1ButtonDisabled(true);
+            break;
+        default:
+            break;
+        }
+    }
+
 }
 void Player::setTurretChoice1(){this->setTurretChoice(TYPE::PISTOLET_A_EAU);}
 

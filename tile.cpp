@@ -38,7 +38,7 @@ Tile::Tile(int tileNumber, int x, int y):_tileNumber(tileNumber)
     // Données du tile
     _x = x;
     _y = y;
-    _hasTurret = false;
+
     *_pixmap = _pixmap->scaled(32,32,Qt::IgnoreAspectRatio);
     this->setPixmap(*_pixmap);
 
@@ -51,7 +51,7 @@ QPointF Tile::getDirection(void) const { return _dir; }
 
 bool Tile::turretAllowed(void) const {
 
-    if(_tileNumber == 0 && !_hasTurret)
+    if(_tileNumber == 0)
         return true;
     return false;
 }
@@ -95,6 +95,5 @@ QString Tile::TexName(int n){
     return "grass";
 }
 
-void Tile::setHasTurret(bool){ _hasTurret = true; }
 
 Tile::~Tile(){}

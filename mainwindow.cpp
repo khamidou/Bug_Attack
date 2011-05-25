@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(20,10);
+    _player = new Player(999,10);
 
     /**
     * Création et chargement de la map
@@ -50,10 +50,16 @@ MainWindow::MainWindow(QWidget *parent) :
     /// Boutons de choix de tourelle
     // . Pistolet à eau
     QObject::connect(ui->turretButton_PistoletAEau,SIGNAL(pressed()),_player,SLOT(setTurretChoice1()));
+    QObject::connect(_player,SIGNAL(setTurret1ButtonDisabled(bool)),this->ui->turretButton_PistoletAEau,SLOT(setDisabled(bool)));
 
 
     // Demande d'informations sur une tourelle
-    // QObject::connect(_sceneMap,SIGNAL(loadTurretInfos(QString)),ui->turretInfoLabel,SLOT(setText(QString)));
+    QObject::connect(_sceneMap,SIGNAL(turretInfosRequest(QString)),ui->turretInfoLabel,SLOT(setText(QString)));
+    // Amélioration d'une tourelle
+    QObject::connect(ui->upgradeTurretButton,SIGNAL(clicked()),_sceneMap,SLOT(upgradeTurret()));
+    // Revente d'une tourelle
+    QObject::connect(ui->sellTurretButton,SIGNAL(clicked()),_sceneMap,SLOT(removeTurret()));
+    QObject::connect(_sceneMap,SIGNAL(turretSold(int)),_player,SLOT(turretSold(int)));
 
 
     /// Gestions des compteurs
