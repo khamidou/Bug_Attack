@@ -1,4 +1,5 @@
 #include "player.h"
+#include <iostream>
 
 
 Player::Player(int money,int lives){
@@ -8,10 +9,14 @@ Player::Player(int money,int lives){
     // Intialise le nombre de vies
     (lives>0) ? _lives = lives : _lives = DEFAULT_LIVES;
 
+    // Choix clic
+    _turretChoice = TYPE::NONE;
+
 }
 
 int Player::getMoney(void) const { return _money; }
 int Player::getLives(void) const { return _lives; }
+TYPE::TURRET Player::getTurretChoice(void) const { return _turretChoice; }
 
 void Player::earnMoney(int amount) {
 
@@ -34,6 +39,14 @@ void Player::loseLives(int livesLost) {
     emit livesValueChanged(_lives);
 }
 
+void Player::setTurretChoice(TYPE::TURRET choice) {
+    _turretChoice = choice;
+    std::cout << "Le joueur a choisi " << choice << std::endl;
+}
+void Player::setTurretChoice1(){this->setTurretChoice(TYPE::PISTOLET_A_EAU);}
+
+
+
 bool Player::payMoney(int amount) {
 
     // Vérifie si le joueur peut payer
@@ -45,4 +58,3 @@ bool Player::payMoney(int amount) {
     else
         return false; // Paiement impossible
 }
-

@@ -21,7 +21,6 @@ class Map : public QGraphicsScene
 
     Q_OBJECT
 
-    // QList<int>* _ennemyList;
     EnemyFactory* _waveGenerator;
     Tile* _mapTiles[16][16];
     QList<Enemy*> _enemies; // OPTIMISATION DES RECHERCHES D'ENNEMI
@@ -29,13 +28,13 @@ class Map : public QGraphicsScene
     QPoint _startPos;
     Player* _player;
 
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 
 public:
     Map(QWidget* parent,Player* player);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void addEnemy(Enemy* enemy);
-    bool addTurretAt(float mx,float my);
+    bool addTurretAt(TYPE::TURRET turretType,float mx,float my);
     QPoint getStart(void) const;
     Tile& getTileAt(int x, int y) const;
     EnemyFactory* getWaveGenerator(void) const;
@@ -43,7 +42,6 @@ public:
 
 public slots:
     void removeEnemy(Enemy* ptr);
-
 };
 
 #endif // MAP_H

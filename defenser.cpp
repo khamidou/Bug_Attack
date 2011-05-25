@@ -8,18 +8,16 @@
 * DEFENSER
 **/
 
-Defenser::Defenser(int posx,int posy,int level,TYPE::ENTITY target)
-    :Entity(posx,posy),_level(level),_target(target) {}
-
+Defenser::Defenser(int posx,int posy,int level,TYPE::ENTITY target,Map* map)
+    :Entity(posx,posy),_level(level),_target(target),_map(map) {}
 
 
 /**
 * PISTOLET A EAU
 **/
 
-
 WaterGun::WaterGun(int posx,int posy,int level,TYPE::ENTITY target,Map* map)
-    : Defenser(posx,posy,level,target),_map(map)
+    : Defenser(posx,posy,level,target,map)
 {
     this->updateStats();
 

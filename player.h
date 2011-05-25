@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <QObject>
+#include "types.h"
 
 class Player : public QObject
 {
@@ -9,6 +10,7 @@ class Player : public QObject
 
     int _money;
     int _lives;
+    TYPE::TURRET _turretChoice;
 
 public:
 
@@ -19,11 +21,15 @@ public:
     bool payMoney(int amount);
     int getMoney(void) const;
     int getLives(void) const;
+    TYPE::TURRET getTurretChoice(void) const;
+    void setTurretChoice(TYPE::TURRET choice);
+
 
 public slots:
 
     void earnMoney(int amount);
     void loseLives(int livesLost);
+    void setTurretChoice1();
 
 signals:
     void moneyValueChanged(int);

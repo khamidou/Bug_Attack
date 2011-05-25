@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _view->setCacheMode(QGraphicsView::CacheBackground);
     _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
+
     _view->show();
 
     // Lancement du timer (boucle principale du jeu)
@@ -36,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
     * Interface graphique
     **/
-    // Lancement de la prochaine vague
+    /// Lancement de la prochaine vague
     // . Lance la production d'ennemi
     QObject::connect(ui->launchWaveButton, SIGNAL(pressed()),_sceneMap->getWaveGenerator(),SLOT(launchWaves()));
     // . Change le texte d'ambiance associé à la vague courante
@@ -45,7 +46,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // . Rend le bouton inactif le temps que la vague se produise
     QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(setLaunchWaveButtonEnabled(bool)),ui->launchWaveButton,SLOT(setEnabled(bool)));
 
-    // Gestions des compteurs
+
+    /// Boutons de choix de tourelle
+    // . Pistolet à eau
+    QObject::connect(ui->turretButton_PistoletAEau,SIGNAL(pressed()),_player,SLOT(setTurretChoice1()));
+
+
+    // Demande d'informations sur une tourelle
+    // QObject::connect(_sceneMap,SIGNAL(loadTurretInfos(QString)),ui->turretInfoLabel,SLOT(setText(QString)));
+
+
+    /// Gestions des compteurs
     // Argent
     ui->creditCounter->display(_player->getMoney()); // C'est du vol
     QObject::connect(_player,SIGNAL(moneyValueChanged(int)),ui->creditCounter,SLOT(display(int)));
@@ -83,7 +94,7 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
    {
        // TODO CHANGER ADD TURRET
        if(selectedItem == createTurret1)
-            _sceneMap->addTurretAt(mousePos.x(),mousePos.y());
+           _sceneMap->addTurretAt(TYPE::PISTOLET_A_EAU,mousePos.x(),mousePos.y());
    }
 
 }

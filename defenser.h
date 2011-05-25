@@ -13,8 +13,10 @@ class Map;
 
 class Defenser : public Entity
 {
+    Q_OBJECT
+
 public:
-    Defenser(int posx,int posy,int level,TYPE::ENTITY target);
+    Defenser(int posx,int posy,int level,TYPE::ENTITY target,Map* map);
     virtual int getCost(void) const = 0;
 
 protected:
@@ -27,6 +29,9 @@ protected:
     float _targetX;
     float _targetY;
     bool _isShooting;
+    Map* _map;
+
+
 };
 
 /**
@@ -36,7 +41,6 @@ protected:
 
 class WaterGun : public Defenser
 {
-
     Q_OBJECT
 
 public:
@@ -53,7 +57,6 @@ public:
 protected:
     void advance(int phase);
     void updateStats(void);
-    Map* _map;
 
 public slots:
     void shootTarget(void);

@@ -29,11 +29,6 @@ Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
     }
     fichier.close();
 
-    /* TEST
-    _entities.push_front(new Cafard(this,32*2,0,1));
-    this->addItem(_entities.first());
-    */
-
     // Générateur de vagues
     _waveGenerator = new EnemyFactory(this);
 }
@@ -48,7 +43,7 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     // CLIC GAUCHE : POSE DE TOURELLE
     if(event->button() == Qt::LeftButton)
-        this->addTurretAt(mx,my);
+        this->addTurretAt(_player->getTurretChoice(),mx,my);
 
 }
 
@@ -91,27 +86,58 @@ void Map::removeEnemy(Enemy* ptr) {
 QList<Enemy*> Map::getEnemyList(void) const { return _enemies; };
 
 
-bool Map::addTurretAt(float mx,float my) {
+bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
 
     // Vérifie s'il est possible de poser une tourelle à cet emplacement
-    // ... et si le joueur a assez d'argent (le cas échant, il est débité aussitôt
-    if( this->getTileAt(mx/32,my/32).turretAllowed() &&
-        _player->payMoney(WaterGun::getBasicCost())) {
+    if( this->getTileAt(mx/32,my/32).turretAllowed()) {
 
-        this->getTileAt(mx/32,my/32).setHasTurret(true);
-        WaterGun* test = new WaterGun(((int)(mx/32))*32,
-                                          ((int)(my/32))*32,
-                                          1,
-                                          (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT),
-                                          this);
-        this->addItem(test);
+        // On pose une nouvelle tourelle du type souhaité ...
+        // ... si le joueur a assez d'argent (le cas échant, il est débité aussitôt)
+        Defenser* newTurret;
+        bool enoughMoney = false;
 
-        return true; // Succès
+        switch(turretType) {
 
-    }
+            // Pistolet à eau
+            case TYPE::PISTOLET_A_EAU:
+            if(_player->payMoney(WaterGun::getBasicCost()))
+            {
+                enoughMoney = true;
+                newTurret = new WaterGun(((int)(mx/32))*32,
+                                         ((int)(my/32))*32,
+                                         1,
+                                         (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT),
+                                         this);
+            }
+            break;
+
+            // Type inconnu ~ erreur
+            default:
+            break;
+
+         } // eos
+
+        // Ajout de la tourelle et mise à jour des informations de la map
+        if(enoughMoney) {
+            // Le tile contient désormais une tourelle
+            this->getTileAt(mx/32,my/32).setHasTurret(true);
+            // Ajout sur la map
+            this->addItem(newTurret);
+
+            // Gestion des clics sur la tourelle
+            // QObject::connect(newTurret,SIGNAL(turretClicked(QString)),this,SLOT(turretInfosRequest(QString)));
+
+            // On remet à zéro le choix du joueur
+            _player->setTurretChoice(TYPE::NONE);
+
+            return true; // Succès
+        }
+
+    } // End test case libre
 
     return false; // Echec
 }
+
 
 QPoint Map::getStart(void) const { return _startPos; }
 Tile& Map::getTileAt(int x, int y) const { return *_mapTiles[x][y]; }

@@ -2,13 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "map.h"
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
 #include <QTimer>
 #include <QTime>
 
+#include "types.h"
 #include "map.h"
 #include "player.h"
 

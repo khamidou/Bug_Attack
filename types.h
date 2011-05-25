@@ -9,6 +9,7 @@ namespace TYPE {
 typedef enum { NORTH = 1 , SOUTH = 2 , EAST = 4 , WEST = 8, GOAL = 32, UP = 128 } DIRECTION;
 typedef enum { T_RAMPANT = 1, T_VOLANT = 2 } ENTITY;
 typedef enum { CAFARD } ENEMY;
+typedef enum { NONE, PISTOLET_A_EAU } TURRET;
 
 }
 
