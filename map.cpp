@@ -42,13 +42,22 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     // Par défaut déselectionne toute tourelle
     emit setTurretsSelected(false);
+    emit disableTurretUpgradeButton(true);
+    emit disableTurretSellButton(true);
 
     // CLIC GAUCHE
     if(event->button() == Qt::LeftButton) {
         // SELECTION D'UNE TOURELLE (affichage infos)
         if(Defenser* turret = this->getTurretAt((int)(mx/32)*32,(int)(my/32)*32)) {
+            // Affichage des infos de la tourelle
             emit turretInfosRequest(turret->getInfos());
             turret->setIsSelected(true);
+            // Si la tourelle n'est pas de niveau max, on autorise l'upgrade
+            if(!turret->isLevelMax())
+                emit disableTurretUpgradeButton(false);
+            // On autorise la vente de la tourelle selectionnée
+            emit disableTurretSellButton(false);
+
         }
         // POSE DE TOURELLE
         else{
@@ -116,7 +125,6 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
                 newTurret = new WaterGun(((int)(mx/32))*32,
                                          ((int)(my/32))*32,
                                          1,
-                                         (TYPE::ENTITY)(TYPE::T_RAMPANT | TYPE::T_VOLANT),
                                          this);
             }
             break;
@@ -133,7 +141,6 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
             this->addItem(newTurret);
             // Sauvegarde dans la liste des tourelles
             _turrets.push_back(newTurret);
-
             // Gestion des clics sur la tourelle
             QObject::connect(this,SIGNAL(setTurretsSelected(bool)),newTurret,SLOT(setIsSelected(bool)));
               // On remet à zéro le choix du joueur
@@ -164,7 +171,6 @@ Defenser* Map::getTurretAt(int grid_x,int grid_y) {
 void Map::removeTurret(void) {
 
     // Garbage collector de notre liste
-
     int i;
     for(i = 0; i < _turrets.length() ; ++i) {
 
@@ -176,10 +182,14 @@ void Map::removeTurret(void) {
              // Retire l'objet de la map et de la liste
              this->removeItem(_turrets[i]);
              _turrets.removeAt(i);
+             // Désactive les boutons de tourelle
+             emit disableTurretUpgradeButton(true);
+             emit disableTurretSellButton(true);
 
             break;
         }
     }
+
 }
 
 void Map::upgradeTurret(void) {
@@ -201,6 +211,10 @@ void Map::upgradeTurret(void) {
                 _turrets[i]->increaseLevel();
                 // Mise à jour de la description
                 emit turretInfosRequest(_turrets[i]->getInfos());
+
+                // Si l'upgrade est maximale, on désactive le bouton d'upgrade
+                if(_turrets[i]->isLevelMax())
+                    emit disableTurretUpgradeButton(true);
             }
             break;
         }

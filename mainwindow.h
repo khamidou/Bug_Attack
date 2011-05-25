@@ -23,8 +23,6 @@ class MainWindow : public QMainWindow
 
     Ui::MainWindow *ui;
 
-    static const int FPS = 30;
-
     QGraphicsView *_view;
     QTimer timer;
     Map* _sceneMap;

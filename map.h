@@ -26,6 +26,8 @@ class Map : public QGraphicsScene
     Tile* _mapTiles[16][16];
     QList<Enemy*> _enemies; // OPTIMISATION DES RECHERCHES D'ENNEMI
     QList<Defenser*> _turrets;
+    // Defenser* _turrets[16][16];     OPTIMISATION RECHERCHE DE TOURELLE
+    // Defenser* _selectedTurret;
     QGraphicsScene* _scene;
     QPoint _startPos;
     Player* _player;
@@ -53,6 +55,8 @@ signals :
     void turretInfosRequest(QString);
     void setTurretsSelected(bool);
     void turretSold(int);
+    void disableTurretUpgradeButton(bool);
+    void disableTurretSellButton(bool);
 };
 
 #endif // MAP_H

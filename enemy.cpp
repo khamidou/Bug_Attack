@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include "enemy.h"
 
 /**
@@ -16,6 +17,7 @@ Enemy::Enemy(Map* map,int posx,int posy, float size):Entity(posx,posy),_map(map)
 
 int Enemy::getHP(void) const { return _hp; }
 int Enemy::getResistance(void) const { return _resistance; }
+TYPE::ENTITY Enemy::getType(void) const { return _type; }
 
 float Enemy::getSize(void) const { return _size; }
 void Enemy::hurt(int damages){
@@ -32,12 +34,6 @@ void Enemy::hurt(int damages){
     }
 
     std::cout << "ahah il me reste : " << _hp << " HP" << std::endl;
-
-}
-
-Enemy::~Enemy(void){
-    QObject::disconnect(this);
-    std::cout << "destr" <<  std::endl;
 
 }
 
@@ -173,10 +169,212 @@ void Cafard::advance(int phase) {
 }
 
 
-Cafard::~Cafard(void) {
 
-    // Si la taille est supérieur à 2, on crée deux sous cafards
-    // if(_size > 2)7
-    std::cout << "cafard détruit" << std::endl;
+/**
+* FOURMI
+**/
+
+Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
+{
+    // Données de la fourmi
+    _type = TYPE::T_RAMPANT;
+    _hp = 5*size*size;
+    _hpMax = _hp;
+    _resistance = size*size;
+    _speed = 2 + size/2;
+
+    // Images et animations
+    for(int i = 0; i < 3; ++i) {
+        QPixmap* animTemp = new QPixmap("./media/textures/ennemies/fourmi" + QString::number(i+1) + ".png");
+        *animTemp = animTemp->scaled(size*32,size*32);
+        _animPixmap.push_back(animTemp);
+    }
+    _animState = 0; // Première frame de l'animation à 0
+
+    // Image et taille
+    this->setPixmap(*_animPixmap.first());
+}
+
+void Fourmi::hurt(int damages) {
+    Enemy::hurt(damages);
+
+    // Lorsqu'une fourmi est touchée, sa vitesse est multipliée par 1.5
+    // ... pendant les 5 secondes suivant le dernier coup reçu
+    if(!_speedUp)
+        _speed*=1.5;
+    _speedUp = true;
+    _speedUpCounter = GAME::FPS * 5; // FPS * nbrSecondes voulues
+
 
 }
+
+void Fourmi::advance(int phase) {
+    Enemy::advance(phase);
+
+    // Si la fourmi est en mode accélération, on décrémente le compteur
+    if(_speedUp) {
+
+        _speedUpCounter--;
+
+        // Si le compte à rebourd est terminé
+        if(_speedUpCounter <= 0) {
+            _speed /= 1.5;
+            _speedUp = false;
+        }
+    }
+}
+
+
+
+/**
+* GUEPE
+**/
+
+Guepe::Guepe(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
+{
+    // Données de la guepe
+    _type = TYPE::T_VOLANT;
+    _hp = 7*size*size;
+    _hpMax = _hp;
+    _resistance = 4*size*size;
+    _speed = 3;
+
+    // Images et animations
+    for(int i = 0; i < 2; ++i) {
+        QPixmap* animTemp = new QPixmap("./media/textures/ennemies/guepe" + QString::number(i+1) + ".png");
+        *animTemp = animTemp->scaled(size*32,size*32);
+        _animPixmap.push_back(animTemp);
+    }
+    _animState = 0; // Première frame de l'animation à 0
+
+    // Image et taille
+    this->setPixmap(*_animPixmap.first());
+}
+
+void Guepe::hurt(int damages) {
+    Enemy::hurt(damages);
+
+    // Si l'abeille meurt, elle s'écrase au sol et inflige 5*taille² dégâts
+    // ... aux ennemis à moins d'une case et demi de distance
+    if(_hp <= 0) {
+
+        QList<Enemy*> enemies = _map->getEnemyList();
+
+        QList<Enemy*>::iterator i;
+
+        // Recherche des ennemis de la map
+        for(i = enemies.begin() ; i != enemies.end() ; ++i) {
+
+            if((*i)->getType() == TYPE::T_RAMPANT) {
+
+                float targetX = (*i)->x();
+                float targetY = (*i)->y();
+
+                // arrête case = 32 pixel ==> demi case = 16 pixel
+                if(sqrt(pow(fabs(this->x()-16 - targetX - ((*i)->getSize()-1)*16),2)
+                        +pow(fabs(this->y()-16 - targetY - ((*i)->getSize()-1)*16),2)
+                    )  <= 16)
+                {
+                   // On inflige des dommages aux enemis rampants
+                   (*i)->hurt(_size*_size*5);
+                   // std::cout << "bim une guepe s'est ecrasee" << std::endl;
+
+                } // end distanceTest
+            } // end test T_RAMPANT
+
+        } //eof
+    } // fin si hp <= 0
+
+}
+
+void Guepe::advance(int phase) {
+    Enemy::advance(phase);
+}
+
+
+/**
+* MOUSTIQUE
+**/
+
+Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
+{
+    // Données du moustique
+    _type = TYPE::T_VOLANT;
+    _hp = 6*size*size;
+    _hpMax = _hp;
+
+    this->updateStats();
+
+    // Images et animations
+    for(int i = 0; i < 2; ++i) {
+        QPixmap* animTemp = new QPixmap("./media/textures/ennemies/guepe" + QString::number(i+1) + ".png");
+        *animTemp = animTemp->scaled(size*32,size*32);
+        _animPixmap.push_back(animTemp);
+    }
+    _animState = 0; // Première frame de l'animation à 0
+
+    // Image et taille
+    this->setPixmap(*_animPixmap.first());
+}
+
+void Moustique::updateStats(void) {
+
+    // Les caractéristiques du moustique dépendent de son état actuel
+    // (ie volant ou rampant)
+
+    // En vol
+    if(_type == TYPE::T_VOLANT) {
+        _resistance = _size*_size;
+        _speed = 2 + _size/2;
+    }
+    // Au sol
+    else {
+        _resistance = 15*_size;
+        _speed = 1 + _size/2;
+    }
+
+}
+
+void Moustique::hurt(int damages) {
+    Enemy::hurt(damages);
+
+    // Si le moustique est touché, il se pose pendant 3 secondes
+    if(_type != TYPE::T_RAMPANT) {
+        _type = TYPE::T_RAMPANT;
+        this->updateStats();
+    }
+
+    // Reste au sol 3 secondes
+    _stateCounter = GAME::FPS * 3;
+}
+
+void Moustique::advance(int phase) {
+    Enemy::advance(phase);
+
+    // Décrémente le compteur
+    _stateCounter--;
+
+    // Changement d'état
+    if(_stateCounter <= 0) {
+
+        // Le moustique alterne 7 secondes en vol
+        if(_type == TYPE::T_RAMPANT) {
+
+            _type = TYPE::T_VOLANT;
+            this->updateStats();
+            _stateCounter = GAME::FPS * 7;
+
+        }
+        // ... et 3 secondes au sol
+        else {
+
+            _type = TYPE::T_RAMPANT;
+            this->updateStats();
+            _stateCounter = GAME::FPS * 3;
+
+        }
+    } // end changement d'état
+
+}
+
+

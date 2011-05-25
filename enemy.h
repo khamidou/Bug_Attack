@@ -18,9 +18,9 @@ class Enemy : public Entity {
 
 public:
     Enemy(Map* map,int posx, int posy, float size);
-    virtual ~Enemy(void);
     int getResistance(void) const;
     int getHP(void) const;
+    TYPE::ENTITY getType(void) const;
     float getSize(void) const;
     virtual void hurt(int damages);
 
@@ -34,6 +34,7 @@ protected:
     int _hpMax;
     int _resistance;
     float _speed;
+    TYPE::ENTITY _type;
 
     virtual void advance(int phase);
     void reachGoal(void);
@@ -56,7 +57,6 @@ class Cafard : public Enemy
 
 public:
     Cafard(Map* map,int posx,int posy, float size);
-    ~Cafard(void);
     void hurt(int damages);
 
 protected:
@@ -64,6 +64,67 @@ protected:
 
 };
 
+/**
+* FOURMI
+**/
+
+class Fourmi : public Enemy
+{
+
+
+public:
+    Fourmi(Map* map,int posx,int posy, float size);
+    void hurt(int damages);
+
+
+protected:
+    bool _speedUp;
+    int _speedUpCounter;
+
+    void advance(int phase);
+
+};
+
+/**
+* GUEPE
+**/
+
+class Guepe : public Enemy
+{
+
+
+public:
+    Guepe(Map* map,int posx,int posy, float size);
+    void hurt(int damages);
+
+
+protected:
+    bool _speedUp;
+    int _speedUpCounter;
+
+    void advance(int phase);
+
+};
+
+/**
+* MOUSTIQUE
+**/
+
+class Moustique : public Enemy
+{
+
+
+public:
+    Moustique(Map* map,int posx,int posy, float size);
+    void hurt(int damages);
+
+
+protected:
+    int _stateCounter;
+    void updateStats(void);
+    void advance(int phase);
+
+};
 
 #endif // MONSTER_H
 

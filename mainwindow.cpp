@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Lancement du timer (boucle principale du jeu)
     QObject::connect(&timer, SIGNAL(timeout()), _sceneMap, SLOT(advance()));
-    timer.start(1000 / FPS);
+    timer.start(1000 / GAME::FPS);
 
     /**
     * Interface graphique
@@ -60,6 +60,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // Revente d'une tourelle
     QObject::connect(ui->sellTurretButton,SIGNAL(clicked()),_sceneMap,SLOT(removeTurret()));
     QObject::connect(_sceneMap,SIGNAL(turretSold(int)),_player,SLOT(turretSold(int)));
+    // Activation ~ Désactivation des boutons
+    ui->upgradeTurretButton->setDisabled(true);
+    ui->sellTurretButton->setDisabled(true);
+    QObject::connect(_sceneMap,SIGNAL(disableTurretUpgradeButton(bool)),ui->upgradeTurretButton,SLOT(setDisabled(bool)));
+    QObject::connect(_sceneMap,SIGNAL(disableTurretSellButton(bool)),ui->sellTurretButton,SLOT(setDisabled(bool)));
 
 
     /// Gestions des compteurs
@@ -94,9 +99,9 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
    myMenu.addAction("-- turret 4 --");
    myMenu.addAction("-- turret 5 --");
 
-   // Récupération d'un éventuel choix
+   // On regarde si un choix a été effectué et si la case est libre pour la pose d'une tourelle
    QAction* selectedItem = myMenu.exec(globalPos);
-   if (selectedItem)
+   if (selectedItem && _sceneMap->getTurretAt((int)(mousePos.x()/32)*32,(int)(mousePos.y()/32)*32)==NULL)
    {
        // TODO CHANGER ADD TURRET
        if(selectedItem == createTurret1)

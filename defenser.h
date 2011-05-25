@@ -16,7 +16,7 @@ class Defenser : public Entity
     Q_OBJECT
 
 public:
-    Defenser(int posx,int posy,int level,TYPE::ENTITY target,Map* map);
+    Defenser(int posx,int posy,int level,Map* map);
     int getLevel(void) const;
     virtual int getCost(int level = -1) const = 0;
     virtual QString getInfos(void) const = 0;
@@ -30,7 +30,7 @@ protected:
 
     QTimer _shootTimer;
     int _level;
-    TYPE::ENTITY _target;
+    int _target; // combinaison de TYPE::ENTITY
     int _rate;
     float _range;
     int _power;
@@ -58,7 +58,7 @@ class WaterGun : public Defenser
     Q_OBJECT
 
 public:
-    WaterGun(int posx,int posy,int level,TYPE::ENTITY target,Map* map);
+    WaterGun(int posx,int posy,int level,Map* map);
     int getCost(int level = -1) const;
     QString getInfos(void) const;
     bool isShooting(void) const;

@@ -10,6 +10,12 @@ WaveElement::WaveElement(QString data) {
     // . TYPE
     if(subElementDesc.first() == "cafard")
         _type = TYPE::CAFARD;
+    else if(subElementDesc.first() == "fourmi")
+        _type = TYPE::FOURMI;
+    else if(subElementDesc.first() == "guepe")
+        _type = TYPE::GUEPE;
+    else if(subElementDesc.first() == "moustique")
+        _type = TYPE::MOUSTIQUE;
     else
         _type = TYPE::CAFARD;
     subElementDesc.pop_front();
@@ -99,7 +105,15 @@ void EnemyFactory::productEnemy(WaveElement* enemy){
     case TYPE::CAFARD:
         newEnemy = new Cafard(_currentMap,start.x(),start.y(),enemy->getSize());
         break;
-
+    case TYPE::FOURMI:
+        newEnemy = new Fourmi(_currentMap,start.x(),start.y(),enemy->getSize());
+        break;
+    case TYPE::GUEPE:
+        newEnemy = new Guepe(_currentMap,start.x(),start.y(),enemy->getSize());
+        break;
+    case TYPE::MOUSTIQUE:
+        newEnemy = new Moustique(_currentMap,start.x(),start.y(),enemy->getSize());
+        break;
     default:
         newEnemy = new Cafard(_currentMap,start.x(),start.y(),enemy->getSize());
     }

@@ -8,8 +8,8 @@
 * DEFENSER
 **/
 
-Defenser::Defenser(int posx,int posy,int level,TYPE::ENTITY target,Map* map)
-    :Entity(posx,posy),_level(level),_target(target),_map(map)
+Defenser::Defenser(int posx,int posy,int level,Map* map)
+    :Entity(posx,posy),_level(level),_map(map)
 {
     this->setIsSelected(true); // Appel à la méthode pour rafraichir l'affichage
 }
@@ -56,9 +56,12 @@ void Defenser::setIsShooting(bool state) {
 * PISTOLET A EAU
 **/
 
-WaterGun::WaterGun(int posx,int posy,int level,TYPE::ENTITY target,Map* map)
-    : Defenser(posx,posy,level,target,map)
+WaterGun::WaterGun(int posx,int posy,int level,Map* map)
+    : Defenser(posx,posy,level,map)
 {
+    // Type de cible
+    _target = TYPE::T_RAMPANT & TYPE::T_VOLANT;
+    // Caractéristiques
     this->updateStats();
 
     QObject::connect(&_shootTimer,SIGNAL(timeout()),this,SLOT(shootTarget()));
@@ -78,10 +81,15 @@ int WaterGun::getCost(int level) const{
 
 QString WaterGun::getInfos(void) const {
 
-    QString infos = "Vous avez clique sur un pistolet a eau de niveau ";
+    // Infos générales
+    QString infos = "Pistolet a eau de niveau ";
     infos+= QString::number(_level);
-    infos+= "\n- Amelioration : ";
-    infos+= QString::number(this->getCost(_level+1));
+    // Amélioration
+    if(!this->isLevelMax()) {
+        infos+= "\n- Amelioration : ";
+        infos+= QString::number(this->getCost(_level+1));
+    }
+    // Revente
     infos+= "\n- Revente : ";
     infos+= QString::number(this->getCost(_level)/2);
 
@@ -140,7 +148,7 @@ void WaterGun::advance(int phase) {
 
     QList<Enemy*>::iterator i;
 
-    // Recherche des ennemis de la map
+    // Recherche des ennemis de la map (tire sur tous les types d'ennemis)
     for(i = enemies.begin() ; i != enemies.end() ; ++i) {
 
             float targetX = (*i)->x();
