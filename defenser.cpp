@@ -133,9 +133,6 @@ void WaterGun::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget
     // Dessine la portée de la tourelle
     painter->setBrush(QBrush(Qt::blue,Qt::NoBrush));
     painter->drawEllipse((-_range/32)*16+16,(-_range/32)*16+16,_range,_range);
-
-    _map->update();
-
 }
 
 void WaterGun::advance(int phase) {
@@ -169,8 +166,7 @@ void WaterGun::advance(int phase) {
 
             } // end distanceTest
 
-    } //eof
-
+    } //eof    
     // Si aucun monstre n'a été rencontré
     this->setIsShooting(false);  // Modification via la méthode pour les effets visuels
 
