@@ -31,6 +31,9 @@ Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
 
     // Générateur de vagues
     _waveGenerator = new EnemyFactory(this);
+    // Lancement du timer (boucle principale du jeu)
+    QObject::connect(&gameTimer, SIGNAL(timeout()), this, SLOT(advance()));
+    gameTimer.start(1000 / GAME::FPS);
 }
 
 
@@ -226,3 +229,13 @@ void Map::upgradeTurret(void) {
 QPoint Map::getStart(void) const { return _startPos; }
 Tile& Map::getTileAt(int grid_x, int grid_y) const { return *_mapTiles[grid_x][grid_y]; }
 EnemyFactory* Map::getWaveGenerator(void) const { return _waveGenerator; }
+
+void Map::setPause(void) {
+    if (_isPause) {
+        _isPause = false;
+        gameTimer.stop();
+    } else {
+        _isPause = true;
+        gameTimer.start(1000 / GAME::FPS);
+    }
+}

@@ -28,10 +28,10 @@ public:
 protected:
     virtual void updateStats(void) = 0;
 
-    QTimer _shootTimer;
+    int _shootTimerStep;
     int _level;
     int _target; // combinaison de TYPE::ENTITY
-    int _rate;
+    float _rate;
     float _range;
     int _power;
     float _targetX;

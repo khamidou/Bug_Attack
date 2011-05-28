@@ -39,7 +39,7 @@ void Defenser::setIsShooting(bool state) {
         // Change l'aspect visuel
         this->setOpacity(0.5f); // TEST = TIR ACTIVÉ
         // Active le timer
-        _shootTimer.start(100*_rate);
+        //_shootTimer.start(100*_rate);
     }
     // MODE TIR DESACTIVÉ
     else
@@ -47,7 +47,7 @@ void Defenser::setIsShooting(bool state) {
         // Change l'aspect visuel
         this->setOpacity(1.0f); // TEST = TIR ACTIVÉ
         // Désactive le timer
-        _shootTimer.stop();
+        //_shootTimer.stop();
     }
 }
 
@@ -61,10 +61,12 @@ WaterGun::WaterGun(int posx,int posy,int level,Map* map)
 {
     // Type de cible
     _target = TYPE::T_RAMPANT & TYPE::T_VOLANT;
+    _shootTimerStep = 0;
+    _rate = 4 - _level/2;
     // Caractéristiques
     this->updateStats();
 
-    QObject::connect(&_shootTimer,SIGNAL(timeout()),this,SLOT(shootTarget()));
+    QObject::connect(&map->gameTimer,SIGNAL(timeout()), this,SLOT(shootTarget()));
 }
 
 int WaterGun::getCost(int level) const{
@@ -136,7 +138,6 @@ void WaterGun::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget
 }
 
 void WaterGun::advance(int phase) {
-
     if(!phase)
         return;
 
@@ -173,6 +174,15 @@ void WaterGun::advance(int phase) {
 } // eom
 
 void WaterGun::shootTarget(void) {
+    if (!isShooting())
+        return;
+
+    _shootTimerStep+= 1; /* pas très sur de ça */
+
+    if (_shootTimerStep < (GAME::FPS / _rate))
+        return;
+
+    _shootTimerStep = 0;
 
     // Créé un nouveau projectile au niveau du centre de la tourelle
     Projectile* shot = new Projectile(this->x()+14,this->y()+14,_targetX,_targetY,5,_power, _map);

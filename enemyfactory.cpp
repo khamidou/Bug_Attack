@@ -90,8 +90,7 @@ EnemyFactory::EnemyFactory(Map* map):_currentMap(map)
     // Ferme le fichier
     file.close();
 
-
-    connect(&_popTimer,SIGNAL(timeout()),this,SLOT(produceWave(void)));
+    _waveTimerStep = 0;    
 }
 
 void EnemyFactory::productEnemy(WaveElement* enemy){
@@ -129,14 +128,18 @@ void EnemyFactory::launchWaves(void){
     // Désactive le bouton de lancement de vague ennemie
     emit setLaunchWaveButtonEnabled(false);
     // Lance la production
-    _popTimer.start(1);
+    connect(&_currentMap->gameTimer,SIGNAL(timeout()),this,SLOT(produceWave(void)));
 }
 
 void EnemyFactory::produceWave(void){
+    _waveTimerStep+= 1; /* pas très sur de ça */
 
+    if (_waveTimerStep < (GAME::FPS / 2)) // FIXME : ajuster la vitesse.
+        return;
+
+    _waveTimerStep = 0;
     // Vérifie s'il reste des vagues à produire
-    if(_mapWaves.empty()){
-        _popTimer.stop();
+    if(_mapWaves.empty()){      
         return;
     }
 
@@ -144,8 +147,7 @@ void EnemyFactory::produceWave(void){
     if(_mapWaves.first()->isFinished()){
 
         // Charge la vague suivante
-        _mapWaves.pop_front();
-        _popTimer.stop();
+        _mapWaves.pop_front();        
 
         // Ré-active le bouton de lancement de vague ennemie
         // ... s'il reste encore des vagues à lancer
@@ -153,6 +155,7 @@ void EnemyFactory::produceWave(void){
             emit setLaunchWaveButtonEnabled(true);
             //.. et affiche le contenu de la prochaine vague
             this->getNextWaveDesc();
+            disconnect(&_currentMap->gameTimer,SIGNAL(timeout()),this,SLOT(produceWave(void)));
         }
 
         return;
@@ -160,8 +163,7 @@ void EnemyFactory::produceWave(void){
 
     // Produit le contenu de cette vague
     WaveElement* nextEnemy = _mapWaves.first()->popNextWaveElement();
-    if(nextEnemy != NULL) { // sécurité (TODO facultatif ?)
-        _popTimer.setInterval(100*nextEnemy->getFrequence());
+    if(nextEnemy != NULL) { // sécurité (TODO facultatif ?)        
         this->productEnemy(nextEnemy);
     }
 }

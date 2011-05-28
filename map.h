@@ -31,11 +31,13 @@ class Map : public QGraphicsScene
     QGraphicsScene* _scene;
     QPoint _startPos;
     Player* _player;
+    bool _isPause;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 
 public:
+    QTimer gameTimer;
     Map(QWidget* parent,Player* player);
     void addEnemy(Enemy* enemy);
     bool addTurretAt(TYPE::TURRET turretType,float mx,float my);
@@ -50,6 +52,7 @@ public slots:
     void removeEnemy(Enemy* ptr);
     void removeTurret(void);
     void upgradeTurret(void);
+    void setPause(void);
 
 signals :
     void turretInfosRequest(QString);

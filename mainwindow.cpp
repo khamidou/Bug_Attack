@@ -30,9 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _view->show();
 
-    // Lancement du timer (boucle principale du jeu)
-    QObject::connect(&timer, SIGNAL(timeout()), _sceneMap, SLOT(advance()));
-    timer.start(1000 / GAME::FPS);
 
     /**
     * Interface graphique
@@ -81,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Affichage d'un menu de choix de tourelle au clic droit sur la map
     _view->setContextMenuPolicy(Qt::CustomContextMenu);
     QObject::connect(_view,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(showMapContextMenu(const QPoint&)));
-
+    QObject::connect(ui->pauseButton,SIGNAL(clicked()), _sceneMap,SLOT(setPause(void)));
 }
 
 void MainWindow::showMapContextMenu(const QPoint& pos) {

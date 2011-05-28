@@ -16,7 +16,7 @@ class WaveElement
     TYPE::ENEMY _type;
     float _size;
     int _number;
-    int _frequence;
+    int _frequence;    
 
 public:
 
@@ -47,8 +47,8 @@ class EnemyFactory : public QObject
     Q_OBJECT
 
     QList<Wave*> _mapWaves;
-    Map* _currentMap;
-    QTimer _popTimer;
+    Map* _currentMap;    
+    float _waveTimerStep;
 
     void productEnemy(WaveElement* enemy);
 

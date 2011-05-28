@@ -23,8 +23,7 @@ class MainWindow : public QMainWindow
 
     Ui::MainWindow *ui;
 
-    QGraphicsView *_view;
-    QTimer timer;
+    QGraphicsView *_view;  
     Map* _sceneMap;
     Player* _player;
 
