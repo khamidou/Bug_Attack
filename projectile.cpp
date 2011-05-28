@@ -37,13 +37,14 @@ void Projectile::advance(int phase) {
     // Collision avec ennemi
     // . Recherche des ennemis de la map
     QList<Enemy*> entities = _map->getEnemyList();
-
-    for(int i = 0 ; i < entities.length() ; ++i) {
-            if(this->collidesWithItem(entities[i],Qt::IntersectsItemBoundingRect)){
+    QList<Enemy*>::iterator i;
+    for(i = entities.begin(); i < entities.end() ; ++i) {
+            if(this->collidesWithItem(*i,Qt::IntersectsItemBoundingRect)){
                 // On retire le projectile de la scène
                 this->scene()->removeItem(this);
                 // Inflige des dommages au monstre
-                entities[i]->hurt(_damages);
+                Enemy *e = *i;
+                e->hurt(_damages);
                 return;
             }
     }
