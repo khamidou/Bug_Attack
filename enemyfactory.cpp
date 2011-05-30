@@ -139,7 +139,27 @@ void EnemyFactory::produceWave(void){
 
     _waveTimerStep = 0;
     // Vérifie s'il reste des vagues à produire
-    if(_mapWaves.empty()){      
+    if(_mapWaves.empty()){
+        if(_currentMap->getEnemyList().empty()) {
+
+            //!-- BLOC DE FIN DE PARTIE : Victoire
+            QMessageBox msgBox;
+            msgBox.setText("Fin de partie");
+            msgBox.setInformativeText("Vous avez gagné.");
+
+            QPushButton *restartButton = msgBox.addButton(tr("Rejouer"), QMessageBox::ActionRole);
+            QPushButton *quitButton = msgBox.addButton(tr("Quitter"), QMessageBox::ActionRole);
+            msgBox.exec();
+
+            if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
+
+            } else if (msgBox.clickedButton() == (QAbstractButton *) quitButton) {
+                 exit(0);
+            }
+            // FIN DU BLOC  --!
+
+
+        }
         return;
     }
 

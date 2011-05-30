@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <QMessageBox>
 #include <QObject>
 #include "types.h"
 
@@ -31,12 +32,18 @@ public slots:
     void loseLives(int livesLost);
     void turretSold(int money);
     void setTurretChoice1();
+    void setTurretChoice2();
+    void setTurretChoice3();
+    void setTurretChoice4();
 
 
 signals:
     void moneyValueChanged(int);
     void livesValueChanged(int);
     void setTurret1ButtonDisabled(bool);
+    void setTurret2ButtonDisabled(bool);
+    void setTurret3ButtonDisabled(bool);
+    void setTurret4ButtonDisabled(bool);
     void turretSelected();
 };
 

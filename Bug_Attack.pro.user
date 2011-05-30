@@ -1,297 +1,111 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
-  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
-  <value type="int">2</value>
- </data>
- <data>
-  <variable>RunConfiguration0-CommandLineArguments</variable>
-  <valuelist type="QVariantList"/>
- </data>
- <data>
-  <variable>RunConfiguration0-ProFile</variable>
-  <value type="QString">Bug_Attack.pro</value>
- </data>
- <data>
-  <variable>RunConfiguration0-RunConfiguration.name</variable>
-  <value type="QString">Bug_Attack</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UseDyldImageSuffix</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UseTerminal</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserEnvironmentChanges</variable>
-  <valuelist type="QVariantList"/>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetName</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserWorkingDirectory</variable>
-  <value type="QString"></value>
- </data>
- <data>
-  <variable>RunConfiguration0-type</variable>
-  <value type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
- </data>
- <data>
-  <variable>activeRunConfiguration</variable>
+  <variable>ProjectExplorer.Project.ActiveTarget</variable>
   <value type="int">0</value>
  </data>
  <data>
-  <variable>activebuildconfiguration</variable>
-  <value type="QString">Debug</value>
- </data>
- <data>
-  <variable>buildConfiguration-Debug</variable>
+  <variable>ProjectExplorer.Project.EditorSettings</variable>
   <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <value key="QtVersionId" type="int">0</value>
-   <value key="ToolChain" type="int">0</value>
-   <value key="addQDumper" type=""></value>
-   <value key="buildConfiguration" type="int">2</value>
+   <value key="EditorConfiguration.Codec" type="QByteArray">System</value>
   </valuemap>
  </data>
  <data>
-  <variable>buildConfiguration-Release</variable>
+  <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-   <value key="QtVersionId" type="int">0</value>
-   <value key="addQDumper" type=""></value>
-   <value key="buildConfiguration" type="int">0</value>
+   <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Desktop</value>
+   <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Target.DesktopTarget</value>
+   <value key="ProjectExplorer.Target.ActiveBuildConfiguration" type="int">0</value>
+   <value key="ProjectExplorer.Target.ActiveRunConfiguration" type="int">0</value>
+   <valuemap key="ProjectExplorer.Target.BuildConfiguration.0" type="QVariantMap">
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
+     <valuelist key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QVariantList"/>
+    </valuemap>
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.1" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">false</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">2</value>
+    <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">true</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList">
+      <value type="QString">clean</value>
+     </valuelist>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.CleanStepsCount" type="int">1</value>
+    <value key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment" type="bool">false</value>
+    <valuelist key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Debug</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4BuildConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory" type="QString">/home/clement/Projects/Bug_Attack-build-desktop</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.ToolChain" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild" type="bool">true</value>
+   </valuemap>
+   <valuemap key="ProjectExplorer.Target.BuildConfiguration.1" type="QVariantMap">
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
+     <valuelist key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QVariantList"/>
+    </valuemap>
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.1" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">false</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">2</value>
+    <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">true</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.CleanStepsCount" type="int">1</value>
+    <value key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment" type="bool">false</value>
+    <valuelist key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Release</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4BuildConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory" type="QString">/home/clement/Projects/Bug_Attack-build-desktop</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.ToolChain" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild" type="bool">true</value>
+   </valuemap>
+   <value key="ProjectExplorer.Target.BuildConfigurationCount" type="int">2</value>
+   <valuemap key="ProjectExplorer.Target.RunConfiguration.0" type="QVariantMap">
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Bug_Attack</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.BaseEnvironmentBase" type="int">2</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments" type="QVariantList"/>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.ProFile" type="QString">Bug_Attack.pro</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal" type="bool">false</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetName" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetWorkingDirectory" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory" type="QString"></value>
+   </valuemap>
+   <value key="ProjectExplorer.Target.RunConfigurationCount" type="int">1</value>
   </valuemap>
  </data>
  <data>
-  <variable>buildconfiguration-Debug-buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">COLORTERM=gnome-terminal</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-4ATZ8FsiM4,guid=b3b5e8064b425952320809474de0d837</value>
-    <value type="QString">DEFAULTS_PATH=/usr/share/gconf/wmii.default.path</value>
-    <value type="QString">DESKTOP_SESSION=wmii</value>
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">DVDCSS_CACHE=/home/karim/.dvdcss/</value>
-    <value type="QString">DVDCSS_METHOD=key</value>
-    <value type="QString">DVDCSS_RAW_DEVICE=/dev/rdvd</value>
-    <value type="QString">DVDCSS_VERBOSE=0</value>
-    <value type="QString">EDITOR=emacs -nw</value>
-    <value type="QString">GDMSESSION=wmii</value>
-    <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
-    <value type="QString">GDM_LANG=fr_FR.utf8</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-lbcNed</value>
-    <value type="QString">GNOME_KEYRING_PID=1553</value>
-    <value type="QString">GROUP=karim</value>
-    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
-    <value type="QString">HOME=/home/karim</value>
-    <value type="QString">HOST=darkstar</value>
-    <value type="QString">HOSTTYPE=i486-linux</value>
-    <value type="QString">LANG=fr_FR.utf8</value>
-    <value type="QString">LANGUAGE=</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator</value>
-    <value type="QString">LESS=-Q</value>
-    <value type="QString">LOGNAME=karim</value>
-    <value type="QString">MACHTYPE=i486</value>
-    <value type="QString">MANDATORY_PATH=/usr/share/gconf/wmii.mandatory.path</value>
-    <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-karim</value>
-    <value type="QString">OSTYPE=linux</value>
-    <value type="QString">PATH=/usr/bin:/home/karim/proglangs/go/bin:/home/karim/usrbin:/home/karim/proglangs/go/bin:/home/karim/usrbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString">PWD=/home/karim/Documents/Cours/LO21/projet/Bug_Attack</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">REMOTEHOST=</value>
-    <value type="QString">SHELL=/bin/tcsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1606</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-WHnVlH1571/agent.1571</value>
-    <value type="QString">TERM=xterm</value>
-    <value type="QString">USER=karim</value>
-    <value type="QString">USERNAME=karim</value>
-    <value type="QString">VENDOR=intel</value>
-    <value type="QString">VISUALWORKS=/home/karim/vw7.7.1nc</value>
-    <value type="QString">WINDOWID=35651588</value>
-    <value type="QString">WMII_9MENU=wmii9menu -font 'fixed' -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577' -br '#4c7899'</value>
-    <value type="QString">WMII_ADDRESS=unix!/tmp/ns.karim.:0/wmii</value>
-    <value type="QString">WMII_CONFPATH=/home/karim/.wmii-3.5:/etc/X11/wmii-3.5</value>
-    <value type="QString">WMII_FOCUSCOLORS=#ffffff #285577 #4c7899</value>
-    <value type="QString">WMII_FONT=fixed</value>
-    <value type="QString">WMII_MENU=dmenu -b -fn 'fixed' -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'</value>
-    <value type="QString">WMII_NORMCOLORS=#888888 #222222 #333333</value>
-    <value type="QString">WMII_NS_DIR=/tmp/ns.karim.:0</value>
-    <value type="QString">WMII_TERM=x-terminal-emulator</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-karim-ZS7TdS/database</value>
-    <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-wmii:/etc/xdg</value>
-    <value type="QString">XDG_SESSION_COOKIE=8d773db3cd1c3e1862d910494c27a514-1306581046.982572-757318715</value>
-    <value type="QString">no_proxy=0.0.0.0, 127.0.0.1, localhost</value>
-   </valuelist>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">/home/karim/Documents/Cours/LO21/projet/Bug_Attack/Bug_Attack.pro</value>
-    <value type="QString">-spec</value>
-    <value type="QString">linux-g++</value>
-    <value type="QString">-r</value>
-    <value type="QString">CONFIG+=debug</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/qmake-qt4</value>
-   <value key="abstractProcess.enabled" type="bool">false</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/karim/Documents/Cours/LO21/projet/Bug_Attack</value>
-  </valuemap>
+  <variable>ProjectExplorer.Project.TargetCount</variable>
+  <value type="int">1</value>
  </data>
  <data>
-  <variable>buildconfiguration-Debug-buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">COLORTERM=gnome-terminal</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-4ATZ8FsiM4,guid=b3b5e8064b425952320809474de0d837</value>
-    <value type="QString">DEFAULTS_PATH=/usr/share/gconf/wmii.default.path</value>
-    <value type="QString">DESKTOP_SESSION=wmii</value>
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">DVDCSS_CACHE=/home/karim/.dvdcss/</value>
-    <value type="QString">DVDCSS_METHOD=key</value>
-    <value type="QString">DVDCSS_RAW_DEVICE=/dev/rdvd</value>
-    <value type="QString">DVDCSS_VERBOSE=0</value>
-    <value type="QString">EDITOR=emacs -nw</value>
-    <value type="QString">GDMSESSION=wmii</value>
-    <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
-    <value type="QString">GDM_LANG=fr_FR.utf8</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-lbcNed</value>
-    <value type="QString">GNOME_KEYRING_PID=1553</value>
-    <value type="QString">GROUP=karim</value>
-    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
-    <value type="QString">HOME=/home/karim</value>
-    <value type="QString">HOST=darkstar</value>
-    <value type="QString">HOSTTYPE=i486-linux</value>
-    <value type="QString">LANG=fr_FR.utf8</value>
-    <value type="QString">LANGUAGE=</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator</value>
-    <value type="QString">LESS=-Q</value>
-    <value type="QString">LOGNAME=karim</value>
-    <value type="QString">MACHTYPE=i486</value>
-    <value type="QString">MANDATORY_PATH=/usr/share/gconf/wmii.mandatory.path</value>
-    <value type="QString">ORBIT_SOCKETDIR=/tmp/orbit-karim</value>
-    <value type="QString">OSTYPE=linux</value>
-    <value type="QString">PATH=/usr/bin:/home/karim/proglangs/go/bin:/home/karim/usrbin:/home/karim/proglangs/go/bin:/home/karim/usrbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString">PWD=/home/karim/Documents/Cours/LO21/projet/Bug_Attack</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">REMOTEHOST=</value>
-    <value type="QString">SHELL=/bin/tcsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1606</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-WHnVlH1571/agent.1571</value>
-    <value type="QString">TERM=xterm</value>
-    <value type="QString">USER=karim</value>
-    <value type="QString">USERNAME=karim</value>
-    <value type="QString">VENDOR=intel</value>
-    <value type="QString">VISUALWORKS=/home/karim/vw7.7.1nc</value>
-    <value type="QString">WINDOWID=35651588</value>
-    <value type="QString">WMII_9MENU=wmii9menu -font 'fixed' -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577' -br '#4c7899'</value>
-    <value type="QString">WMII_ADDRESS=unix!/tmp/ns.karim.:0/wmii</value>
-    <value type="QString">WMII_CONFPATH=/home/karim/.wmii-3.5:/etc/X11/wmii-3.5</value>
-    <value type="QString">WMII_FOCUSCOLORS=#ffffff #285577 #4c7899</value>
-    <value type="QString">WMII_FONT=fixed</value>
-    <value type="QString">WMII_MENU=dmenu -b -fn 'fixed' -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'</value>
-    <value type="QString">WMII_NORMCOLORS=#888888 #222222 #333333</value>
-    <value type="QString">WMII_NS_DIR=/tmp/ns.karim.:0</value>
-    <value type="QString">WMII_TERM=x-terminal-emulator</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-karim-ZS7TdS/database</value>
-    <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-wmii:/etc/xdg</value>
-    <value type="QString">XDG_SESSION_COOKIE=8d773db3cd1c3e1862d910494c27a514-1306581046.982572-757318715</value>
-    <value type="QString">no_proxy=0.0.0.0, 127.0.0.1, localhost</value>
-   </valuelist>
-   <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">-w</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
-   <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/karim/Documents/Cours/LO21/projet/Bug_Attack</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Debug-cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <value key="cleanConfig" type="bool">true</value>
-   <valuelist key="makeargs" type="QVariantList">
-    <value type="QString">clean</value>
-   </valuelist>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfigurations</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">Debug</value>
-   <value type="QString">Release</value>
-  </valuelist>
- </data>
- <data>
-  <variable>buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-   <value key="mkspec" type="QString"></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildsteps</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">trolltech.qt4projectmanager.qmake</value>
-   <value type="QString">trolltech.qt4projectmanager.make</value>
-  </valuelist>
- </data>
- <data>
-  <variable>cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-   <value key="clean" type="bool">true</value>
-  </valuemap>
- </data>
- <data>
-  <variable>cleansteps</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">trolltech.qt4projectmanager.make</value>
-  </valuelist>
- </data>
- <data>
-  <variable>defaultFileEncoding</variable>
-  <value type="QByteArray">System</value>
- </data>
- <data>
-  <variable>project</variable>
-  <valuemap type="QVariantMap"/>
+  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+  <value type="int">4</value>
  </data>
 </qtcreator>

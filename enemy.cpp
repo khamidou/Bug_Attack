@@ -9,6 +9,8 @@
 Enemy::Enemy(Map* map,int posx,int posy, float size):Entity(posx,posy),_map(map),_size(size){
     // Positionne l'ennemi bien au centre du chemin
     this->setPos(this->x() - (_size-1)*16,this->y() - (_size-1)*16);
+    // Désactive tout malus
+    _malusCounter = 0;
     // Repertorie cet ennemi depuis la map
     _map->addEnemy(this);
 
@@ -19,6 +21,15 @@ int Enemy::getHP(void) const { return _hp; }
 int Enemy::getResistance(void) const { return _resistance; }
 TYPE::ENTITY Enemy::getType(void) const { return _type; }
 
+void Enemy::setSpeedMalus(float percent, int seconds) {
+    _malusCounter = GAME::FPS * seconds;
+    if(percent >= 0 && percent <= 1)
+        _speedMalus = percent; // Applique un pourcentage réducteur
+    else
+        _speedMalus = 0; // Par défaut on arrête l'ennemi
+}
+
+
 float Enemy::getSize(void) const { return _size; }
 void Enemy::hurt(int damages){
 
@@ -27,7 +38,7 @@ void Enemy::hurt(int damages){
     // Si ses HP sont tombés à zéro, on le détruit
     if(_hp <= 0) {
         // Indique que la mort est provoquée par le joueur
-        emit killedByPlayer(this->getResistance()); // TODO choisir le gain
+        emit killedByPlayer(this->getSize()); // TODO choisir le gain
         // Retire de l'indexation de la map
         emit enemyDestroyed(this);
         return;
@@ -82,11 +93,20 @@ void Enemy::advance(int phase) {
 
 
 
-    // Déplacement normal
+    /// Déplacement
+    // Calcul d'éventuels malus
+    float speedMalus = 1;  // Si aucun malus, cette valeur restera à 1, soit aucune modification
+    if(_malusCounter > 0) {
+        _malusCounter--;
+        speedMalus = _speedMalus;
+    }
+
+    // Recherche de la direction à suivre
     QPointF dirVect = currentTile.getDirection();
 
-    float new_x = this->x() + _speed*dirVect.x();
-    float new_y = this->y() + _speed*dirVect.y();
+    // Application de la vitesse
+    float new_x = this->x() + _speed*dirVect.x()*speedMalus;
+    float new_y = this->y() + _speed*dirVect.y()*speedMalus;
 
     this->setPos(new_x,new_y);
 
@@ -133,7 +153,7 @@ void Enemy::reachGoal(void) {
 Cafard::Cafard(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données du cafard
-    _type = TYPE::T_RAMPANT;
+    _type = DEFAULT_TYPE;
     _hp = 10*size*size;
     _hpMax = _hp;
     _resistance = 5*size*size;
@@ -177,7 +197,7 @@ void Cafard::advance(int phase) {
 Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données de la fourmi
-    _type = TYPE::T_RAMPANT;
+    _type = DEFAULT_TYPE;
     _hp = 5*size*size;
     _hpMax = _hp;
     _resistance = size*size;
@@ -233,7 +253,7 @@ void Fourmi::advance(int phase) {
 Guepe::Guepe(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données de la guepe
-    _type = TYPE::T_VOLANT;
+    _type = DEFAULT_TYPE;
     _hp = 7*size*size;
     _hpMax = _hp;
     _resistance = 4*size*size;
@@ -299,7 +319,7 @@ void Guepe::advance(int phase) {
 Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données du moustique
-    _type = TYPE::T_VOLANT;
+    _type = DEFAULT_TYPE;
     _hp = 6*size*size;
     _hpMax = _hp;
 
@@ -307,7 +327,7 @@ Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy
 
     // Images et animations
     for(int i = 0; i < 2; ++i) {
-        QPixmap* animTemp = new QPixmap("./media/textures/ennemies/guepe" + QString::number(i+1) + ".png");
+        QPixmap* animTemp = new QPixmap("./media/textures/ennemies/moustique" + QString::number(i+1) + ".png");
         *animTemp = animTemp->scaled(size*32,size*32);
         _animPixmap.push_back(animTemp);
     }

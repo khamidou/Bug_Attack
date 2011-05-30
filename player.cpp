@@ -33,8 +33,23 @@ void Player::loseLives(int livesLost) {
     // Fait perdre des vies au joueur
     // ... et le compteur est notifié
     _lives-=livesLost;
-    if(_lives < 0)
+    if(_lives <= 0){
         _lives = 0;
+
+        //!-- BLOC DE FIN DE PARTIE : Victoire
+        QMessageBox msgBox;
+        msgBox.setText("Fin de partie");
+        msgBox.setInformativeText("Vous avez perdu...");
+        QPushButton *restartButton = msgBox.addButton(tr("Rejouer"), QMessageBox::ActionRole);
+        QPushButton *quitButton = msgBox.addButton(tr("Quitter"), QMessageBox::ActionRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
+
+        }
+        else if (msgBox.clickedButton() == (QAbstractButton *) quitButton)
+             exit(0);
+        // FIN DU BLOC  --!
+    }
 
     emit livesValueChanged(_lives);
 }
@@ -58,6 +73,15 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
         case TYPE::PISTOLET_A_EAU :
             emit setTurret1ButtonDisabled(false);
             break;
+        case TYPE::LANCE_PIERRES :
+            emit setTurret2ButtonDisabled(false);
+            break;
+        case TYPE::PAINTBALL:
+            emit setTurret3ButtonDisabled(false);
+            break;
+        case TYPE::PETANQUE:
+            emit setTurret4ButtonDisabled(false);
+            break;
         default:
             break;
         }
@@ -72,6 +96,15 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
         case TYPE::PISTOLET_A_EAU:
             emit setTurret1ButtonDisabled(true);
             break;
+        case TYPE::LANCE_PIERRES:
+            emit setTurret2ButtonDisabled(true);
+            break;
+        case TYPE::PAINTBALL:
+            emit setTurret3ButtonDisabled(true);
+            break;
+        case TYPE::PETANQUE:
+            emit setTurret4ButtonDisabled(true);
+            break;
         default:
             break;
         }
@@ -79,6 +112,9 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
 
 }
 void Player::setTurretChoice1(){this->setTurretChoice(TYPE::PISTOLET_A_EAU);}
+void Player::setTurretChoice2(){this->setTurretChoice(TYPE::LANCE_PIERRES);}
+void Player::setTurretChoice3(){this->setTurretChoice(TYPE::PAINTBALL);}
+void Player::setTurretChoice4(){this->setTurretChoice(TYPE::PETANQUE);}
 
 
 

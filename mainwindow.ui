@@ -132,6 +132,45 @@
          <string>Pistolet à eau</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="turretButton_LancePierres">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>30</y>
+          <width>98</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Lance-pierres</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="turretButton_Paintball">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>60</y>
+          <width>98</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PaintBall</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="turretButton_Petanque">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>60</y>
+          <width>98</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Pétanque</string>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>

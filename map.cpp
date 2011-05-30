@@ -95,7 +95,7 @@ void Map::removeEnemy(Enemy* ptr) {
     int i;
     for(i = 0; i < _enemies.length() ; ++i) {
 
-        if(_enemies[i] == ptr){
+        if(_enemies[i] == ptr) {
             std::cout << "OMG je suis mort" << std::endl;
             _enemies.removeAt(i);
            // QObject::disconnect(ptr);
@@ -126,6 +126,42 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
             {
                 enoughMoney = true;
                 newTurret = new WaterGun(((int)(mx/32))*32,
+                                         ((int)(my/32))*32,
+                                         1,
+                                         this);
+            }
+            break;
+
+            // Lance-pierres
+            case TYPE::LANCE_PIERRES:
+            if(_player->payMoney(Slingshot::getBasicCost()))
+            {
+                enoughMoney = true;
+                newTurret = new Slingshot(((int)(mx/32))*32,
+                                         ((int)(my/32))*32,
+                                         1,
+                                         this);
+            }
+            break;
+
+            // Paintball
+            case TYPE::PAINTBALL:
+            if(_player->payMoney(Paintball::getBasicCost()))
+            {
+                enoughMoney = true;
+                newTurret = new Paintball(((int)(mx/32))*32,
+                                         ((int)(my/32))*32,
+                                         1,
+                                         this);
+            }
+            break;
+
+            // Pétanque
+            case TYPE::PETANQUE:
+            if(_player->payMoney(Bowling::getBasicCost()))
+            {
+                enoughMoney = true;
+                newTurret = new Bowling(((int)(mx/32))*32,
                                          ((int)(my/32))*32,
                                          1,
                                          this);
@@ -188,6 +224,8 @@ void Map::removeTurret(void) {
              // Désactive les boutons de tourelle
              emit disableTurretUpgradeButton(true);
              emit disableTurretSellButton(true);
+             // Met à jour l'affichage
+             this->update();
 
             break;
         }
@@ -218,6 +256,9 @@ void Map::upgradeTurret(void) {
                 // Si l'upgrade est maximale, on désactive le bouton d'upgrade
                 if(_turrets[i]->isLevelMax())
                     emit disableTurretUpgradeButton(true);
+
+                // Met à jour l'affichage
+                this->update();
             }
             break;
         }

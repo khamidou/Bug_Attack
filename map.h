@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QList>
+#include <QTimer>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QMouseEvent>

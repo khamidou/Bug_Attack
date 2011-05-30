@@ -23,7 +23,7 @@ public:
     TYPE::ENTITY getType(void) const;
     float getSize(void) const;
     virtual void hurt(int damages);
-
+    void setSpeedMalus(float percent,int seconds);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
     QRectF boundingRect(void) const;
 
@@ -34,6 +34,11 @@ protected:
     int _hpMax;
     int _resistance;
     float _speed;
+
+    // Malus
+    float _speedMalus;
+    int _malusCounter;
+
     TYPE::ENTITY _type;
 
     virtual void advance(int phase);
@@ -56,6 +61,9 @@ class Cafard : public Enemy
 
 
 public:
+
+    const static TYPE::ENTITY DEFAULT_TYPE = TYPE::T_RAMPANT;
+
     Cafard(Map* map,int posx,int posy, float size);
     void hurt(int damages);
 
@@ -73,6 +81,9 @@ class Fourmi : public Enemy
 
 
 public:
+
+    const static TYPE::ENTITY DEFAULT_TYPE = TYPE::T_RAMPANT;
+
     Fourmi(Map* map,int posx,int posy, float size);
     void hurt(int damages);
 
@@ -94,6 +105,9 @@ class Guepe : public Enemy
 
 
 public:
+
+    const static TYPE::ENTITY DEFAULT_TYPE = TYPE::T_VOLANT;
+
     Guepe(Map* map,int posx,int posy, float size);
     void hurt(int damages);
 
@@ -115,6 +129,9 @@ class Moustique : public Enemy
 
 
 public:
+
+    const static TYPE::ENTITY DEFAULT_TYPE = TYPE::T_VOLANT;
+
     Moustique(Map* map,int posx,int posy, float size);
     void hurt(int damages);
 

@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(999,10);
+    _player = new Player(22,10);
 
     /**
     * Création et chargement de la map
@@ -47,8 +47,16 @@ MainWindow::MainWindow(QWidget *parent) :
     /// Boutons de choix de tourelle
     // . Pistolet à eau
     QObject::connect(ui->turretButton_PistoletAEau,SIGNAL(pressed()),_player,SLOT(setTurretChoice1()));
-    QObject::connect(_player,SIGNAL(setTurret1ButtonDisabled(bool)),this->ui->turretButton_PistoletAEau,SLOT(setDisabled(bool)));
-
+    QObject::connect(_player,SIGNAL(setTurret1ButtonDisabled(bool)),ui->turretButton_PistoletAEau,SLOT(setDisabled(bool)));
+    // . Lance-pierres
+    QObject::connect(ui->turretButton_LancePierres,SIGNAL(pressed()),_player,SLOT(setTurretChoice2()));
+    QObject::connect(_player,SIGNAL(setTurret2ButtonDisabled(bool)),ui->turretButton_LancePierres,SLOT(setDisabled(bool)));
+    // . Paintball
+    QObject::connect(ui->turretButton_Paintball,SIGNAL(pressed()),_player,SLOT(setTurretChoice3()));
+    QObject::connect(_player,SIGNAL(setTurret3ButtonDisabled(bool)),ui->turretButton_Paintball,SLOT(setDisabled(bool)));
+    // . Pétanque
+    QObject::connect(ui->turretButton_Petanque,SIGNAL(pressed()),_player,SLOT(setTurretChoice4()));
+    QObject::connect(_player,SIGNAL(setTurret4ButtonDisabled(bool)),ui->turretButton_Petanque,SLOT(setDisabled(bool)));
 
     // Demande d'informations sur une tourelle
     QObject::connect(_sceneMap,SIGNAL(turretInfosRequest(QString)),ui->turretInfoLabel,SLOT(setText(QString)));
@@ -91,9 +99,9 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
    // Création du menu de choix de la tourelle
    QMenu myMenu(this);
    QAction* createTurret1 = myMenu.addAction("Pistolet a eau");
-   myMenu.addAction("-- turret 2 --");
-   myMenu.addAction("-- turret 3 --");
-   myMenu.addAction("-- turret 4 --");
+   QAction* createTurret2 = myMenu.addAction("Lance-pierres");
+   QAction* createTurret3 = myMenu.addAction("Paintball");
+   QAction* createTurret4 = myMenu.addAction("Petanque");
    myMenu.addAction("-- turret 5 --");
 
    // On regarde si un choix a été effectué et si la case est libre pour la pose d'une tourelle
@@ -103,6 +111,12 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
        // TODO CHANGER ADD TURRET
        if(selectedItem == createTurret1)
            _sceneMap->addTurretAt(TYPE::PISTOLET_A_EAU,mousePos.x(),mousePos.y());
+       else if(selectedItem == createTurret2)
+           _sceneMap->addTurretAt(TYPE::LANCE_PIERRES,mousePos.x(),mousePos.y());
+       else if(selectedItem == createTurret3)
+           _sceneMap->addTurretAt(TYPE::PAINTBALL,mousePos.x(),mousePos.y());
+       else if(selectedItem == createTurret4)
+           _sceneMap->addTurretAt(TYPE::PETANQUE,mousePos.x(),mousePos.y());
    }
 
 }

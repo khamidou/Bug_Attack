@@ -2,7 +2,6 @@
 #define ENEMYFACTORY_H
 
 #include <QList>
-#include <QTimer>
 #include <QString>
 
 #include "map.h"
