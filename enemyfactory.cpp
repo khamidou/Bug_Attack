@@ -134,7 +134,7 @@ void EnemyFactory::launchWaves(void){
 void EnemyFactory::produceWave(void){
     _waveTimerStep+= 1; /* pas très sur de ça */
 
-    if (_waveTimerStep < (GAME::FPS / 2)) // FIXME : ajuster la vitesse.
+    if (_waveTimerStep < (GAME::FPS / 2))
         return;
 
     _waveTimerStep = 0;
@@ -143,7 +143,7 @@ void EnemyFactory::produceWave(void){
         if(_currentMap->getEnemyList().empty()) {
 
             // Fin de partie : Gagné !
-            emit gameWon(QString("Vous avez gagné"));
+            emit gameWon(QString("Vous avez gagne !!"));
 
         }
         return;

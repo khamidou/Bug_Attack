@@ -30,6 +30,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void launchGame(QWidget *parent);
+    void reloadGame(void);
 
 public slots:
     void showMapContextMenu(const QPoint& pos);

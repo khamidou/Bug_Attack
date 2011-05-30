@@ -16,7 +16,7 @@ typedef enum { NONE, PISTOLET_A_EAU, LANCE_PIERRES, PAINTBALL, PETANQUE, MUSICIE
 
 namespace GAME {
 
-static const short FPS = 30;
+static const short FPS = 60;
 
 }
 

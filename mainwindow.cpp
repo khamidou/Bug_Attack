@@ -9,10 +9,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Lance le jeu automatiquement au démarrage de l'application
+    this->launchGame(parent);
+}
+
+void MainWindow::launchGame(QWidget *parent) {
+
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(999,10); // 22 - 10
+    _player = new Player(22,10); // 22 - 10
 
 
     /**
@@ -29,14 +35,12 @@ MainWindow::MainWindow(QWidget *parent) :
     _view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
 
-    _view->show();
-
-
     /**
     * Interface graphique
     **/
     /// Lancement de la prochaine vague
     // . Lance la production d'ennemi
+    ui->launchWaveButton->setDisabled(false);
     QObject::connect(ui->launchWaveButton, SIGNAL(pressed()),_sceneMap->getWaveGenerator(),SLOT(launchWaves()));
     // . Change le texte d'ambiance associé à la vague courante
     QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(changeWaveDescLabel(QString)),ui->waveDescLabel,SLOT(setText(QString)));
@@ -95,6 +99,10 @@ MainWindow::MainWindow(QWidget *parent) :
     _view->setContextMenuPolicy(Qt::CustomContextMenu);
     QObject::connect(_view,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(showMapContextMenu(const QPoint&)));
     QObject::connect(ui->pauseButton,SIGNAL(clicked()), _sceneMap,SLOT(setPause(void)));
+
+
+    /* AFFICHAGE */
+    _view->show();
 }
 
 void MainWindow::showMapContextMenu(const QPoint& pos) {
@@ -143,11 +151,11 @@ void MainWindow::endGame(QString msg) {
 
     // Relance une nouvelle partie
     if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
-
+        this->reloadGame();
     }
     // Quitte l'application
     else if (msgBox.clickedButton() == (QAbstractButton *) quitButton) {
-         this->close();
+        this->close();
     }
 
 
@@ -156,4 +164,20 @@ void MainWindow::endGame(QString msg) {
 MainWindow::~MainWindow(void)
 {
     delete ui;
+}
+
+void MainWindow::reloadGame(void) {
+
+
+    // Désactive la partie précédente
+    _player->disconnect();
+    _sceneMap->getWaveGenerator()->disconnect();
+    _sceneMap->disconnect();
+    _view->disconnect();
+    this->disconnect();
+
+    // Relance le jeu (nb: les éléments de l'ancienne partie seront automatiquement supprimés par l'appel au new)
+    this->launchGame(this->parentWidget());
+
+
 }
