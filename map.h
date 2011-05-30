@@ -47,6 +47,7 @@ public:
     Defenser* getTurretAt(int grid_x,int grid_y);
     EnemyFactory* getWaveGenerator(void) const;
     QList<Enemy*> getEnemyList(void) const;
+    QList<Defenser*> getDefenserList(void) const;
 
 
 public slots:
@@ -61,6 +62,7 @@ signals :
     void turretSold(int);
     void disableTurretUpgradeButton(bool);
     void disableTurretSellButton(bool);
+    void updateBonuses(void);
 };
 
 #endif // MAP_H

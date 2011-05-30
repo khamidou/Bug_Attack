@@ -50,8 +50,10 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     // CLIC GAUCHE
     if(event->button() == Qt::LeftButton) {
+
         // SELECTION D'UNE TOURELLE (affichage infos)
         if(Defenser* turret = this->getTurretAt((int)(mx/32)*32,(int)(my/32)*32)) {
+
             // Affichage des infos de la tourelle
             emit turretInfosRequest(turret->getInfos());
             turret->setIsSelected(true);
@@ -105,7 +107,8 @@ void Map::removeEnemy(Enemy* ptr) {
     }
 }
 
-QList<Enemy*> Map::getEnemyList(void) const { return _enemies; };
+QList<Enemy*> Map::getEnemyList(void) const { return _enemies; }
+QList<Defenser*> Map::getDefenserList(void) const { return _turrets; }
 
 
 bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
@@ -168,6 +171,19 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
             }
             break;
 
+            // Musicien
+            case TYPE::MUSICIEN:
+            if(_player->payMoney(Musician::getBasicCost()))
+            {
+                enoughMoney = true;
+                newTurret = new Musician(((int)(mx/32))*32,
+                                         ((int)(my/32))*32,
+                                         1,
+                                         this);
+                dynamic_cast<Musician*>(newTurret)->applyBonuses(); // Met à jour le bonus des tourelles voisines
+            }
+            break;
+
             // Type inconnu ~ erreur
             default:
             break;
@@ -182,8 +198,15 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
             _turrets.push_back(newTurret);
             // Gestion des clics sur la tourelle
             QObject::connect(this,SIGNAL(setTurretsSelected(bool)),newTurret,SLOT(setIsSelected(bool)));
+
               // On remet à zéro le choix du joueur
             _player->setTurretChoice(TYPE::NONE);
+
+            // Affichage des infos + activation des boutons
+            emit turretInfosRequest(newTurret->getInfos());
+            emit disableTurretUpgradeButton(false);
+            emit disableTurretSellButton(false);
+
 
             return true; // Succès
         }
@@ -218,9 +241,19 @@ void Map::removeTurret(void) {
              _turrets[i]->setIsShooting(false);
              // Donne de l'argent au joueur pour la vente
              emit turretSold(_turrets[i]->getCost()/2);
+
+             // Met à jour les bonus 1/2 (voisins immédiats)
+             if(dynamic_cast<Musician*>(_turrets[i]) != 0)
+                dynamic_cast<Musician*>(_turrets[i])->removeBonuses();
+
              // Retire l'objet de la map et de la liste
-             this->removeItem(_turrets[i]);
+             //this->removeItem(_turrets[i]);
+             delete(_turrets[i]);
              _turrets.removeAt(i);
+
+             // Met à jour les bonus 2/2 (le plateau a changé)
+             emit updateBonuses();
+
              // Désactive les boutons de tourelle
              emit disableTurretUpgradeButton(true);
              emit disableTurretSellButton(true);

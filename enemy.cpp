@@ -202,6 +202,7 @@ Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
     _hpMax = _hp;
     _resistance = size*size;
     _speed = 2 + size/2;
+    _speedUp = false; // Par défaut on désactive la course
 
     // Images et animations
     for(int i = 0; i < 3; ++i) {
@@ -322,6 +323,7 @@ Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy
     _type = DEFAULT_TYPE;
     _hp = 6*size*size;
     _hpMax = _hp;
+    _stateCounter = 0; // Initialise la machine à état
 
     this->updateStats();
 

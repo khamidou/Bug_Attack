@@ -142,22 +142,8 @@ void EnemyFactory::produceWave(void){
     if(_mapWaves.empty()){
         if(_currentMap->getEnemyList().empty()) {
 
-            //!-- BLOC DE FIN DE PARTIE : Victoire
-            QMessageBox msgBox;
-            msgBox.setText("Fin de partie");
-            msgBox.setInformativeText("Vous avez gagné.");
-
-            QPushButton *restartButton = msgBox.addButton(tr("Rejouer"), QMessageBox::ActionRole);
-            QPushButton *quitButton = msgBox.addButton(tr("Quitter"), QMessageBox::ActionRole);
-            msgBox.exec();
-
-            if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
-
-            } else if (msgBox.clickedButton() == (QAbstractButton *) quitButton) {
-                 exit(0);
-            }
-            // FIN DU BLOC  --!
-
+            // Fin de partie : Gagné !
+            emit gameWon(QString("Vous avez gagné"));
 
         }
         return;

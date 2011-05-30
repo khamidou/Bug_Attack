@@ -36,19 +36,8 @@ void Player::loseLives(int livesLost) {
     if(_lives <= 0){
         _lives = 0;
 
-        //!-- BLOC DE FIN DE PARTIE : Victoire
-        QMessageBox msgBox;
-        msgBox.setText("Fin de partie");
-        msgBox.setInformativeText("Vous avez perdu...");
-        QPushButton *restartButton = msgBox.addButton(tr("Rejouer"), QMessageBox::ActionRole);
-        QPushButton *quitButton = msgBox.addButton(tr("Quitter"), QMessageBox::ActionRole);
-        msgBox.exec();
-        if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
-
-        }
-        else if (msgBox.clickedButton() == (QAbstractButton *) quitButton)
-             exit(0);
-        // FIN DU BLOC  --!
+        // Fin de partie : Perdu !
+        emit gameLost(QString("Vous avez perdu..."));
     }
 
     emit livesValueChanged(_lives);
@@ -82,6 +71,9 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
         case TYPE::PETANQUE:
             emit setTurret4ButtonDisabled(false);
             break;
+        case TYPE::MUSICIEN:
+            emit setTurret5ButtonDisabled(false);
+            break;
         default:
             break;
         }
@@ -105,6 +97,9 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
         case TYPE::PETANQUE:
             emit setTurret4ButtonDisabled(true);
             break;
+        case TYPE::MUSICIEN:
+            emit setTurret5ButtonDisabled(true);
+            break;
         default:
             break;
         }
@@ -115,7 +110,7 @@ void Player::setTurretChoice1(){this->setTurretChoice(TYPE::PISTOLET_A_EAU);}
 void Player::setTurretChoice2(){this->setTurretChoice(TYPE::LANCE_PIERRES);}
 void Player::setTurretChoice3(){this->setTurretChoice(TYPE::PAINTBALL);}
 void Player::setTurretChoice4(){this->setTurretChoice(TYPE::PETANQUE);}
-
+void Player::setTurretChoice5(){this->setTurretChoice(TYPE::MUSICIEN);}
 
 
 bool Player::payMoney(int amount) {

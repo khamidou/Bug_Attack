@@ -16,7 +16,7 @@ public:
     int getY() const;    
     int getTileNumber(void) const;
     bool turretAllowed(void) const;
-     QPointF getDirection(void) const;
+    QPointF getDirection(void) const;
 
 
     QString TexName(int n);

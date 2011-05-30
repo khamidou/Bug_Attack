@@ -12,7 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(22,10);
+    _player = new Player(999,10); // 22 - 10
+
 
     /**
     * Création et chargement de la map
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _view->setScene(_sceneMap);
     _view->setRenderHint(QPainter::Antialiasing);
     _view->setCacheMode(QGraphicsView::CacheBackground);
-    _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    _view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
 
     _view->show();
@@ -57,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // . Pétanque
     QObject::connect(ui->turretButton_Petanque,SIGNAL(pressed()),_player,SLOT(setTurretChoice4()));
     QObject::connect(_player,SIGNAL(setTurret4ButtonDisabled(bool)),ui->turretButton_Petanque,SLOT(setDisabled(bool)));
+    // . Musicien
+    QObject::connect(ui->turretButton_Musicien,SIGNAL(pressed()),_player,SLOT(setTurretChoice5()));
+    QObject::connect(_player,SIGNAL(setTurret5ButtonDisabled(bool)),ui->turretButton_Musicien,SLOT(setDisabled(bool)));
 
     // Demande d'informations sur une tourelle
     QObject::connect(_sceneMap,SIGNAL(turretInfosRequest(QString)),ui->turretInfoLabel,SLOT(setText(QString)));
@@ -80,6 +84,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->livesCounter->display(_player->getLives());
     QObject::connect(_player,SIGNAL(livesValueChanged(int)),ui->livesCounter,SLOT(display(int)));
 
+    // Gameover
+    QObject::connect(_player,SIGNAL(gameLost(QString)),this,SLOT(endGame(QString)));
+    QObject::connect(_sceneMap->getWaveGenerator(),SIGNAL(gameWon(QString)),this,SLOT(endGame(QString)));
+
     /**
     * Divers
     **/
@@ -102,7 +110,7 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
    QAction* createTurret2 = myMenu.addAction("Lance-pierres");
    QAction* createTurret3 = myMenu.addAction("Paintball");
    QAction* createTurret4 = myMenu.addAction("Petanque");
-   myMenu.addAction("-- turret 5 --");
+   QAction* createTurret5 = myMenu.addAction("Musicien");
 
    // On regarde si un choix a été effectué et si la case est libre pour la pose d'une tourelle
    QAction* selectedItem = myMenu.exec(globalPos);
@@ -117,11 +125,35 @@ void MainWindow::showMapContextMenu(const QPoint& pos) {
            _sceneMap->addTurretAt(TYPE::PAINTBALL,mousePos.x(),mousePos.y());
        else if(selectedItem == createTurret4)
            _sceneMap->addTurretAt(TYPE::PETANQUE,mousePos.x(),mousePos.y());
+       else if(selectedItem == createTurret5)
+           _sceneMap->addTurretAt(TYPE::MUSICIEN,mousePos.x(),mousePos.y());
    }
 
 }
 
-MainWindow::~MainWindow()
+void MainWindow::endGame(QString msg) {
+
+    QMessageBox msgBox;
+    msgBox.setText("Fin de partie");
+    msgBox.setInformativeText(msg);
+
+    QPushButton *restartButton = msgBox.addButton(tr("Rejouer"), QMessageBox::ActionRole);
+    QPushButton *quitButton = msgBox.addButton(tr("Quitter"), QMessageBox::ActionRole);
+    msgBox.exec();
+
+    // Relance une nouvelle partie
+    if (msgBox.clickedButton() == (QAbstractButton *) restartButton) {
+
+    }
+    // Quitte l'application
+    else if (msgBox.clickedButton() == (QAbstractButton *) quitButton) {
+         this->close();
+    }
+
+
+}
+
+MainWindow::~MainWindow(void)
 {
     delete ui;
 }

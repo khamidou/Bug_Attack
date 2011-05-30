@@ -1,6 +1,7 @@
 #ifndef DEFENSER_H
 #define DEFENSER_H
 
+#include <QList>
 #include "map.h"
 #include "entity.h"
 
@@ -25,12 +26,16 @@ public:
     void setIsShooting(bool state);
     void setTarget(float targetX,float targetY);
     QRectF boundingRect(void) const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
     bool isShooting(void) const;
+    void setBonus(float powerUp);
+    void removeBonus(void);
+
 
 protected:
     virtual void updateStats(void) = 0;
     virtual void advance(int phase);
-    virtual void shootTarget(void) = 0;
+    virtual void shootTarget(void);
 
     int _shootTimerStep;
     int _level;
@@ -38,6 +43,7 @@ protected:
     float _rate;
     float _range;
     int _power;
+    float _powerBonus;
     float _targetX;
     float _targetY;
     Map* _map;
@@ -73,7 +79,7 @@ public:
     WaterGun(int posx,int posy,int level,Map* map);
     int getCost(int level = -1) const;
     QString getInfos(void) const;   
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
     static int getBasicCost(void) { return BASIC_COST; }
 
 
@@ -103,7 +109,7 @@ public:
     Slingshot(int posx,int posy,int level,Map* map);
     int getCost(int level = -1) const;
     QString getInfos(void) const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
     static int getBasicCost(void) { return BASIC_COST; }
 
 protected:
@@ -131,7 +137,7 @@ public:
     Paintball(int posx,int posy,int level,Map* map);
     int getCost(int level = -1) const;
     QString getInfos(void) const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
     static int getBasicCost(void) { return BASIC_COST; }
 
 protected:
@@ -159,10 +165,44 @@ public:
     Bowling(int posx,int posy,int level,Map* map);
     int getCost(int level = -1) const;
     QString getInfos(void) const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
     static int getBasicCost(void) { return BASIC_COST; }
 
 protected:
     void updateStats(void);
 };
+
+/**
+* MUSICIEN
+**/
+
+
+class Musician : public Defenser
+{
+    Q_OBJECT
+
+public:
+
+    static const int BASIC_COST = 15;
+    static const int INTERMEDIATE_COST = 40;
+    static const int HIGHEST_COST = 80;
+
+    Musician(int posx,int posy,int level,Map* map);
+    int getCost(int level = -1) const;
+    QString getInfos(void) const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w);
+    static int getBasicCost(void) { return BASIC_COST; }
+
+    float getPowerBonus(void) const;
+
+protected:
+    void advance(int phase); // Masquage de méthode
+    void updateStats(void);
+
+public slots:
+    void applyBonuses(void);
+    void removeBonuses(void);
+
+};
+
 #endif // DEFENSER_H

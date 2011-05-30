@@ -35,6 +35,7 @@ public slots:
     void setTurretChoice2();
     void setTurretChoice3();
     void setTurretChoice4();
+    void setTurretChoice5();
 
 
 signals:
@@ -44,7 +45,9 @@ signals:
     void setTurret2ButtonDisabled(bool);
     void setTurret3ButtonDisabled(bool);
     void setTurret4ButtonDisabled(bool);
+    void setTurret5ButtonDisabled(bool);
     void turretSelected();
+    void gameLost(QString);
 };
 
 #endif // PLAYER_H

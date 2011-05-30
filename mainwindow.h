@@ -33,6 +33,7 @@ public:
 
 public slots:
     void showMapContextMenu(const QPoint& pos);
+    void endGame(QString msg);
 
 };
 

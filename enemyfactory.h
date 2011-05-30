@@ -61,8 +61,9 @@ public slots:
     void produceWave(void);
 
 signals:
-    void changeWaveDescLabel(QString text);
-    void setLaunchWaveButtonEnabled(bool state);
+    void changeWaveDescLabel(QString);
+    void setLaunchWaveButtonEnabled(bool);
+    void gameWon(QString);
 
 };
 
