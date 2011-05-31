@@ -321,6 +321,52 @@
     </widget>
    </widget>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuJeu">
+    <property name="title">
+     <string>Jeu</string>
+    </property>
+    <addaction name="actionRecommencer"/>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menuDifficult">
+    <property name="title">
+     <string>Difficulté</string>
+    </property>
+    <addaction name="actionFacile"/>
+    <addaction name="actionPro_gamer"/>
+   </widget>
+   <addaction name="menuJeu"/>
+   <addaction name="menuDifficult"/>
+  </widget>
+  <action name="actionRecommencer">
+   <property name="text">
+    <string>Recommencer</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionFacile">
+   <property name="text">
+    <string>Facile</string>
+   </property>
+  </action>
+  <action name="actionPro_gamer">
+   <property name="text">
+    <string>Pro gamer</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

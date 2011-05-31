@@ -10,15 +10,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // Lance le jeu automatiquement au démarrage de l'application
+    _gameDifficulty = GAME::EASY;
     this->launchGame(parent);
+
+    // Menu par défaut
+    // . Partie en cours
+    QObject::connect(ui->actionRecommencer,SIGNAL(triggered()),this,SLOT(reloadGame()));
+    QObject::connect(ui->actionQuitter,SIGNAL(triggered()),this,SLOT(close()));
+    // . Difficulté
+    QObject::connect(ui->actionFacile,SIGNAL(triggered()),this,SLOT(setGameModeEasy()));
+    QObject::connect(ui->actionPro_gamer,SIGNAL(triggered()),this,SLOT(setGameModeHard()));
+
 }
 
 void MainWindow::launchGame(QWidget *parent) {
 
+
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(22,10); // 22 - 10
+    _player = new Player(22,10,_gameDifficulty); // 22 - 10
 
 
     /**
@@ -38,6 +49,17 @@ void MainWindow::launchGame(QWidget *parent) {
     /**
     * Interface graphique
     **/
+
+    /// Menu principal (difficulté actuellement selectionnée)
+    if(_gameDifficulty == GAME::EASY) {
+        ui->actionFacile->setDisabled(true);
+        ui->actionPro_gamer->setDisabled(false);
+    }
+    else {
+        ui->actionFacile->setDisabled(false);
+        ui->actionPro_gamer->setDisabled(true);
+    }
+
     /// Lancement de la prochaine vague
     // . Lance la production d'ennemi
     ui->launchWaveButton->setDisabled(false);
@@ -178,6 +200,14 @@ void MainWindow::reloadGame(void) {
 
     // Relance le jeu (nb: les éléments de l'ancienne partie seront automatiquement supprimés par l'appel au new)
     this->launchGame(this->parentWidget());
+}
 
 
+void MainWindow::setGameModeEasy(void){
+    _gameDifficulty=GAME::EASY;
+    this->reloadGame();
+}
+void MainWindow::setGameModeHard(void){
+    _gameDifficulty=GAME::HARD;
+    this->reloadGame();
 }

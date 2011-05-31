@@ -2,13 +2,14 @@
 #include <iostream>
 
 
-Player::Player(int money,int lives){
+Player::Player(int money,int lives,GAME::DIFFICULTY level){
 
     // Initialise l'argent
     (money>0) ? _money = money : _money = DEFAULT_MONEY;
     // Intialise le nombre de vies
     (lives>0) ? _lives = lives : _lives = DEFAULT_LIVES;
-
+    // Difficulté du jeu
+    _gameDifficulty = level;
     // Choix clic
     _turretChoice = TYPE::NONE;
 
@@ -16,6 +17,9 @@ Player::Player(int money,int lives){
 
 int Player::getMoney(void) const { return _money; }
 int Player::getLives(void) const { return _lives; }
+GAME::DIFFICULTY Player::getDifficulty(void) const{ return _gameDifficulty; }
+void Player::setDifficulty(GAME::DIFFICULTY level) { _gameDifficulty = level; }
+
 TYPE::TURRET Player::getTurretChoice(void) const { return _turretChoice; }
 
 void Player::earnMoney(int money) {

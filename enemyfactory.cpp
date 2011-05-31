@@ -74,11 +74,12 @@ WaveElement* Wave::popNextWaveElement(void){
 bool Wave::isFinished(void) const { return(_waveElements.empty()); }
 QString Wave::getDesc(void) const { return _desc; }
 
-EnemyFactory::EnemyFactory(Map* map):_currentMap(map)
+EnemyFactory::EnemyFactory(Map* map,Player* player):_currentMap(map),_player(player)
 {
 
     // Lit le fichier wave correspondant à la map courante
-    QFile file("./media/maps/waves.txt");
+    QString filePath = QString("media/maps/waves") + QString::number((int)_player->getDifficulty())+ QString(".txt");
+    QFile file(filePath);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
     // Extrait chaque vague d'ennemis

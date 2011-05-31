@@ -8,7 +8,8 @@
 Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
 {
     // Chargement du contenu de la map
-    std::ifstream fichier("media/maps/map.txt");
+    QString filePath = QString("media/maps/map") + QString::number((int)_player->getDifficulty())+ QString(".txt");
+    std::ifstream fichier(filePath.toAscii());
     int i, j;
     int num;
     if(fichier)
@@ -30,7 +31,7 @@ Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
     fichier.close();
 
     // Générateur de vagues
-    _waveGenerator = new EnemyFactory(this);
+    _waveGenerator = new EnemyFactory(this,_player);
     // Lancement du timer (boucle principale du jeu)
     QObject::connect(&gameTimer, SIGNAL(timeout()), this, SLOT(advance()));
     gameTimer.start(1000 / GAME::FPS);

@@ -26,16 +26,19 @@ class MainWindow : public QMainWindow
     QGraphicsView *_view;  
     Map* _sceneMap;
     Player* _player;
+    GAME::DIFFICULTY _gameDifficulty;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void launchGame(QWidget *parent);
-    void reloadGame(void);
 
 public slots:
     void showMapContextMenu(const QPoint& pos);
     void endGame(QString msg);
+    void reloadGame(void);
+    void setGameModeEasy(void);
+    void setGameModeHard(void);
 
 };
 

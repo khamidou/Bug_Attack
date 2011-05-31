@@ -47,13 +47,14 @@ class EnemyFactory : public QObject
 
     QList<Wave*> _mapWaves;
     Map* _currentMap;    
+    Player* _player;
     float _waveTimerStep;
 
     void productEnemy(WaveElement* enemy);
 
 public:
 
-    EnemyFactory(Map* map);
+    EnemyFactory(Map* map,Player* player);
 
 public slots:
     void getNextWaveDesc(void);

@@ -11,6 +11,7 @@ class Player : public QObject
 
     int _money;
     int _lives;
+    GAME::DIFFICULTY _gameDifficulty;
     TYPE::TURRET _turretChoice;
 
 public:
@@ -18,12 +19,14 @@ public:
     static const int DEFAULT_MONEY = 100;
     static const int DEFAULT_LIVES = 10;
 
-    Player(int money = DEFAULT_MONEY,int lives = DEFAULT_LIVES);
+    Player(int money = DEFAULT_MONEY,int lives = DEFAULT_LIVES,GAME::DIFFICULTY = GAME::EASY);
     bool payMoney(int amount);
     int getMoney(void) const;
     int getLives(void) const;
+    GAME::DIFFICULTY getDifficulty(void) const;
     TYPE::TURRET getTurretChoice(void) const;
     void setTurretChoice(TYPE::TURRET choice);
+    void setDifficulty(GAME::DIFFICULTY level);
 
 
 public slots:
