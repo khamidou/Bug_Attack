@@ -1,37 +1,64 @@
 #include <math.h>
 #include "defenser.h"
 #include "projectile.h"
-#include <iostream>
+
+/************************************************************************************************************
+* DEFENSER
+************************************************************************************************************/
 
 /**
-* DEFENSER
-**/
-
-Defenser::Defenser(int posx,int posy,int level,Map* map)
+* @brief Constructeur
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif).
+* @param map Pointeur sur la map contenant le défenseur.
+*/
+Defenser::Defenser(int posx,int posy,unsigned int level,Map* map)
     :Entity(posx,posy),_level(level),_map(map)
 {
     this->setIsSelected(true); // Appel à la méthode pour rafraichir l'affichage
     // Met le compteur interne à 0 et relie le FPS au tir
     _shootTimerStep = 0;
     _powerBonus = 1;
-    // QObject::connect(&map->gameTimer,SIGNAL(timeout()), this,SLOT(shootTarget()));
 }
 
-
+/**
+* @brief Indique si le défenseur est selectionné par un clic ou non (effets graphiques).
+* @param selected Vrai si selectionné.
+*/
 void Defenser::setIsSelected(bool selected) {
     _isSelected = selected;
     _map->update(); // Met à jour l'affichage
 }
 
-int Defenser::getLevel(void) const { return _level; }
-bool Defenser::isSelected(void) const { return _isSelected; }
-void Defenser::shootTarget(void) {}
+/**
+* @brief Renvoie le niveau actuel du défenseur.
+* @return _level Niveau du défenseur.
+*/
+unsigned int Defenser::getLevel(void) const { return _level; }
 
+
+/**
+* @brief Indique si la tourelle est actuellement selectionnée suite à un clic de souris.
+* @return _isSelected Renvoie vrai si la tourelle a été selectionnée.
+*/
+bool Defenser::isSelected(void) const { return _isSelected; }
+
+/**
+* @brief Augmente de un niveau le défenseur.
+*/
 void Defenser::increaseLevel(void) {
     if(_level < 3) _level++;
     this->updateStats();
 }
 
+
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Recherche les éventuels ennemis et active le tir si possible.
+*
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Defenser::advance(int phase) {
     if(!phase)
         return;
@@ -71,10 +98,20 @@ void Defenser::advance(int phase) {
 
 } // eom
 
+
+/**
+* @brief Méthode propre au QGraphicsItem appelée lors des tests de collisions ou pour l'affichage.
+* @return rect Bounding box du défenseur (ici le rectangle d'une case 32*32).
+*/
 QRectF Defenser::boundingRect(void) const {
     return QRectF(-32,-32,_range,_range);
 }
 
+
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseurs.
+* @param painter Objet de dessin utilisé par la scène.
+*/
 void Defenser::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*) {
     // Si la tourelle est selectionnée...
     if(_isSelected) {
@@ -97,13 +134,22 @@ void Defenser::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget
     }
 }
 
-
+/**
+* @brief Sauvegarde la position actuelle de la cible du défenseur.
+* @param targetX Position X de la cible.
+* @param targetY Position Y de la cible.
+*/
 void Defenser::setTarget(float targetX,float targetY) {
     // Sauvegarde la position de la cible courante
     _targetX = targetX;
     _targetY = targetY;
 }
 
+
+/**
+* @brief Active/Désactive le mode tir (effets visuels).
+* @param state Vrai pour activer le mode tir.
+*/
 void Defenser::setIsShooting(bool state) {
 
     _isShooting = state;
@@ -126,37 +172,60 @@ void Defenser::setIsShooting(bool state) {
     }
 }
 
-
+/**
+* @brief Indique si le défenseur est actuellement en train de tirer ou non.
+* @return state Vrai si le défenseur tire.
+*/
 bool Defenser::isShooting(void) const { return _isShooting;}
 
-// On considère que par défaut seules trois améliorations sont possibles
-// Cette méthode est néanmoins virtuelle pour cas particulier(s)
+
+/**
+* @brief Indique si le défenseur est actuellement au niveau max.
+* On considère que par défaut seules trois améliorations sont possibles.
+* Cette méthode est néanmoins virtuelle pour cas particulier(s).
+*
+* @return isLevelmax Vrai si le niveau max a été atteind.
+*/
 bool Defenser::isLevelMax(void) const { return _level==3; }
 
 
+/**
+* @brief Applique un bonus d'attaque au défenseur.
+* Si un bonus existe déjà, le bonus le plus fort est gardé.
+*
+* @param powerBonus pourcentage d'amélioration du tir (>=1).
+*/
 void Defenser::setBonus(float powerBonus) {
 
-    std::cout << "On vient de me mettre un bonus de " << powerBonus << std::endl;
-
-    // Applique un bonus de puissance de tir à la tourelle
     // Si un bonus existe déjà, le bonus le plus fort est gardé
     if(_powerBonus > powerBonus)
         return;
     _powerBonus = powerBonus;
 
 }
+
+
+/**
+* @brief Retire l'éventuel bonus d'attaque de la tourelle (i.e remet le bonus à 1).
+*/
 void Defenser::removeBonus(void) {
-
-    std::cout << "J'ai perdu mon bonus de " << _powerBonus << std::endl;
-
     _powerBonus = 1;
 }
 
-/**
-* PISTOLET A EAU
-**/
 
-WaterGun::WaterGun(int posx,int posy,int level,Map* map)
+
+/************************************************************************************************************
+* PISTOLET A EAU
+************************************************************************************************************/
+
+/**
+* @brief Constructeur
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif).
+* @param map Pointeur sur la map contenant le défenseur.
+*/
+WaterGun::WaterGun(int posx,int posy,unsigned int level,Map* map)
     : Defenser(posx,posy,level,map)
 {
     // Type de cible
@@ -165,10 +234,16 @@ WaterGun::WaterGun(int posx,int posy,int level,Map* map)
     this->updateStats();
 }
 
-int WaterGun::getCost(int level) const{
+
+/**
+* @brief Renvoie le coût nécessaire à l'achat/amélioration
+* @param level Niveau dont on souhaite avoir le prix (si 0 donné en paramètre, renvoie le coût du niveau actuel).
+* @return cost Prix de l'achat/amélioration.
+*/
+int WaterGun::getCost(unsigned int level) const{
 
     // Si aucune valeur en argument, alors on affiche le coût du niveau courant
-    if(level == -1) level = _level;
+    if(level == 0) level = _level;
 
     switch(level) {
         case 1: return BASIC_COST;
@@ -177,6 +252,11 @@ int WaterGun::getCost(int level) const{
     }
 }
 
+
+/**
+* @brief Renvoie un texte contenant des informations sur le défenseur (niveau, puissance, amélioration etc...).
+* @return infos Texte contenant les informations.
+*/
 QString WaterGun::getInfos(void) const {
 
     // Infos générales
@@ -194,7 +274,9 @@ QString WaterGun::getInfos(void) const {
     return infos;
 }
 
-
+/**
+* @brief Met à jours les caractéristiques du défenseur, en se basant sur son niveau actuel.
+*/
 void WaterGun::updateStats(void) {
 
     _range = (2.0f + _level/2.0f)*32.0f;
@@ -203,7 +285,10 @@ void WaterGun::updateStats(void) {
 
 }
 
-
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseur.
+* @param painter Objet de dessin utilisé par la scène.
+*/
 void WaterGun::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w) {
 
     // Dessine la portée de la tourelle si celle ci est selectionnée
@@ -215,6 +300,10 @@ void WaterGun::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWid
 
 }
 
+/**
+* @brief Tire un projectile sur la cible actuellement enregistrée.
+* Le tir est effectué selon le compteur interne de fréquence de tir.
+*/
 void WaterGun::shootTarget(void) {
     if (!isShooting())
         return;
@@ -233,11 +322,19 @@ void WaterGun::shootTarget(void) {
 }
 
 
-/**
-* LANCE PIERRE
-**/
 
-Slingshot::Slingshot(int posx,int posy,int level,Map* map)
+/************************************************************************************************************
+* LANCE-PIERRES
+************************************************************************************************************/
+
+/**
+* @brief Constructeur
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif)
+* @param map Pointeur sur la map contenant le défenseur
+*/
+Slingshot::Slingshot(int posx,int posy,unsigned int level,Map* map)
     : Defenser(posx,posy,level,map)
 {
     // Type de cible
@@ -247,10 +344,16 @@ Slingshot::Slingshot(int posx,int posy,int level,Map* map)
     this->updateStats();
 }
 
-int Slingshot::getCost(int level) const{
+
+/**
+* @brief Renvoie le coût nécessaire à l'achat/amélioration
+* @param level Niveau dont on souhaite avoir le prix (si 0 donné en paramètre, renvoie le coût du niveau actuel).
+* @return cost Prix de l'achat/amélioration.
+*/
+int Slingshot::getCost(unsigned int level) const{
 
     // Si aucune valeur en argument, alors on affiche le coût du niveau courant
-    if(level == -1) level = _level;
+    if(level == 0) level = _level;
 
     switch(level) {
         case 1: return BASIC_COST;
@@ -259,6 +362,11 @@ int Slingshot::getCost(int level) const{
     }
 }
 
+
+/**
+* @brief Renvoie un texte contenant des informations sur le défenseur (niveau, puissance, amélioration etc...).
+* @return infos Texte contenant les informations.
+*/
 QString Slingshot::getInfos(void) const {
 
     // Infos générales
@@ -277,7 +385,9 @@ QString Slingshot::getInfos(void) const {
 }
 
 
-
+/**
+* @brief Met à jours les caractéristiques du défenseur, en se basant sur son niveau actuel.
+*/
 void Slingshot::updateStats(void) {
 
     _range = (3.0f + _level/2.0f)*32.0f;
@@ -287,7 +397,10 @@ void Slingshot::updateStats(void) {
 }
 
 
-
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseur
+* @param painter Objet de dessin utilisé par la scène
+*/
 void Slingshot::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w) {
 
     // Dessine la portée de la tourelle si celle ci est selectionnée
@@ -298,6 +411,11 @@ void Slingshot::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWi
     painter->drawRect(0,0,32,32);
 }
 
+
+/**
+* @brief Tire un projectile sur la cible actuellement enregistrée.
+* Le tir est effectué selon le compteur interne de fréquence de tir.
+*/
 void Slingshot::shootTarget(void) {
     if (!isShooting())
         return;
@@ -316,11 +434,19 @@ void Slingshot::shootTarget(void) {
 }
 
 
-/**
-* PAINTBALL
-**/
 
-Paintball::Paintball(int posx,int posy,int level,Map* map)
+/************************************************************************************************************
+* PAINT-BALL
+************************************************************************************************************/
+
+/**
+* @brief Constructeur
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif)
+* @param map Pointeur sur la map contenant le défenseur
+*/
+Paintball::Paintball(int posx,int posy,unsigned int level,Map* map)
     : Defenser(posx,posy,level,map)
 {
     // Type de cible
@@ -330,10 +456,16 @@ Paintball::Paintball(int posx,int posy,int level,Map* map)
     this->updateStats();
 }
 
-int Paintball::getCost(int level) const{
+
+/**
+* @brief Renvoie le coût nécessaire à l'achat/amélioration
+* @param level Niveau dont on souhaite avoir le prix (si 0 donné en paramètre, renvoie le coût du niveau actuel).
+* @return cost Prix de l'achat/amélioration.
+*/
+int Paintball::getCost(unsigned int level) const{
 
     // Si aucune valeur en argument, alors on affiche le coût du niveau courant
-    if(level == -1) level = _level;
+    if(level == 0) level = _level;
 
     switch(level) {
         case 1: return BASIC_COST;
@@ -342,6 +474,11 @@ int Paintball::getCost(int level) const{
     }
 }
 
+
+/**
+* @brief Renvoie un texte contenant des informations sur le défenseur (niveau, puissance, amélioration etc...).
+* @return infos Texte contenant les informations.
+*/
 QString Paintball::getInfos(void) const {
 
     // Infos générales
@@ -360,7 +497,9 @@ QString Paintball::getInfos(void) const {
 }
 
 
-
+/**
+* @brief Met à jours les caractéristiques du défenseur, en se basant sur son niveau actuel.
+*/
 void Paintball::updateStats(void) {
 
     _range = (4.0f + _level/2.0f)*32.0f;
@@ -370,7 +509,10 @@ void Paintball::updateStats(void) {
 }
 
 
-
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseur
+* @param painter Objet de dessin utilisé par la scène
+*/
 void Paintball::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w) {
 
     // Dessine la portée de la tourelle si celle ci est selectionnée
@@ -383,6 +525,11 @@ void Paintball::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWi
 
 }
 
+
+/**
+* @brief Tire un projectile sur la cible actuellement enregistrée.
+* Le tir est effectué selon le compteur interne de fréquence de tir.
+*/
 void Paintball::shootTarget(void) {
     if (!isShooting())
         return;
@@ -402,11 +549,19 @@ void Paintball::shootTarget(void) {
 
 
 
-/**
-* PETANQUE
-**/
 
-Bowling::Bowling(int posx,int posy,int level,Map* map)
+/************************************************************************************************************
+* PETANQUE
+************************************************************************************************************/
+
+/**
+* @brief Constructeur
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif)
+* @param map Pointeur sur la map contenant le défenseur
+*/
+Bowling::Bowling(int posx,int posy,unsigned int level,Map* map)
     : Defenser(posx,posy,level,map)
 {
     // Type de cible
@@ -416,10 +571,16 @@ Bowling::Bowling(int posx,int posy,int level,Map* map)
     this->updateStats();
 }
 
-int Bowling::getCost(int level) const{
+
+/**
+* @brief Renvoie le coût nécessaire à l'achat/amélioration
+* @param level Niveau dont on souhaite avoir le prix (si 0 donné en paramètre, renvoie le coût du niveau actuel).
+* @return cost Prix de l'achat/amélioration.
+*/
+int Bowling::getCost(unsigned int level) const{
 
     // Si aucune valeur en argument, alors on affiche le coût du niveau courant
-    if(level == -1) level = _level;
+    if(level == 0) level = _level;
 
     switch(level) {
         case 1: return BASIC_COST;
@@ -428,6 +589,11 @@ int Bowling::getCost(int level) const{
     }
 }
 
+
+/**
+* @brief Renvoie un texte contenant des informations sur le défenseur (niveau, puissance, amélioration etc...).
+* @return infos Texte contenant les informations.
+*/
 QString Bowling::getInfos(void) const {
 
     // Infos générales
@@ -446,7 +612,9 @@ QString Bowling::getInfos(void) const {
 }
 
 
-
+/**
+* @brief Met à jours les caractéristiques du défenseur, en se basant sur son niveau actuel.
+*/
 void Bowling::updateStats(void) {
 
     _range = (3.0f + _level/2.0f)*32.0f;
@@ -456,7 +624,10 @@ void Bowling::updateStats(void) {
 }
 
 
-
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseur
+* @param painter Objet de dessin utilisé par la scène
+*/
 void Bowling::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidget *w) {
 
     // Dessine la portée de la tourelle si celle ci est selectionnée
@@ -468,6 +639,11 @@ void Bowling::paint(QPainter *painter, const QStyleOptionGraphicsItem *so, QWidg
 
 }
 
+
+/**
+* @brief Tire un projectile sur la cible actuellement enregistrée.
+* Le tir est effectué selon le compteur interne de fréquence de tir.
+*/
 void Bowling::shootTarget(void) {
     if (!isShooting())
         return;
@@ -485,11 +661,20 @@ void Bowling::shootTarget(void) {
 
 }
 
-/**
-* MUSICIEN
-**/
 
-Musician::Musician(int posx,int posy,int level,Map* map)
+
+/************************************************************************************************************
+* MUSICIEN
+************************************************************************************************************/
+
+/**
+* @brief Constructeur.
+* @param posx Position x du défenseur, doit être multiple de 32.
+* @param posy Position y du défenseur, doit être multiple de 32.
+* @param level Niveau de départ de la tourelle (entier positif).
+* @param map Pointeur sur la map contenant le défenseur.
+*/
+Musician::Musician(int posx,int posy,unsigned int level,Map* map)
     : Defenser(posx,posy,level,map)
 {
     // Caractéristiques
@@ -500,10 +685,16 @@ Musician::Musician(int posx,int posy,int level,Map* map)
     QObject::connect(_map,SIGNAL(updateBonuses()),this,SLOT(applyBonuses()));
 }
 
-int Musician::getCost(int level) const{
+
+/**
+* @brief Renvoie le coût nécessaire à l'achat/amélioration.
+* @param level Niveau dont on souhaite avoir le prix (si 0 donné en paramètre, renvoie le coût du niveau actuel).
+* @return cost Prix de l'achat/amélioration.
+*/
+int Musician::getCost(unsigned int level) const{
 
     // Si aucune valeur en argument, alors on affiche le coût du niveau courant
-    if(level == -1) level = _level;
+    if(level == 0) level = _level;
 
     switch(level) {
         case 1: return BASIC_COST;
@@ -512,6 +703,11 @@ int Musician::getCost(int level) const{
     }
 }
 
+
+/**
+* @brief Renvoie un texte contenant des informations sur le défenseur (niveau, puissance, amélioration etc...).
+* @return infos Texte contenant les informations.
+*/
 QString Musician::getInfos(void) const {
 
     // Infos générales
@@ -530,13 +726,18 @@ QString Musician::getInfos(void) const {
 }
 
 
-
+/**
+* @brief Met à jours les caractéristiques du défenseur, en se basant sur son niveau actuel.
+*/
 void Musician::updateStats(void) {
     _powerBonus = 1+_level*0.2f; // Pourcentage de bonus (>1)
 }
 
 
-
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner le défenseur.
+* @param painter Objet de dessin utilisé par la scène.
+*/
 void Musician::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*) {
 
     // Si la tourelle est selectionnée...
@@ -558,14 +759,23 @@ void Musician::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget
 
 }
 
+
+// Masquage de méthode
 void Musician::advance(int){}
 
+
+/**
+* @brief Renvoie le pourcentage du bonus apporté par le musicien.
+* @return _powerBonus Bonus d'attaque (>=1)
+*/
 float Musician::getPowerBonus(void) const { return _powerBonus; }
 
 
-// Les méthodes suivantes peuvent être appellée de manière générale via
-// un signal ou de manière indépendante lors de l'ajout/suppression d'une tourelle
-
+/**
+* @brief Recherche les tourelles voisines pour appliquer le bonus du musicien.
+* Cette méthode peut être appellée de manière générale via un signal
+* ou de manière indépendante lors de l'ajout/suppression d'une défenseur.
+*/
 void Musician::applyBonuses(void) {
 
     Defenser* bonusTarget;
@@ -582,7 +792,6 @@ void Musician::applyBonuses(void) {
             // NB: si le bonus appliqué est inférieur à un autre bonus, seul le bonus le plus fort sera conservé
             if((bonusTarget = _map->getTurretAt(this->x()+32*i,this->y()+32*j)) != NULL) {
                 bonusTarget->setBonus(_powerBonus);
-                std::cout << "x:" << i << "y:" << j << std::endl;
             }
 
         } //eof
@@ -591,7 +800,13 @@ void Musician::applyBonuses(void) {
 }
 
 
-// NB : l'appel à cette méthode doit être suivi d'un appel global à applyBonus
+/**
+* @brief Recherche les tourelles voisines pour appliquer leur retirer le bonus du musicien.
+* Cette méthode peut être appellée de manière générale via un signal
+* ou de manière indépendante lors de l'ajout/suppression d'une défenseur.
+* Attention, l'appel à cette méthode doit être suivi d'un appel via signal global
+* à la méthode applyBonus des éventuels autres Musiciens (cas de voisins Musiciens multiples)
+*/
 void Musician::removeBonuses(void) {
 
     Defenser* bonusTarget;
@@ -612,5 +827,6 @@ void Musician::removeBonuses(void) {
 
 }
 
-
+// Masquage de méthode
+void Musician::shootTarget(void) {}
 

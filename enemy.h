@@ -1,3 +1,10 @@
+/**
+* @file enemy.h
+* @brief Ce fichier contient toutes les classes d'ennemis du jeu.
+* Il est également possible de réaliser ses propres ennemis en dérivant de la classe
+* patron "Enemy"
+*/
+
 #ifndef MONSTER_H
 #define MONSTER_H
 
