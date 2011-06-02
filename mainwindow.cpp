@@ -204,9 +204,10 @@ void MainWindow::reloadGame(void) {
     this->disconnect();
 
     // Libère la mémoire
-    delete _player;
+/*    delete _player;
+    _sceneMap->clear();
     delete _sceneMap->getWaveGenerator();
-    delete _sceneMap; // Détruira tous les éléments de la scène
+    delete _sceneMap; // Détruira tous les éléments de la scène*/
 
     // Relance le jeu (nb: les éléments de l'ancienne partie seront automatiquement supprimés par l'appel au new)
     this->launchGame(this->parentWidget());
