@@ -1,6 +1,11 @@
 #include "player.h"
 #include <iostream>
 
+/** @brief Constructeur
+    @param nombre d'unités d'argent au début de la party
+    @param nombre de vies initial
+    @param niveau de difficulté du jeu
+*/
 
 Player::Player(int money,int lives,GAME::DIFFICULTY level){
 
@@ -15,13 +20,28 @@ Player::Player(int money,int lives,GAME::DIFFICULTY level){
 
 }
 
+/** @brief accesseur; retourne le nombre d'unités d'argent que possède un joueur. */
 int Player::getMoney(void) const { return _money; }
+
+/** @brief accesseur; retourne le nombre de vies du joueur */
 int Player::getLives(void) const { return _lives; }
+
+/** @brief accesseur; retourne le niveau de difficulté de la partie courante*/
 GAME::DIFFICULTY Player::getDifficulty(void) const{ return _gameDifficulty; }
+
+/** @brief accesseur; ajuste le niveau de difficulté du jeu
+    @param le niveau de difficulté du jeu
+*/
 void Player::setDifficulty(GAME::DIFFICULTY level) { _gameDifficulty = level; }
 
+/** @brief accesseur; récupère le type de tourelle que le joueur a selectionné dans l'interface
+    @return le type de la tourelle
+*/
 TYPE::TURRET Player::getTurretChoice(void) const { return _turretChoice; }
 
+/** @brief augmente la quantité de monnaie que possède un joueur. Envoie un signal moneyValueChanged.
+    @param la quantité de monnaie gagnée
+*/
 void Player::earnMoney(int money) {
 
     // Si on gagne (réellement) de l'argent, celui ci est ajouté au pactole
@@ -32,6 +52,9 @@ void Player::earnMoney(int money) {
     }
 }
 
+/** @brief dimininue le nombre de vies du joueur. Envoie un signal gameLost si le joueur a perdu.
+    @param la quantité de monnaie gagnée
+*/
 void Player::loseLives(int livesLost) {
 
     // Fait perdre des vies au joueur
@@ -47,6 +70,9 @@ void Player::loseLives(int livesLost) {
     emit livesValueChanged(_lives);
 }
 
+/** @brief augmente l'argent dont dispose le joueur après avoir vendu une tourelle. Envoie un signal moneyValueChanged.
+    @param la quantité de monnaie gagnée
+*/
 void Player::turretSold(int money) {
 
     if(money>0)
@@ -56,6 +82,10 @@ void Player::turretSold(int money) {
 
 }
 
+/** @brief setter; fixe la tourelle choisie par le joueur dans l'interface. Envoie des signaux pour désactiver temporairement les boutons
+                    correspondant à la tourelle choisie dans l'interface.
+    @param le type de la tourelle
+*/
 void Player::setTurretChoice(TYPE::TURRET choice) {
 
     // Active le bouton associé à l'ancien choix
@@ -117,7 +147,9 @@ void Player::setTurretChoice3(){this->setTurretChoice(TYPE::PAINTBALL);}
 void Player::setTurretChoice4(){this->setTurretChoice(TYPE::PETANQUE);}
 void Player::setTurretChoice5(){this->setTurretChoice(TYPE::MUSICIEN);}
 
-
+/** @brief dimininue la quantité d'argent que possède un joueur. Envoie un signal moneyValueChanged.
+    @param la quantité de monnaie depensée.
+*/
 bool Player::payMoney(int amount) {
 
     // Vérifie si le joueur peut payer

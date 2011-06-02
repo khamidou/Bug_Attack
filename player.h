@@ -1,3 +1,6 @@
+/** @file player.h
+    @brief Ce fichier centralise les données liée au joeur : gestion du score, de l'argent, actions à prendre en cas d'échec/victoire
+*/
 #ifndef PLAYER_H
 #define PLAYER_H
 
