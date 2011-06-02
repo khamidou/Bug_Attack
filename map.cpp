@@ -32,7 +32,9 @@ Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
 
     // Générateur de vagues
     _waveGenerator = new EnemyFactory(this,_player);
+
     // Lancement du timer (boucle principale du jeu)
+    _isPaused = false;
     QObject::connect(&gameTimer, SIGNAL(timeout()), this, SLOT(advance()));
     gameTimer.start(1000 / GAME::FPS);
 }
@@ -99,10 +101,10 @@ void Map::removeEnemy(Enemy* ptr) {
     for(i = 0; i < _enemies.length() ; ++i) {
 
         if(_enemies[i] == ptr) {
-            std::cout << "OMG je suis mort" << std::endl;
             _enemies.removeAt(i);
-           // QObject::disconnect(ptr);
             this->removeItem(ptr);
+            ptr->deleteLater();
+
             break;
         }
     }
@@ -200,7 +202,10 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
             // Gestion des clics sur la tourelle
             QObject::connect(this,SIGNAL(setTurretsSelected(bool)),newTurret,SLOT(setIsSelected(bool)));
 
-              // On remet à zéro le choix du joueur
+            // Mise à jour des bonus
+            emit updateBonuses();
+
+            // On remet à zéro le choix du joueur
             _player->setTurretChoice(TYPE::NONE);
 
             // Affichage des infos + activation des boutons
@@ -248,7 +253,6 @@ void Map::removeTurret(void) {
                 dynamic_cast<Musician*>(_turrets[i])->removeBonuses();
 
              // Retire l'objet de la map et de la liste
-             //this->removeItem(_turrets[i]);
              delete(_turrets[i]);
              _turrets.removeAt(i);
 
@@ -306,11 +310,15 @@ Tile& Map::getTileAt(int grid_x, int grid_y) const { return *_mapTiles[grid_x][g
 EnemyFactory* Map::getWaveGenerator(void) const { return _waveGenerator; }
 
 void Map::setPause(void) {
-    if (_isPause) {
-        _isPause = false;
-        gameTimer.stop();
-    } else {
-        _isPause = true;
+
+    // Relance le jeu
+    if (_isPaused) {
+        _isPaused = false;
         gameTimer.start(1000 / GAME::FPS);
+    }
+    // Stoppe le jeu
+    else {
+        _isPaused = true;
+        gameTimer.stop();
     }
 }

@@ -2,10 +2,18 @@
 #include <math.h>
 #include "enemy.h"
 
-/**
+/************************************************************************************************************
 * ENEMY
-**/
+************************************************************************************************************/
 
+
+/**
+* @brief Constructeur
+* @param map Pointeur sur la map contenant l'ennemi.
+* @param posx Position x de l'ennemi.
+* @param posy Position y de l'ennemi.
+* @param size Taille de l'ennemi (détermine sa taille effective ainsi que ses caractéristiques).
+*/
 Enemy::Enemy(Map* map,int posx,int posy, float size):Entity(posx,posy),_map(map),_size(size){
     // Positionne l'ennemi bien au centre du chemin
     this->setPos(this->x() - (_size-1)*16,this->y() - (_size-1)*16);
@@ -16,11 +24,38 @@ Enemy::Enemy(Map* map,int posx,int posy, float size):Entity(posx,posy),_map(map)
 
 }
 
-
+/**
+* @brief Retourne le nombre actuel de points de vie.
+* @return _hp Nombre de points de vie actuel.
+*/
 int Enemy::getHP(void) const { return _hp; }
+
+
+/**
+* @brief Renvoie la résistance (défense) de l'ennemi.
+* @return _resistance Résistance de l'ennemi.
+*/
 int Enemy::getResistance(void) const { return _resistance; }
+
+/**
+* @brief Renvoie le type de l'ennemi (volant ou rampant).
+* @return _type Type de l'ennemi.
+*/
 TYPE::ENTITY Enemy::getType(void) const { return _type; }
 
+
+/**
+* @brief Renvoie la taille de l'ennemi.
+* @return _size Taille de l'ennemi.
+*/
+float Enemy::getSize(void) const { return _size; }
+
+
+/**
+* @brief Applique un malus de vitesse à l'ennemi pendant un temps déterminé.
+* @param percent Pourcentage du malus (<=1).
+* @param seconds Durée en secondes du malus.
+*/
 void Enemy::setSpeedMalus(float percent, int seconds) {
     _malusCounter = GAME::FPS * seconds;
     if(percent >= 0 && percent <= 1)
@@ -29,12 +64,20 @@ void Enemy::setSpeedMalus(float percent, int seconds) {
         _speedMalus = 0; // Par défaut on arrête l'ennemi
 }
 
-
-float Enemy::getSize(void) const { return _size; }
+/**
+* @brief Infliges des dommages directs à l'ennemi.
+* Si la résistance est trop importante, les dommages sont réduits à zéro.
+* @param damages Dommages directs infligés par une source externe.
+*/
 void Enemy::hurt(int damages){
 
+    // Applique la résistance de l'ennemi aux dommages
+    int effectiveDamages = damages - _resistance;
+    if(effectiveDamages < 0) effectiveDamages = 0;
+
     // Inflige 'damages' dégats à l'ennemi
-    _hp-=damages;
+    _hp-=effectiveDamages;
+
     // Si ses HP sont tombés à zéro, on le détruit
     if(_hp <= 0) {
         // Indique que la mort est provoquée par le joueur
@@ -145,9 +188,12 @@ void Enemy::reachGoal(void) {
 }
 
 
-/**
+
+
+/************************************************************************************************************
 * CAFARD
-**/
+************************************************************************************************************/
+
 
 
 Cafard::Cafard(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
@@ -190,9 +236,11 @@ void Cafard::advance(int phase) {
 
 
 
-/**
+/************************************************************************************************************
 * FOURMI
-**/
+************************************************************************************************************/
+
+
 
 Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
@@ -247,9 +295,10 @@ void Fourmi::advance(int phase) {
 
 
 
-/**
+/************************************************************************************************************
 * GUEPE
-**/
+************************************************************************************************************/
+
 
 Guepe::Guepe(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
@@ -313,9 +362,12 @@ void Guepe::advance(int phase) {
 }
 
 
-/**
+
+
+/************************************************************************************************************
 * MOUSTIQUE
-**/
+************************************************************************************************************/
+
 
 Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
