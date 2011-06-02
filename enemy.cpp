@@ -91,6 +91,10 @@ void Enemy::hurt(int damages){
 
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée lorsqu'il est nécessaire de redessiner l'ennemi.
+* @param painter Objet de dessin utilisé par la scène.
+*/
 void Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*) {
 
     // Affiche l'image
@@ -106,10 +110,20 @@ void Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*) 
 
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée lors des tests de collisions ou pour l'affichage.
+* @return rect Bounding box de l'ennemi (ici le rectangle d'une case 32*32).
+*/
 QRectF Enemy::boundingRect(void) const {
     return QRectF(0,0,_size*32,_size*32);
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Effectue le déplacement de l'insecte sur la map.
+* L'ennemi regarde également s'il a atteint le but, si oui, il disparait et inflige des dégâts au joueur.
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Enemy::advance(int phase) {
 
     // Si 'phase' vaut 0, rien ne se passe
@@ -177,14 +191,16 @@ void Enemy::advance(int phase) {
 
 }
 
-
+/**
+* @brief L'appel à cette méthode entraine la destruction de l'ennemi et inflige un dégât
+* au joueur.
+*/
 void Enemy::reachGoal(void) {
 
     // Indique que la mort est provoquée par l'atteinte du goal
     emit killedAtGoal(1); // Par défaut 1 vie perdue
     // Retire de l'indexation de la map
     emit enemyDestroyed(this);
-
 }
 
 
@@ -195,7 +211,13 @@ void Enemy::reachGoal(void) {
 ************************************************************************************************************/
 
 
-
+/**
+* @brief Constructeur
+* @param map Pointeur sur la map contenant l'ennemi.
+* @param posx Position x de l'ennemi.
+* @param posy Position y de l'ennemi.
+* @param size Taille de l'ennemi (détermine sa taille effective ainsi que ses caractéristiques).
+*/
 Cafard::Cafard(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données du cafard
@@ -217,6 +239,13 @@ Cafard::Cafard(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
     this->setPixmap(*_animPixmap.first());
 }
 
+
+/**
+* @brief Inflige des dommages directs à l'ennemi.
+* Fait appel à la méthode parente pour la gestion des dommages.
+* Le cafard se divise en deux cafards de taille/2 s'il est tué par le joueur
+* @param damages Dommages directs infligés par une source externe.
+*/
 void Cafard::hurt(int damages) {
     Enemy::hurt(damages);
     if(_hp <= 0 && _size >= 2) {
@@ -230,6 +259,11 @@ void Cafard::hurt(int damages) {
 
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Voir méthode parente.
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Cafard::advance(int phase) {
     Enemy::advance(phase);
 }
@@ -241,7 +275,13 @@ void Cafard::advance(int phase) {
 ************************************************************************************************************/
 
 
-
+/**
+* @brief Constructeur
+* @param map Pointeur sur la map contenant l'ennemi.
+* @param posx Position x de l'ennemi.
+* @param posy Position y de l'ennemi.
+* @param size Taille de l'ennemi (détermine sa taille effective ainsi que ses caractéristiques).
+*/
 Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données de la fourmi
@@ -264,6 +304,12 @@ Fourmi::Fourmi(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
     this->setPixmap(*_animPixmap.first());
 }
 
+/**
+* @brief Inflige des dommages directs à l'ennemi.
+* Fait appel à la méthode parente pour la gestion des dommages.
+* Lorsqu'une fourmi se fait toucher, elle avance 1.5x plus vite pendant 5 secondes.
+* @param damages Dommages directs infligés par une source externe.
+*/
 void Fourmi::hurt(int damages) {
     Enemy::hurt(damages);
 
@@ -277,6 +323,12 @@ void Fourmi::hurt(int damages) {
 
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Voir méthode parente.
+* Gestion de l'état "avancement rapide", dans le cas où la fourmi a été touchée.
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Fourmi::advance(int phase) {
     Enemy::advance(phase);
 
@@ -299,7 +351,13 @@ void Fourmi::advance(int phase) {
 * GUEPE
 ************************************************************************************************************/
 
-
+/**
+* @brief Constructeur
+* @param map Pointeur sur la map contenant l'ennemi.
+* @param posx Position x de l'ennemi.
+* @param posy Position y de l'ennemi.
+* @param size Taille de l'ennemi (détermine sa taille effective ainsi que ses caractéristiques).
+*/
 Guepe::Guepe(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données de la guepe
@@ -321,6 +379,12 @@ Guepe::Guepe(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
     this->setPixmap(*_animPixmap.first());
 }
 
+/**
+* @brief Inflige des dommages directs à l'ennemi.
+* Fait appel à la méthode parente pour la gestion des dommages.
+* Lorsque la guêpe meurt, elle inflige des dégâts de zone.
+* @param damages Dommages directs infligés par une source externe.
+*/
 void Guepe::hurt(int damages) {
     Enemy::hurt(damages);
 
@@ -357,6 +421,11 @@ void Guepe::hurt(int damages) {
 
 }
 
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Voir méthode parente.
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Guepe::advance(int phase) {
     Enemy::advance(phase);
 }
@@ -368,7 +437,13 @@ void Guepe::advance(int phase) {
 * MOUSTIQUE
 ************************************************************************************************************/
 
-
+/**
+* @brief Constructeur
+* @param map Pointeur sur la map contenant l'ennemi.
+* @param posx Position x de l'ennemi.
+* @param posy Position y de l'ennemi.
+* @param size Taille de l'ennemi (détermine sa taille effective ainsi que ses caractéristiques).
+*/
 Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy,size)
 {
     // Données du moustique
@@ -391,6 +466,9 @@ Moustique::Moustique(Map* map,int posx,int posy, float size):Enemy(map,posx,posy
     this->setPixmap(*_animPixmap.first());
 }
 
+/**
+* @brief Met à jour les caractéristiques du moustique (selon son type de déplacement).
+*/
 void Moustique::updateStats(void) {
 
     // Les caractéristiques du moustique dépendent de son état actuel
@@ -409,6 +487,13 @@ void Moustique::updateStats(void) {
 
 }
 
+
+/**
+* @brief Inflige des dommages directs à l'ennemi.
+* Fait appel à la méthode parente pour la gestion des dommages.
+* Lorsque le moustique est touché, il se pose au sol pendant 3 secondes.
+* @param damages Dommages directs infligés par une source externe.
+*/
 void Moustique::hurt(int damages) {
     Enemy::hurt(damages);
 
@@ -422,6 +507,13 @@ void Moustique::hurt(int damages) {
     _stateCounter = GAME::FPS * 3;
 }
 
+
+/**
+* @brief Méthode propre au QGraphicsItem appelée à chaque itération du FPS.
+* Voir méthode parente.
+* Gestion de la machine à état : volant ou rampant.
+* @param phase Cette méthode est appelée automatiquement avec phase = 1 lorsque une mise à jour doit être effectuée, 0 sinon.
+*/
 void Moustique::advance(int phase) {
     Enemy::advance(phase);
 
