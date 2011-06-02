@@ -1,3 +1,6 @@
+/** @file map.h
+    @brief La structure centrale du jeu
+*/
 #ifndef MAP_H
 #define MAP_H
 

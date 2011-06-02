@@ -4,7 +4,10 @@
 #include "map.h"
 
 
-
+/** @brief Constructeur
+    @param le widget qui contiendra la vue
+    @param la structure de données du joueur
+*/
 Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
 {
     // Chargement du contenu de la map
@@ -39,8 +42,9 @@ Map::Map(QWidget *parent,Player* player):QGraphicsScene(parent),_player(player)
     gameTimer.start(1000 / GAME::FPS);
 }
 
-
-// Gestion du clic de la souris
+/** @brief Gestion du clic de souris
+    @param un paramètre passé par Qt
+*/
 void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     qreal mx = event->scenePos().x();
@@ -75,7 +79,10 @@ void Map::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 }
 
-
+/** @brief ajoute un ennemi déjà construit à la map, et l'ajoute également au tableau des ennemis (utilisé pour les
+    collisions). Appellé par la factory.
+    @param un objet dérivant de la classe Enemy
+*/
 void Map::addEnemy(Enemy *enemy) {
 
     // Sauvegarde des ennemis sur la map
@@ -93,6 +100,9 @@ void Map::addEnemy(Enemy *enemy) {
     this->addItem(enemy);
 }
 
+/** @brief Retire un ennemi de la liste d'ennemis et de la map.
+    @param un pointeur sur l'ennemi en question
+*/
 void Map::removeEnemy(Enemy* ptr) {
 
     // Garbage collector de notre liste
@@ -110,10 +120,22 @@ void Map::removeEnemy(Enemy* ptr) {
     }
 }
 
+/** @brief accesseur; retourne la liste des ennemis sur la map
+    @return une qlist des ennemis
+ */
 QList<Enemy*> Map::getEnemyList(void) const { return _enemies; }
+
+/** @brief accesseur; retourne la liste des défenseurs sur la map
+    @return une qlist des défenseurs
+ */
 QList<Defenser*> Map::getDefenserList(void) const { return _turrets; }
 
-
+/** @brief rajoute un tourelle à la case specifiée
+    @param le type de la tourelle
+    @param le x de la case
+    @param le y de la case
+    @return un bool selon si l'opération a réussi ou pas
+*/
 bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
 
     // Vérifie s'il est possible de poser une tourelle à cet emplacement
@@ -222,7 +244,11 @@ bool Map::addTurretAt(TYPE::TURRET turretType,float mx,float my) {
     return false; // Echec
 }
 
-// Renvoie la tourelle positionnée à la position (x,y)
+/** @brief renvoie la tourelle positionnée à la position (x,y)
+    @param le x de la tourelle
+    @param le y de la tourelle
+    @return le type de la tourelle
+  */
 Defenser* Map::getTurretAt(int grid_x,int grid_y) {
 
     int i;
@@ -236,6 +262,8 @@ Defenser* Map::getTurretAt(int grid_x,int grid_y) {
 
 }
 
+/** @brief retire une tourelle sélectionnée par le joueur de la map
+  */
 void Map::removeTurret(void) {
 
     // Garbage collector de notre liste
@@ -271,6 +299,7 @@ void Map::removeTurret(void) {
 
 }
 
+/** @brief upgrade une tourelle déjà sélectionnée */
 void Map::upgradeTurret(void) {
 
     // Recherche la tourelle actuellement selectionnée et tente de l'améliorer
@@ -304,11 +333,22 @@ void Map::upgradeTurret(void) {
 }
 
 
-
+/** @brief accesseur; récupère les coordonnées du début de la map
+*/
 QPoint Map::getStart(void) const { return _startPos; }
+
+/** @brief accesseur; récupère une réference constante vers l'objet de la map à la case (x;y)
+    @param l'abscisse de la Tile
+    @param l'ordonnée de la Tile
+*/
 Tile& Map::getTileAt(int grid_x, int grid_y) const { return *_mapTiles[grid_x][grid_y]; }
+
+/** @brief accesseur; retourne la factory.
+    @param un pointeur sur la factory
+*/
 EnemyFactory* Map::getWaveGenerator(void) const { return _waveGenerator; }
 
+/** @brief Met le jeu en pause en arrêtant ou en remettant en marche le timer principal du jeu */
 void Map::setPause(void) {
 
     // Relance le jeu
