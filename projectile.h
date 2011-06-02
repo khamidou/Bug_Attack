@@ -1,3 +1,7 @@
+/**
+* @file projectile.h
+* @brief La définition d'un projectile
+*/
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 

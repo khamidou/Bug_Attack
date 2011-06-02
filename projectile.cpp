@@ -7,6 +7,15 @@
 * PROJECTILE
 **/
 
+/**
+* @brief Associe un nom de tourelle à une direction.
+* @param l'abscisse de départ
+* @param l'ordonnée de départ
+* @param l'abscisse de arrivée
+* @param l'ordonnée de arrivée
+* @param les dommages que le projectile inflige
+* @param un pointeur sur la Map
+*/
 Projectile::Projectile(float posX, float posY, float targetX, float targetY, int damages, Map* map)
     : Entity(posX,posY),_damages(damages),_targetX(targetX),_targetY(targetY)
 {
@@ -20,10 +29,15 @@ Projectile::Projectile(float posX, float posY, float targetX, float targetY, int
     _map = map;
 }
 
+/** @brief Retourne un "bounding rectangle" - utilisé pour le calcul des collisions
+ */
 QRectF Projectile::boundingRect() const {
     return QRectF(0,0,5,5);
 }
 
+/** @brief Calcule la position suivante du projectile et détecte s'il y a une collision avec un ennemi.
+           Si c'est le cas, inflige des dégats à cet ennemi et supprime le projectile.
+ */
 void Projectile::advance(int phase) {
 
     if(!phase)
