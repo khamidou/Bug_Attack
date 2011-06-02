@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 #include "defenser.h"
 #include "projectile.h"
 
@@ -680,7 +681,6 @@ Musician::Musician(int posx,int posy,unsigned int level,Map* map)
     // Caractéristiques
     _range = 1; // portée de 1 case
     this->updateStats();
-
     // Mise à jour auto des bonus
     QObject::connect(_map,SIGNAL(updateBonuses()),this,SLOT(applyBonuses()));
 }
@@ -756,7 +756,6 @@ void Musician::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget
     // Dessine la tourelle
     painter->setBrush(QBrush(Qt::yellow));
     painter->drawRect(0,0,32,32);
-
 }
 
 

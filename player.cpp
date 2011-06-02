@@ -110,6 +110,7 @@ void Player::setTurretChoice(TYPE::TURRET choice) {
     }
 
 }
+
 void Player::setTurretChoice1(){this->setTurretChoice(TYPE::PISTOLET_A_EAU);}
 void Player::setTurretChoice2(){this->setTurretChoice(TYPE::LANCE_PIERRES);}
 void Player::setTurretChoice3(){this->setTurretChoice(TYPE::PAINTBALL);}
