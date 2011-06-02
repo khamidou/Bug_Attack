@@ -29,7 +29,7 @@ void MainWindow::launchGame(QWidget *parent) {
     /**
     * Initialisation des données du joueur
     **/
-    _player = new Player(22,10,_gameDifficulty); // 22 - 10
+    _player = new Player(9999,10,_gameDifficulty); // 22 - 10
 
 
     /**
@@ -73,18 +73,23 @@ void MainWindow::launchGame(QWidget *parent) {
 
     /// Boutons de choix de tourelle
     // . Pistolet à eau
+    ui->turretButton_PistoletAEau->setDisabled(false);
     QObject::connect(ui->turretButton_PistoletAEau,SIGNAL(pressed()),_player,SLOT(setTurretChoice1()));
     QObject::connect(_player,SIGNAL(setTurret1ButtonDisabled(bool)),ui->turretButton_PistoletAEau,SLOT(setDisabled(bool)));
     // . Lance-pierres
+    ui->turretButton_LancePierres->setDisabled(false);
     QObject::connect(ui->turretButton_LancePierres,SIGNAL(pressed()),_player,SLOT(setTurretChoice2()));
     QObject::connect(_player,SIGNAL(setTurret2ButtonDisabled(bool)),ui->turretButton_LancePierres,SLOT(setDisabled(bool)));
     // . Paintball
+    ui->turretButton_Paintball->setDisabled(false);
     QObject::connect(ui->turretButton_Paintball,SIGNAL(pressed()),_player,SLOT(setTurretChoice3()));
     QObject::connect(_player,SIGNAL(setTurret3ButtonDisabled(bool)),ui->turretButton_Paintball,SLOT(setDisabled(bool)));
     // . Pétanque
+    ui->turretButton_Petanque->setDisabled(false);
     QObject::connect(ui->turretButton_Petanque,SIGNAL(pressed()),_player,SLOT(setTurretChoice4()));
     QObject::connect(_player,SIGNAL(setTurret4ButtonDisabled(bool)),ui->turretButton_Petanque,SLOT(setDisabled(bool)));
     // . Musicien
+    ui->turretButton_Musicien->setDisabled(false);
     QObject::connect(ui->turretButton_Musicien,SIGNAL(pressed()),_player,SLOT(setTurretChoice5()));
     QObject::connect(_player,SIGNAL(setTurret5ButtonDisabled(bool)),ui->turretButton_Musicien,SLOT(setDisabled(bool)));
 
@@ -197,6 +202,11 @@ void MainWindow::reloadGame(void) {
     _sceneMap->disconnect();
     _view->disconnect();
     this->disconnect();
+
+    // Libère la mémoire
+    delete _player;
+    delete _sceneMap->getWaveGenerator();
+    delete _sceneMap; // Détruira tous les éléments de la scène
 
     // Relance le jeu (nb: les éléments de l'ancienne partie seront automatiquement supprimés par l'appel au new)
     this->launchGame(this->parentWidget());

@@ -32,7 +32,7 @@ class Map : public QGraphicsScene
     QGraphicsScene* _scene;
     QPoint _startPos;
     Player* _player;
-    bool _isPause;
+    bool _isPaused;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 

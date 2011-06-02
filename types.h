@@ -1,3 +1,10 @@
+/**
+* @file types.h
+* @brief Ce fichier contient les constantes et types prédéfinis du jeu, utilisés
+* à des fins de simplification du code. On notera que les valeurs de type DIRECTION
+* utilisent chacune un bit différent, utile pour les tests à base de masques de bits.
+*/
+
 #ifndef TYPES_H
 #define TYPES_H
 
@@ -17,7 +24,7 @@ typedef enum { NONE, PISTOLET_A_EAU, LANCE_PIERRES, PAINTBALL, PETANQUE, MUSICIE
 namespace GAME {
 
 typedef enum { EASY = 1, HARD = 2 } DIFFICULTY;
-static const short FPS = 60;
+static const short FPS = 30;
 
 }
 
