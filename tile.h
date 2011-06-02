@@ -1,3 +1,7 @@
+/**
+* @file tile.h
+* @brief Ce fichier contient la classe Tile, qui est un conteneur de cases de terrain du jeu.
+*/
 #ifndef TILE_H
 #define TILE_H
 

@@ -3,6 +3,12 @@
 using namespace std;
 using namespace TYPE;
 
+/**
+* @brief Constructeur
+* @param le type (numéro) de la tile
+* @param abscisse de la tile
+* @param ordonnée de la tile
+*/
 Tile::Tile(int tileNumber, int x, int y):_tileNumber(tileNumber)
 {
     // Direction associée au tile
@@ -44,11 +50,29 @@ Tile::Tile(int tileNumber, int x, int y):_tileNumber(tileNumber)
 
 }
 
+/**
+* @brief Accesseur de l'abscisse de la tile
+*/
 int Tile::getX() const { return _x; }
+
+/**
+* @brief Accesseur de l'ordonnée de la tile
+*/
 int Tile::getY() const { return _y; }
+
+/**
+* @brief Accesseur du type de la Tile
+*/
 int Tile::getTileNumber(void) const { return _tileNumber; }
+
+/**
+* @brief Renvoie un vecteur correspondant à la direction de la Tile.
+*/
 QPointF Tile::getDirection(void) const { return _dir; }
 
+/**
+* @brief Est-ce qu'une tourelle est autorisée à cet endroit ?
+*/
 bool Tile::turretAllowed(void) const {
 
     if(_tileNumber == 0)
@@ -56,6 +80,9 @@ bool Tile::turretAllowed(void) const {
     return false;
 }
 
+/**
+* @brief Associe un nom de tourelle à une direction.
+*/
 QString Tile::TexName(int n){
 
     // Normal textures
